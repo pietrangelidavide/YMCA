@@ -23,7 +23,7 @@ export const dark = themeAsked ? themeAsked === 'dark' : !matchMedia('(prefers-c
 
 const stage = () => document.getElementById('phone');
 (window as any).__DEMO = {
-  gym: Q.get('gym') || 'Palestra Aurora',
+  gym: Q.get('gym') || 'YMCA Prime Sport Club',
   os: view === 'computer' ? 'web' : 'ios',
   insets: view === 'phone' ? { top: 47, bottom: 34 } : view === 'direct' ? { top: 10, bottom: 18 } : { top: 0, bottom: 0 },
   dims: () => {

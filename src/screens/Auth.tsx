@@ -6,7 +6,7 @@ import { supabase } from '../../lib/supabase';
 import { BRAND } from '../brand';
 import { api, errText } from '../data';
 import { useTheme } from '../theme';
-import { Barbell, Button, Field, Icon, Txt, useUi } from '../ui';
+import { Button, Field, Icon, Logo, Txt, useUi } from '../ui';
 
 type Mode = 'welcome' | 'login' | 'register' | 'forgot' | 'check';
 
@@ -28,9 +28,9 @@ function Welcome({ onLogin, onRegister }: { onLogin: () => void; onRegister: () 
   return (
     <View style={{ flex: 1, backgroundColor: '#0A0A0B', paddingTop: insets.top, paddingBottom: Math.max(insets.bottom, 16), paddingHorizontal: 24 }}>
       <View style={{ flex: 1, justifyContent: 'center', gap: 28 }}>
-        <Barbell width={250} />
+        <Logo width={310} />
         <View style={{ gap: 12 }}>
-          <Text style={{ color: '#fff', fontSize: 40, fontWeight: '800', letterSpacing: -1, lineHeight: 44 }}>{BRAND.gymName}</Text>
+          <Text style={{ color: '#fff', fontSize: 40, fontWeight: '800', letterSpacing: -1, lineHeight: 44 }}>{BRAND.appTitle}</Text>
           <Text style={{ color: '#A5A5AD', fontSize: 18, lineHeight: 25 }}>{BRAND.tagline}</Text>
         </View>
       </View>

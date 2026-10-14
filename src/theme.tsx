@@ -14,12 +14,12 @@ export type Theme = {
   overlay: string;
 };
 
-// Colore del marchio: cambialo qui (e in app.json / assets) per adattare l'app a un'altra palestra.
+// Colori del marchio YMCA Prime Sport Club: rosso #E21D23, bianco e grafite. Per adattare l'app a un'altra palestra cambia qui, in app.json e in assets/.
 export const DARK: Theme = {
   dark: true,
   bg: '#0A0A0B', card: '#1B1B1E', card2: '#26262A', line: 'rgba(255,255,255,0.09)',
   text: '#F5F5F7', sub: '#A5A5AD', faint: '#76767E',
-  accent: '#E5392C', accentInk: '#FF6B5E', onAccent: '#FFFFFF', accentSoft: 'rgba(255,107,94,0.16)',
+  accent: '#E21D23', accentInk: '#FF5A55', onAccent: '#FFFFFF', accentSoft: 'rgba(226,29,35,0.18)',
   ok: '#34C759', warn: '#FFB224', danger: '#FF6B5E',
   overlay: 'rgba(0,0,0,0.55)',
 };
@@ -27,18 +27,18 @@ export const LIGHT: Theme = {
   dark: false,
   bg: '#F2F2F5', card: '#FFFFFF', card2: '#EBEBEF', line: 'rgba(0,0,0,0.09)',
   text: '#111114', sub: '#62626B', faint: '#8E8E96',
-  accent: '#D92D20', accentInk: '#C42418', onAccent: '#FFFFFF', accentSoft: 'rgba(217,45,32,0.10)',
+  accent: '#E21D23', accentInk: '#C4161C', onAccent: '#FFFFFF', accentSoft: 'rgba(226,29,35,0.10)',
   ok: '#1E8E3E', warn: '#B26A00', danger: '#C42418',
   overlay: 'rgba(0,0,0,0.4)',
 };
 
-// I giorni della scheda hanno i colori dei dischi da bilanciere: rosso, blu, giallo, verde, bianco.
+// I giorni della scheda (A, B, C...) e gli avatar usano i toni del marchio: rosso, grafite, bordeaux, rosa, argento.
 export const PLATES = [
-  { c: '#D92D20', on: '#FFFFFF', name: 'rosso' },
-  { c: '#2F6FED', on: '#FFFFFF', name: 'blu' },
-  { c: '#F2B705', on: '#241A00', name: 'giallo' },
-  { c: '#2FA84F', on: '#FFFFFF', name: 'verde' },
-  { c: '#D5D8DE', on: '#15151A', name: 'bianco' },
+  { c: '#E21D23', on: '#FFFFFF', name: 'rosso' },
+  { c: '#6F7683', on: '#FFFFFF', name: 'grafite' },
+  { c: '#9B1319', on: '#FFFFFF', name: 'bordeaux' },
+  { c: '#F08A86', on: '#2A0A0B', name: 'rosa' },
+  { c: '#D4D6DB', on: '#15151A', name: 'argento' },
 ];
 export const plate = (i: number) => PLATES[((i % PLATES.length) + PLATES.length) % PLATES.length];
 

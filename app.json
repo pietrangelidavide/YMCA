@@ -1,21 +1,21 @@
 {
   "expo": {
-    "name": "Schede Palestra",
-    "slug": "schede-palestra",
+    "name": "YMCA Prime Training",
+    "slug": "ymca-prime-training",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
-    "scheme": "schedepalestra",
+    "scheme": "ymcaprimetraining",
     "ios": {
-      "bundleIdentifier": "it.example.schedepalestra",
+      "bundleIdentifier": "it.example.ymcaprimetraining",
       "supportsTablet": false,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "it.example.schedepalestra",
+      "package": "it.example.ymcaprimetraining",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0A0A0B"
@@ -30,7 +30,7 @@
         {
           "image": "./assets/splash-icon.png",
           "backgroundColor": "#0A0A0B",
-          "imageWidth": 200,
+          "imageWidth": 260,
           "dark": {
             "image": "./assets/splash-icon.png",
             "backgroundColor": "#0A0A0B"

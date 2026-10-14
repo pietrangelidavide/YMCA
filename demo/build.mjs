@@ -1,4 +1,4 @@
-// Costruisce la demo web di Schede palestra in demo/dist (solo file statici, con dati finti al posto di Supabase).
+// Costruisce la demo web di YMCA Prime Training in demo/dist (solo file statici, con dati finti al posto di Supabase).
 // Uso: cd demo && npm install && node build.mjs
 import { build } from 'esbuild';
 import { copyFileSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -61,8 +61,8 @@ writeFileSync(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="theme-color" content="#000000">
-<title>Schede palestra · demo</title>
+<meta name="theme-color" content="#0A0A0B">
+<title>YMCA Prime Training · demo</title>
 <link rel="icon" href="favicon.png">
 <link rel="apple-touch-icon" href="icon.png">
 </head>

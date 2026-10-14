@@ -77,7 +77,7 @@ function Shell() {
   return (
     <div id="shell">
       <header id="bar">
-        <div className="brand"><b>Schede palestra</b><span><i className="long">Demo con dati di prova</i><i className="short">Demo</i></span></div>
+        <div className="brand"><b>YMCA Prime Training</b><span><i className="long">Demo con dati di prova</i><i className="short">Demo</i></span></div>
         <div className="groups">
           <Seg label="Chi guarda" value={login} onPick={(v) => go({ login: v })}
             items={[['Benvenuto', ''], ['Socio', 'member'], ['PT', 'trainer'], ['Titolare', 'owner']]} />
@@ -93,7 +93,7 @@ function Shell() {
         <div id="phone" className={'v-' + view} style={view === 'phone' ? { transform: `scale(${k})` } : undefined}>
           <App />
         </div>
-        {view === 'phone' && <div id="note">Dati di prova: nulla viene salvato davvero. Per registrarti usa il codice AURORA.</div>}
+        {view === 'phone' && <div id="note">Dati di prova: nulla viene salvato davvero. Per registrarti usa il codice PRIME.</div>}
       </main>
     </div>
   );

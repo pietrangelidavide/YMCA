@@ -29,3 +29,4 @@ declare module 'react' {
 }
 declare namespace React { type ReactNode = any; type ComponentType<P = any> = (props: P) => any; }
 declare namespace Notifications { type NotificationResponse = any }
+declare module '*.png' { const src: any; export default src; }

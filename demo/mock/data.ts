@@ -3,8 +3,8 @@ import SEED from '../../supabase/seed/exercises.json';
 import { addDays, isoDay, startOfWeek } from '../../src/util';
 
 export type Row = Record<string, any>;
-export const GYM = new URLSearchParams(location.search).get('gym') || 'Palestra Aurora';
-export const JOIN_CODE = 'AURORA';
+export const GYM: string = (globalThis as any).__DEMO?.gym || 'YMCA Prime Sport Club';
+export const JOIN_CODE = 'PRIME';
 export const uid = (): string => (crypto as any).randomUUID();
 
 const T0 = new Date();

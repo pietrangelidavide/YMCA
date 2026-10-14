@@ -1,9 +1,9 @@
 {
-  "name": "schede-palestra-demo",
+  "name": "ymca-prime-training-demo",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Demo web di Schede palestra con dati di prova (non fa parte dell'app per i telefoni).",
+  "description": "Demo web di YMCA Prime Training con dati di prova (non fa parte dell'app per i telefoni).",
   "scripts": {
     "build": "node build.mjs"
   },

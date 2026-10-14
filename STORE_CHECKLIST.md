@@ -1,13 +1,14 @@
 # Checklist di pubblicazione
 
 ## Prima della build
-- In `app.json` cambia `name`, `ios.bundleIdentifier` e `android.package` (oggi `it.example.schedepalestra`, segnaposto). L'identificativo non si può cambiare dopo la pubblicazione.
+- In `app.json` cambia `name`, `ios.bundleIdentifier` e `android.package` (oggi `it.example.ymcaprimetraining`, segnaposto). L'identificativo non si può cambiare dopo la pubblicazione.
 - In `src/brand.ts` scrivi il nome vero della palestra, il link all'informativa privacy e (facoltativo) il WhatsApp della segreteria.
 - Il file `.env` non viene caricato nelle build EAS: crea `EXPO_PUBLIC_SUPABASE_URL` e `EXPO_PUBLIC_SUPABASE_ANON_KEY` su EAS (expo.dev, *Environment variables*, oppure `eas env:create`).
 - Comandi: `eas login`, `eas init`, `eas build --profile production --platform all`.
 
 ## Immagini
-- Icona e schermata di avvio sono quelle di partenza (bilanciere con dischi colorati su nero). Con il logo della palestra sostituisci `icon.png` (1024×1024, senza trasparenza), `adaptive-icon.png` (marchio al centro su fondo trasparente), `splash-icon.png`, `favicon.png`; in `app.json` aggiorna `backgroundColor`.
+- Logo, icona (triangolo rosso su nero) e schermata di avvio vengono da `assets/logo.svg`, che è una vettorializzazione di un'immagine piccola: chiedi al club il logo originale (SVG/PDF) e rilancia `scripts/gen-assets.cjs`. L'icona deve essere 1024×1024 senza trasparenza.
+- Il marchio YMCA Prime Sport Club e il nome dell'app vanno usati con l'autorizzazione del club: gli account Apple e Google devono essere intestati a loro (o a chi ha il loro consenso scritto).
 - Screenshot degli store: dalla demo (`demo/`, vista telefono) o dall'app con i dati di prova.
 
 ## Account
@@ -18,6 +19,7 @@
 ## Schede degli store
 - Privacy policy online con indirizzo pubblico. Dati raccolti: nome, email, telefono, obiettivo, misure del corpo (facoltative), allenamenti e carichi, messaggi con il PT, token per le notifiche. Dati su Supabase, regione UE. L'account si elimina dall'app (richiesto da Apple).
 - Note riservate dei PT: se contengono informazioni sulla salute sono dati particolari (GDPR, art. 9). Decidi con la palestra se tenerle, con quale consenso e quali istruzioni dare ai PT (l'app invita a non scrivere diagnosi).
+- Nome nello store: «YMCA Prime Training» (da `app.json`; i nomi con marchi altrui possono essere contestati da Apple/Google senza l'autorizzazione del titolare).
 - Descrizione, parole chiave, categoria *Salute e fitness*, classificazione per età.
 - Apple: nelle note per il revisore inserisci email e password di un account **socio** di prova (e, se utile, di un PT), poi compila «App Privacy». L'app è riservata ai soci: spiega nelle note che l'iscrizione richiede il codice della palestra e dai il codice di prova.
 - Google: compila il modulo «Sicurezza dei dati».

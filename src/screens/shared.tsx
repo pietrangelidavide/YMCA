@@ -4,7 +4,7 @@ import { Image, Linking, Pressable, ScrollView, Text, TextInput, View } from 're
 import { api, Comment, Exercise, ExerciseLite, errText, useAsync, useExercises } from '../data';
 import { useNav, useVersion } from '../nav';
 import { useSession } from '../session';
-import { PLATES, TYPE, useTheme } from '../theme';
+import { Theme, TYPE, useTheme } from '../theme';
 import { Button, Chip, Empty, ErrorState, Field, Group, Icon, Page, Pill, Row, SectionTitle, Sheet, Spinner, Txt, BarChart, IconButton, useUi } from '../ui';
 import { ago, fmtDate, fmtNum, MUSCLE, MUSCLE_KEYS, norm, youtubeId } from '../util';
 
@@ -12,11 +12,15 @@ export const MUSCLE_ICON: Record<string, string> = {
   petto: 'body', schiena: 'accessibility', spalle: 'barbell', bicipiti: 'fitness', tricipiti: 'flash', gambe: 'walk',
   glutei: 'footsteps', polpacci: 'trending-up', addome: 'flame', cardio: 'heart', total_body: 'pulse', mobilita: 'leaf',
 };
-const groupColor = (g: string) => PLATES[Math.max(0, MUSCLE_KEYS.indexOf(g)) % 4].c;
+// Tre toni del marchio per zona del corpo: parte alta in rosso, gambe in grafite, il resto in testo
+const UPPER = ['petto', 'schiena', 'spalle', 'bicipiti', 'tricipiti'];
+const LOWER = ['gambe', 'glutei', 'polpacci'];
+const groupColor = (g: string, t: Theme) => (UPPER.includes(g) ? t.accentInk : LOWER.includes(g) ? '#7F8693' : t.text);
 
 // Riquadro con l'icona del gruppo muscolare; se c'è un video mostra il tasto play
 export function ExerciseTile({ e, size = 48, play }: { e: Pick<ExerciseLite, 'muscle_group' | 'video_url'>; size?: number; play?: boolean }) {
-  const c = groupColor(e.muscle_group);
+  const { t } = useTheme();
+  const c = groupColor(e.muscle_group, t);
   return (
     <View style={{ width: size, height: size, borderRadius: size * 0.27, backgroundColor: c + '29', alignItems: 'center', justifyContent: 'center' }}>
       <Icon name={MUSCLE_ICON[e.muscle_group] || 'barbell'} size={size * 0.5} color={c} />
@@ -107,8 +111,8 @@ export function ExerciseDetail({ id }: { id: string }) {
       {!e ? <Spinner /> : (
         <View style={{ gap: 16, paddingHorizontal: 16, paddingTop: 4 }}>
           <Pressable accessibilityLabel={e.video_url ? 'Guarda il video' : 'Immagine dell\'esercizio'} disabled={!e.video_url} onPress={() => e.video_url && Linking.openURL(e.video_url)}
-            style={{ height: 200, borderRadius: 22, overflow: 'hidden', backgroundColor: groupColor(e.muscle_group) + '29', alignItems: 'center', justifyContent: 'center' }}>
-            <Icon name={MUSCLE_ICON[e.muscle_group] || 'barbell'} size={84} color={groupColor(e.muscle_group)} />
+            style={{ height: 200, borderRadius: 22, overflow: 'hidden', backgroundColor: groupColor(e.muscle_group, t) + '29', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name={MUSCLE_ICON[e.muscle_group] || 'barbell'} size={84} color={groupColor(e.muscle_group, t)} />
             {yt ? <Image source={{ uri: `https://img.youtube.com/vi/${yt}/hqdefault.jpg` }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} resizeMode="cover" /> : null}
             {e.video_url ? (
               <View style={{ position: 'absolute', flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: 24, paddingHorizontal: 18, height: 46 }}>
@@ -120,7 +124,7 @@ export function ExerciseDetail({ id }: { id: string }) {
           <View>
             <Text style={[{ color: t.text }, TYPE.title]}>{e.name}</Text>
             <View style={{ flexDirection: 'row', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
-              <Pill label={MUSCLE[e.muscle_group]} color={groupColor(e.muscle_group) + '29'} textColor={t.text} />
+              <Pill label={MUSCLE[e.muscle_group]} color={groupColor(e.muscle_group, t) + '29'} textColor={t.text} />
               {e.equipment ? <Pill label={e.equipment} icon="construct-outline" /> : null}
             </View>
           </View>

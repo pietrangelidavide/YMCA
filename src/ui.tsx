@@ -1,9 +1,10 @@
 // Componenti di base dell'app: testo, pulsanti, liste, pannelli, grafici a barre, barra delle schede.
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  ActivityIndicator, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
+  ActivityIndicator, Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import logoImg from '../assets/logo.png';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NUM, PLATES, TYPE, useTheme } from './theme';
 import { initials } from './util';
@@ -99,7 +100,7 @@ export function Pill({ label, color, textColor, icon }: { label: string; color?:
   );
 }
 
-// Cerchio con le iniziali; il colore dipende dal nome (stessi colori dei dischi)
+// Cerchio con le iniziali; il colore dipende dal nome (toni del marchio)
 export function Avatar({ name, size = 44 }: { name?: string | null; size?: number }) {
   const h = (name || '?').split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
   const p = PLATES[h % 4];
@@ -404,25 +405,6 @@ export function BarChart({ data, height = 120, color, format, labelEvery = 1 }: 
 
 // ───────── Il bilanciere: simbolo dell'app ─────────
 
-export function Barbell({ width = 220, color }: { width?: number; color?: string }) {
-  const { t } = useTheme();
-  const bar = color || (t.dark ? '#4A4A50' : '#B8B8C0');
-  const k = width / 220;
-  const plates: [number, number, number][] = [[10, 62, 0], [10, 50, 1], [9, 38, 2], [8, 30, 3]]; // larghezza, altezza, colore
-  const side = (flip: boolean) => (
-    <View style={{ flexDirection: flip ? 'row-reverse' : 'row', alignItems: 'center', gap: 3 * k }}>
-      {plates.map(([w, h, ci], i) => (
-        <View key={i} style={{ width: w * k, height: h * k, borderRadius: 3 * k, backgroundColor: PLATES[ci].c }} />
-      ))}
-    </View>
-  );
-  return (
-    <View style={{ width, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-      {side(true)}
-      <View style={{ width: 8 * k, height: 18 * k, backgroundColor: bar, borderRadius: 2 }} />
-      <View style={{ flex: 1, height: 7 * k, backgroundColor: bar }} />
-      <View style={{ width: 8 * k, height: 18 * k, backgroundColor: bar, borderRadius: 2 }} />
-      {side(false)}
-    </View>
-  );
+export function Logo({ width = 260 }: { width?: number }) {
+  return <Image accessibilityLabel="YMCA Prime Sport Club" source={logoImg} resizeMode="contain" style={{ width, height: width * (316 / 1464) }} />;
 }

@@ -8,7 +8,7 @@ import { BRAND } from './src/brand';
 import { NavProvider, StackView, TabCtx, useNav } from './src/nav';
 import { SessionProvider, useSession } from './src/session';
 import { ThemeProvider, useTheme } from './src/theme';
-import { Barbell, Button, Empty, TabBar, TabDef, Txt, UiProvider } from './src/ui';
+import { Button, Empty, Logo, TabBar, TabDef, Txt, UiProvider } from './src/ui';
 import Auth from './src/screens/Auth';
 import ProgramBuilder from './src/screens/builder';
 import { GymTab } from './src/screens/gym';
@@ -51,8 +51,8 @@ const SCREENS: Record<string, React.ComponentType<any>> = {
 function Splash() {
   const { t } = useTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: t.bg, alignItems: 'center', justifyContent: 'center' }}>
-      <Barbell width={200} />
+    <View style={{ flex: 1, backgroundColor: '#0A0A0B', alignItems: 'center', justifyContent: 'center' }}>
+      <Logo width={240} />
     </View>
   );
 }

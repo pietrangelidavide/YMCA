@@ -1,6 +1,6 @@
-# Schede palestra
+# YMCA Prime Training
 
-App per una palestra: i soci hanno la scheda sempre in tasca e registrano i carichi, i personal trainer (PT) costruiscono e aggiornano le schede, il titolare vede i numeri della palestra. Alternativa a basso costo ai servizi in abbonamento per le schede (Training Program PRO e simili).
+App per YMCA Prime Sport Club (nome e marchio si cambiano per altre palestre, vedi «Personalizzazione»): i soci hanno la scheda sempre in tasca e registrano i carichi, i personal trainer (PT) costruiscono e aggiornano le schede, il titolare vede i numeri della palestra. Alternativa a basso costo ai servizi in abbonamento per le schede (Training Program PRO e simili).
 Expo / React Native (iPhone, Android, web installabile) + Supabase.
 
 ```
@@ -52,10 +52,10 @@ npx expo install react-dom react-native-web @expo/metro-runtime
 Crea il file `.env` (modello in `.env.example`) con URL e chiave *anon* del progetto Supabase. La chiave `service_role` non va mai nell'app né in un file. Avvio: `npx expo start` (`w` per il web, o Expo Go sul telefono).
 
 ### 3. Personalizzazione per la palestra
-- `src/brand.ts`: nome, frase di benvenuto, link all'informativa privacy, WhatsApp della segreteria.
-- `src/theme.tsx`: colori (accento rosso di partenza) e colori dei giorni scheda.
-- `assets/`: icona e schermata di avvio; per cambiarle modifica e lancia `NODE_PATH=<node_modules con sharp> node scripts/gen-assets.cjs`, oppure sostituisci i quattro PNG (icon 1024×1024 senza trasparenza).
-- `app.json`: `name`, `ios.bundleIdentifier` e `android.package` (**non cambiano più dopo la pubblicazione**: oggi sono segnaposto `it.example.schedepalestra`).
+- `src/brand.ts`: nome della palestra, nome dell'app, frase di benvenuto, link all'informativa privacy, WhatsApp della segreteria.
+- `src/theme.tsx`: colori. Quelli di partenza sono del marchio YMCA Prime: rosso `#E21D23`, bianco e grafite; i giorni della scheda e gli avatar usano rosso, grafite, bordeaux, rosa e argento.
+- `assets/`: `logo.svg` è il logo, vettorializzato da un'immagine piccola (366 px): con il file vettoriale originale del club sostituiscilo e lancia `NODE_PATH=<node_modules con sharp> node scripts/gen-assets.cjs`, che rigenera `logo.png`, icona (triangolo rosso su nero), icona Android, schermata di avvio e favicon.
+- `app.json`: `name`, `ios.bundleIdentifier` e `android.package` (**non cambiano più dopo la pubblicazione**: oggi sono segnaposto `it.example.ymcaprimetraining`).
 - Video degli esercizi: i 73 esercizi di partenza non hanno video. Il PT incolla un link (YouTube «non in elenco» va benissimo) da *Esercizi > modifica*.
 
 ### 4. Notifiche push
@@ -73,7 +73,7 @@ Nuova scheda e messaggi arrivano come push. Le invia il database stesso (funzion
 ## Demo online per il cliente (Cloudflare, gratis)
 `demo/` costruisce una versione web con **dati finti** (non si collega a Supabase): serve a far vedere l'app senza installare nulla.
 - Socio, PT e titolare con i pulsanti in alto; cornice telefono o schermo intero; tema Auto, Chiaro, Scuro.
-- Parametri nell'indirizzo: `?login=member|trainer|owner` (salta l'accesso), `&view=phone|computer`, `&theme=light|dark`, `&gym=Nome della palestra`. Per provare la registrazione, il codice palestra è `AURORA`.
+- Parametri nell'indirizzo: `?login=member|trainer|owner` (salta l'accesso), `&view=phone|computer`, `&theme=light|dark`, `&gym=Nome della palestra`. Per provare la registrazione, il codice palestra è `PRIME`.
 - Orologio fisso alle 10:40 (ora di Roma), così «Oggi» è uguale a ogni apertura. I dati finti stanno in `demo/mock/data.ts`.
 - Ha `noindex` e `robots.txt`: non compare su Google.
 - A mano: `cd demo && npm install && node build.mjs`, poi `npx serve dist`.
