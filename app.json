@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Schede Palestra",
+    "slug": "schede-palestra",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "scheme": "schedepalestra",
+    "ios": {
+      "bundleIdentifier": "it.example.schedepalestra",
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "it.example.schedepalestra",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0A0A0B"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "backgroundColor": "#0A0A0B",
+          "imageWidth": 200,
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "backgroundColor": "#0A0A0B"
+          }
+        }
+      ],
+      "expo-notifications"
+    ],
+    "backgroundColor": "#0A0A0B"
+  }
+}

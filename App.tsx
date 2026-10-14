@@ -1,0 +1,161 @@
+// Punto di partenza dell'app: tema, sessione, accesso e le schede principali di socio e staff.
+import React, { useEffect, useState } from 'react';
+import { View, useWindowDimensions } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { onNotificationOpen, registerForPush } from './lib/push';
+import { BRAND } from './src/brand';
+import { NavProvider, StackView, TabCtx, useNav } from './src/nav';
+import { SessionProvider, useSession } from './src/session';
+import { ThemeProvider, useTheme } from './src/theme';
+import { Barbell, Button, Empty, TabBar, TabDef, Txt, UiProvider } from './src/ui';
+import Auth from './src/screens/Auth';
+import ProgramBuilder from './src/screens/builder';
+import { GymTab } from './src/screens/gym';
+import { MemberDetail, MembersTab, StaffProvider } from './src/screens/staffMembers';
+import { ProgramsTab } from './src/screens/staffPrograms';
+import { MemberProgressScreen, ProfileTab, ProgramScreen, ProgramTab, ProgressTab, WorkoutDetail } from './src/screens/member';
+import { ExerciseDetail, Library } from './src/screens/shared';
+import Today from './src/screens/Today';
+import Workout from './src/screens/Workout';
+
+const MEMBER_TABS: TabDef[] = [
+  { key: 'oggi', label: 'Oggi', icon: 'flash-outline', iconOn: 'flash' },
+  { key: 'scheda', label: 'Scheda', icon: 'clipboard-outline', iconOn: 'clipboard' },
+  { key: 'progressi', label: 'Progressi', icon: 'stats-chart-outline', iconOn: 'stats-chart' },
+  { key: 'esercizi', label: 'Esercizi', icon: 'barbell-outline', iconOn: 'barbell' },
+  { key: 'profilo', label: 'Profilo', icon: 'person-outline', iconOn: 'person' },
+];
+const STAFF_TABS: TabDef[] = [
+  { key: 'soci', label: 'Soci', icon: 'people-outline', iconOn: 'people' },
+  { key: 'schede', label: 'Schede', icon: 'albums-outline', iconOn: 'albums' },
+  { key: 'esercizi', label: 'Esercizi', icon: 'barbell-outline', iconOn: 'barbell' },
+  { key: 'palestra', label: 'Palestra', icon: 'speedometer-outline', iconOn: 'speedometer' },
+];
+
+const ROOTS: Record<string, React.ComponentType> = {
+  oggi: Today, scheda: ProgramTab, progressi: ProgressTab, esercizi: Library, profilo: ProfileTab,
+  soci: MembersTab, schede: ProgramsTab, palestra: GymTab,
+};
+
+const SCREENS: Record<string, React.ComponentType<any>> = {
+  exercise: ExerciseDetail,
+  program: ProgramScreen,
+  builder: ProgramBuilder,
+  workout: Workout,
+  'workout-detail': WorkoutDetail,
+  member: MemberDetail,
+  'member-progress': MemberProgressScreen,
+};
+
+function Splash() {
+  const { t } = useTheme();
+  return (
+    <View style={{ flex: 1, backgroundColor: t.bg, alignItems: 'center', justifyContent: 'center' }}>
+      <Barbell width={200} />
+    </View>
+  );
+}
+
+// Le notifiche portano alla scheda o ai messaggi; l'app si apre da qualsiasi stato
+function PushRouting({ setTab }: { setTab: (k: string) => void }) {
+  const nav = useNav();
+  const { isStaff } = useSession();
+  useEffect(() => {
+    void registerForPush(false);
+    return onNotificationOpen((data) => {
+      if (data?.programId) {
+        if (!isStaff && data.type === 'program') { nav.popToRoot(); setTab('scheda'); }
+        else nav.push('program', { id: data.programId });
+      }
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  return null;
+}
+
+function Main() {
+  const { t } = useTheme();
+  const { isStaff } = useSession();
+  const tabs = isStaff ? STAFF_TABS : MEMBER_TABS;
+  const [tab, setTab] = useState(tabs[0].key);
+  return (
+    <StaffProvider>
+      <NavProvider onRootBack={() => false}>
+        {(nav) => (
+          <TabCtx.Provider value={{ tab, setTab: (k) => { nav.popToRoot(); setTab(k); } }}>
+            <View style={{ flex: 1, backgroundColor: t.bg }}>
+              <View style={{ flex: 1 }}>
+                {tabs.map((tb) => {
+                  const Root = ROOTS[tb.key];
+                  return (
+                    <View key={tb.key} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, display: tb.key === tab ? 'flex' : 'none' }}>
+                      <Root />
+                    </View>
+                  );
+                })}
+                <StackView stack={nav.stack} screens={SCREENS} />
+              </View>
+              {nav.stack.length === 0 ? <TabBar tabs={tabs} active={tab} onPick={(k) => setTab(k)} /> : null}
+              <PushRouting setTab={(k) => setTab(k)} />
+            </View>
+          </TabCtx.Provider>
+        )}
+      </NavProvider>
+    </StaffProvider>
+  );
+}
+
+function Root() {
+  const { t } = useTheme();
+  const s = useSession();
+  if (!s.ready) return <Splash />;
+  if (!s.userId) return <Auth />;
+  if (!s.profile) {
+    return (
+      <View style={{ flex: 1, backgroundColor: t.bg, justifyContent: 'center', padding: 24, gap: 12 }}>
+        <Empty icon="cloud-offline-outline" title="Non riesco a caricare il tuo profilo" text="Controlla la connessione e riprova." />
+        <Button label="Riprova" onPress={s.refresh} />
+        <Button label="Esci" kind="ghost" onPress={s.signOut} />
+      </View>
+    );
+  }
+  if (s.profile.role === 'member' && !s.profile.active) {
+    return (
+      <View style={{ flex: 1, backgroundColor: t.bg, justifyContent: 'center', padding: 24, gap: 12 }}>
+        <Empty icon="lock-closed-outline" title="Iscrizione non attiva" text={`${BRAND.gymName} ha sospeso il tuo profilo. Per riattivarlo rivolgiti alla segreteria.`} />
+        <Button label="Esci" kind="secondary" onPress={s.signOut} />
+      </View>
+    );
+  }
+  return <Main key={s.userId} />;
+}
+
+// Su schermi larghi (web su computer) l'app sta in una colonna centrata, come su un telefono grande
+const COLUMN = 880;
+function Themed() {
+  const { t } = useTheme();
+  const { width } = useWindowDimensions();
+  const wide = width > COLUMN + 80;
+  return (
+    <View style={{ flex: 1, backgroundColor: wide ? (t.dark ? '#000' : '#E4E4E9') : t.bg }}>
+      <StatusBar style={t.dark ? 'light' : 'dark'} />
+      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN, alignSelf: 'center', backgroundColor: t.bg, ...(wide ? { borderLeftWidth: 1, borderRightWidth: 1, borderColor: t.line } : null) }}>
+        <Root />
+      </View>
+    </View>
+  );
+}
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <UiProvider>
+          <SessionProvider>
+            <Themed />
+          </SessionProvider>
+        </UiProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
+  );
+}
