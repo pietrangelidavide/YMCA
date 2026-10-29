@@ -20,6 +20,7 @@ const shim = {
   'expo-linear-gradient': R('shim/misc.tsx'),
   'expo-blur': R('shim/misc.tsx'),
   'expo-image-picker': R('shim/misc.tsx'),
+  'expo-document-picker': R('shim/misc.tsx'),
   'expo-font': R('shim/misc.tsx'),
   '@react-native-async-storage/async-storage': R('shim/storage.ts'),
 };

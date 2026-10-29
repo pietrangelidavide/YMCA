@@ -2,19 +2,26 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import { Picked, removeFile, signedUrl, uploadFile } from './files';
+import { uuid } from './util';
 import { useVersion } from './nav';
 
 export type Role = 'member' | 'trainer' | 'owner';
 export type Profile = {
   id: string; first_name: string | null; last_name: string | null; full_name: string | null; phone: string | null; email: string | null;
   role: Role; trainer_id: string | null; goal: string | null; height_cm: number | null; active: boolean; created_at: string;
+  birth_date: string | null; sex: 'm' | 'f' | null;
 };
 export type Exercise = {
-  id: string; name: string; muscle_group: string; equipment: string | null; description: string | null; video_url: string | null; image_url: string | null; active: boolean;
+  id: string; name: string; muscle_group: string; category: string; equipment: string | null; description: string | null; video_url: string | null; image_url: string | null; active: boolean;
 };
-export type ExerciseLite = Pick<Exercise, 'id' | 'name' | 'muscle_group' | 'equipment' | 'description' | 'video_url' | 'image_url'>;
+export type ExerciseLite = Pick<Exercise, 'id' | 'name' | 'muscle_group' | 'equipment' | 'description' | 'video_url' | 'image_url'> & { category?: string };
+// Una voce della scheda: un esercizio, oppure una tecnica di allenamento, una lezione di un corso, un riposo
+export type ItemKind = 'exercise' | 'technique' | 'lesson' | 'rest';
+export type CourseLite = { id: string; name: string; category: string | null; duration_min: number | null };
 export type Item = {
-  id?: string; exercise_id: string; exercise: ExerciseLite; sets: number; reps: string; load_hint: string | null; rest_sec: number;
+  id?: string; kind: ItemKind; title: string | null; course_id: string | null; course?: CourseLite | null;
+  exercise_id: string | null; exercise: ExerciseLite | null; sets: number; reps: string; load_hint: string | null; rest_sec: number;
   tempo: string | null; note: string | null; superset: string | null;
 };
 export type Day = { id?: string; name: string; focus: string | null; items: Item[] };
@@ -22,18 +29,47 @@ export type ProgramStatus = 'draft' | 'active' | 'archived';
 export type Program = {
   id: string; name: string; goal: string | null; member_id: string | null; trainer_id: string | null; status: ProgramStatus; is_template: boolean;
   starts_on: string | null; weeks: number; notes: string | null; created_at: string; days: Day[];
+  objective: string | null; level: string | null; target: string; auto_archive: boolean; course_ids: string[]; template_id: string | null;
 };
 export type ProgramRow = Omit<Program, 'days'>;
+export type ProgramOverview = {
+  id: string; name: string; goal: string | null; objective: string | null; level: string | null; target: string; status: ProgramStatus;
+  member_id: string | null; member_name: string | null; trainer_id: string | null; trainer_name: string | null; template_name: string | null;
+  starts_on: string | null; ends_on: string | null; weeks: number; auto_archive: boolean; days_count: number; items_count: number; created_at: string;
+};
+export type Course = { id: string; name: string; category: string | null; description: string | null; duration_min: number | null; active: boolean; created_at: string };
 export type WorkoutRow = { id: string; member_id: string; program_id: string | null; day_id: string | null; day_name: string | null; started_at: string; finished_at: string | null; rpe: number | null; note: string | null };
 export type SetLog = { id?: string; workout_id?: string; exercise_id: string; item_id: string | null; set_no: number; reps: number | null; weight_kg: number | null };
 export type Measurement = {
   id: string; member_id: string; measured_on: string; weight_kg: number | null; body_fat_pct: number | null; waist_cm: number | null; chest_cm: number | null;
   hips_cm: number | null; arm_cm: number | null; thigh_cm: number | null; note: string | null;
+  height_cm?: number | null; neck_cm?: number | null; shoulders_cm?: number | null; calf_cm?: number | null;
+};
+export type Skinfold = {
+  id: string; member_id: string; measured_on: string; chest_mm: number | null; abdominal_mm: number | null; thigh_mm: number | null; triceps_mm: number | null;
+  subscapular_mm: number | null; suprailiac_mm: number | null; midaxillary_mm: number | null; bf_pct: number | null; method: string | null; note: string | null;
+};
+export type BiaScan = {
+  id: string; member_id: string; measured_on: string; weight_kg: number | null; fat_pct: number | null; fat_kg: number | null; lean_kg: number | null; water_pct: number | null;
+  muscle_kg: number | null; bone_kg: number | null; visceral_fat: number | null; bmr_kcal: number | null; metabolic_age: number | null; note: string | null;
+};
+export type Anamnesis = { member_id: string; data: Record<string, string>; consent_on: string | null; updated_at: string };
+export type TrainingPrefs = { member_id: string; data: Record<string, any>; updated_at: string };
+export type DocumentRow = { id: string; name: string; storage_path: string; visible_to_member: boolean; size_bytes: number | null; uploaded_by: string | null; created_at: string };
+export type Activity = { id: string; kind: 'appuntamento' | 'lezione' | 'altro'; title: string; member_id: string | null; trainer_id: string | null; starts_at: string; ends_at: string | null; note: string | null };
+export type CalEvent = {
+  kind: 'workout' | 'renewal' | 'activity'; id: string; at: string; end_at?: string | null; member_id: string | null; member_name: string | null; title: string; type?: string; note?: string | null;
+};
+export type Announcement = { id: string; title: string; body: string; audience: 'all' | 'members' | 'staff' | 'selected'; targets: number; recipients: number; created_at: string };
+export type WorkoutReport = {
+  workouts: number; avg_per_week: number; avg_exercises: number; monthly: { month: string; workouts: number }[];
+  exercises: { exercise_id: string; name: string; muscle_group: string; sessions: number; series: { at: string; w: number; reps: number }[] }[];
 };
 export type Comment = { id: string; program_id: string; author_id: string | null; body: string; created_at: string };
 export type MemberRow = {
   id: string; full_name: string | null; phone: string | null; email: string | null; active: boolean; goal: string | null; trainer_id: string | null; trainer_name: string | null;
   program_id: string | null; program_name: string | null; program_ends_on: string | null; last_workout_at: string | null; workouts_30d: number; created_at: string;
+  birth_date?: string | null; sex?: 'm' | 'f' | null; has_anamnesis?: boolean;
 };
 export type Progress = {
   exercise_id: string; name: string; muscle_group: string; sessions: number; last_at: string; pr_weight: number; pr_e1rm: number;
@@ -42,6 +78,10 @@ export type Progress = {
 export type Stats = {
   members_active: number; members_new: number; members_training: number; workouts: number; without_program: number; expiring: number;
   weekly: { week: string; workouts: number }[]; trainers: { id: string; name: string; members: number }[];
+  counts?: { members: number; programs: number; exercises: number; templates: number; courses: number };
+  latest_members?: { id: string; full_name: string | null; birth_date: string | null; created_at: string }[];
+  latest_staff?: { id: string; full_name: string | null; role: Role; created_at: string }[];
+  latest_programs?: { id: string; name: string; status: ProgramStatus; starts_on: string | null; ends_on: string | null; member_name: string | null; trainer_name: string | null }[];
 };
 export type DraftWorkout = {
   id: string; program_id: string; day_id: string | null; day_name: string; started_at: string;
@@ -57,12 +97,18 @@ const MESSAGES: Record<string, string> = {
   name_required: 'Scrivi un nome.',
   login_required: 'Accedi per continuare.',
   owner_required: 'Serve almeno un titolare: nomina prima un altro titolare.',
+  message_required: 'Scrivi il titolo e il testo dell\'avviso.',
+  audience_invalid: 'Scegli a chi mandare l\'avviso.',
+  exercise_required: 'Una voce della scheda non ha l\'esercizio.',
 };
 export function errText(e: any): string {
   const m = String(e?.message || e || '');
   for (const k of Object.keys(MESSAGES)) if (m.includes(k)) return MESSAGES[k];
   if (/duplicate key|exercises_name_uq/i.test(m)) return 'Esiste già un elemento con questo nome.';
   if (/programs_one_active/i.test(m)) return 'Il socio ha già una scheda attiva.';
+  if (/programs_notes_len/i.test(m)) return 'Le note della scheda sono troppo lunghe (massimo 1500 caratteri).';
+  if (/courses_name_uq/i.test(m)) return 'Esiste già un corso con questo nome.';
+  if (/size_bytes|too large|exceeded the maximum|payload too large/i.test(m)) return 'Il file è troppo grande (massimo 2 MB).';
   if (/fetch|network|failed to/i.test(m)) return 'Connessione assente. Riprova tra poco.';
   if (/password/i.test(m) && /short|least|weak/i.test(m)) return 'La password è troppo corta (almeno 6 caratteri).';
   return m || 'Qualcosa non ha funzionato.';
@@ -120,7 +166,10 @@ export const api = {
     return ok(await supabase.from('exercises').select('*').order('name')) as Exercise[];
   },
   async saveExercise(e: Partial<Exercise> & { name: string; muscle_group: string }) {
-    const row = { name: e.name.trim(), muscle_group: e.muscle_group, equipment: e.equipment?.trim() || null, description: e.description?.trim() || null, video_url: e.video_url?.trim() || null, active: e.active ?? true };
+    const row = {
+      name: e.name.trim(), muscle_group: e.muscle_group, category: e.category || 'forza', equipment: e.equipment?.trim() || null, description: e.description?.trim() || null,
+      video_url: e.video_url?.trim() || null, image_url: e.image_url || null, active: e.active ?? true,
+    };
     if (e.id) ok(await supabase.from('exercises').update(row).eq('id', e.id));
     else ok(await supabase.from('exercises').insert(row));
   },
@@ -141,6 +190,9 @@ export const api = {
   // bozze dei soci (schede preparate ma non ancora attivate)
   async drafts(): Promise<ProgramRow[]> {
     return ok(await supabase.from('programs').select('*').eq('is_template', false).eq('status', 'draft').order('created_at', { ascending: false }).limit(50)) as ProgramRow[];
+  },
+  async programsOverview(templates = false): Promise<ProgramOverview[]> {
+    return ok(await supabase.rpc('programs_overview', { p_templates: templates })) as ProgramOverview[];
   },
   async saveProgram(p: any): Promise<string> {
     return ok(await supabase.rpc('save_program', { p })) as string;
@@ -185,6 +237,101 @@ export const api = {
     ok(await supabase.from('measurements').upsert({ ...m, created_by: by }, { onConflict: 'member_id,measured_on' }));
   },
   async deleteMeasurement(id: string) { ok(await supabase.from('measurements').delete().eq('id', id)); },
+  async skinfolds(memberId: string): Promise<Skinfold[]> {
+    return ok(await supabase.from('skinfolds').select('*').eq('member_id', memberId).order('measured_on', { ascending: false })) as Skinfold[];
+  },
+  async saveSkinfold(m: Partial<Skinfold> & { member_id: string }, by: string) {
+    ok(await supabase.from('skinfolds').upsert({ ...m, created_by: by }, { onConflict: 'member_id,measured_on' }));
+  },
+  async deleteSkinfold(id: string) { ok(await supabase.from('skinfolds').delete().eq('id', id)); },
+  async bia(memberId: string): Promise<BiaScan[]> {
+    return ok(await supabase.from('bia_scans').select('*').eq('member_id', memberId).order('measured_on', { ascending: false })) as BiaScan[];
+  },
+  async saveBia(m: Partial<BiaScan> & { member_id: string }, by: string) {
+    ok(await supabase.from('bia_scans').upsert({ ...m, created_by: by }, { onConflict: 'member_id,measured_on' }));
+  },
+  async deleteBia(id: string) { ok(await supabase.from('bia_scans').delete().eq('id', id)); },
+
+  // ───── Anamnesi e preferenze ─────
+  async anamnesis(memberId: string): Promise<Anamnesis | null> {
+    return ok(await supabase.from('anamnesis').select('*').eq('member_id', memberId).maybeSingle()) as any;
+  },
+  async saveAnamnesis(memberId: string, data: Record<string, string>, consentOn: string | null, by: string) {
+    ok(await supabase.from('anamnesis').upsert({ member_id: memberId, data, consent_on: consentOn, updated_by: by, updated_at: new Date().toISOString() }, { onConflict: 'member_id' }));
+  },
+  async prefs(memberId: string): Promise<TrainingPrefs | null> {
+    return ok(await supabase.from('training_prefs').select('*').eq('member_id', memberId).maybeSingle()) as any;
+  },
+  async savePrefs(memberId: string, data: Record<string, any>, by: string) {
+    ok(await supabase.from('training_prefs').upsert({ member_id: memberId, data, updated_by: by, updated_at: new Date().toISOString() }, { onConflict: 'member_id' }));
+  },
+
+  // ───── Report ─────
+  async workoutReport(memberId: string | null, from: string, to: string, programId: string | null): Promise<WorkoutReport> {
+    return ok(await supabase.rpc('workout_report', { p_member: memberId, p_from: from, p_to: to, p_program: programId })) as WorkoutReport;
+  },
+
+  // ───── Documenti ─────
+  async documents(): Promise<{ docs: DocumentRow[]; links: { document_id: string; member_id: string }[] }> {
+    const [docs, links] = await Promise.all([
+      supabase.from('documents').select('*').order('created_at', { ascending: false }),
+      supabase.from('document_members').select('*'),
+    ]);
+    return { docs: ok(docs) as DocumentRow[], links: ok(links) as any };
+  },
+  // documenti di un socio (lo staff li vede tutti, il socio solo quelli «visibili» che gli sono assegnati)
+  async documentsOf(memberId: string): Promise<DocumentRow[]> {
+    const links = ok(await supabase.from('document_members').select('*').eq('member_id', memberId)) as { document_id: string }[];
+    if (!links.length) return [];
+    return ok(await supabase.from('documents').select('*').in('id', links.map((l) => l.document_id)).order('created_at', { ascending: false })) as DocumentRow[];
+  },
+  async addDocument(file: Picked, name: string, memberIds: string[], visible: boolean, by: string) {
+    const id = uuid();
+    const path = `${id}.pdf`;
+    const size = await uploadFile('documents', path, file);
+    try {
+      ok(await supabase.from('documents').insert({ id, name: name.trim(), storage_path: path, visible_to_member: visible, size_bytes: size, uploaded_by: by }));
+      if (memberIds.length) ok(await supabase.from('document_members').insert(memberIds.map((m) => ({ document_id: id, member_id: m }))));
+    } catch (e) { await removeFile('documents', path); throw e; }
+  },
+  async updateDocument(id: string, name: string, memberIds: string[], visible: boolean) {
+    ok(await supabase.from('documents').update({ name: name.trim(), visible_to_member: visible }).eq('id', id));
+    ok(await supabase.from('document_members').delete().eq('document_id', id));
+    if (memberIds.length) ok(await supabase.from('document_members').insert(memberIds.map((m) => ({ document_id: id, member_id: m }))));
+  },
+  async deleteDocument(d: DocumentRow) {
+    ok(await supabase.from('documents').delete().eq('id', d.id));
+    await removeFile('documents', d.storage_path);
+  },
+  async openDocument(d: DocumentRow): Promise<string> { return signedUrl('documents', d.storage_path); },
+
+  // ───── Corsi ─────
+  async courses(): Promise<Course[]> {
+    return ok(await supabase.from('courses').select('*').order('name')) as Course[];
+  },
+  async saveCourse(c: Partial<Course> & { name: string }) {
+    const row = { name: c.name.trim(), category: c.category?.trim() || null, description: c.description?.trim() || null, duration_min: c.duration_min ?? null, active: c.active ?? true };
+    if (c.id) ok(await supabase.from('courses').update(row).eq('id', c.id));
+    else ok(await supabase.from('courses').insert(row));
+  },
+  async deleteCourse(id: string) { ok(await supabase.from('courses').delete().eq('id', id)); },
+
+  // ───── Calendario e avvisi ─────
+  async calendar(from: string, to: string): Promise<CalEvent[]> {
+    return ok(await supabase.rpc('calendar_events', { p_from: from, p_to: to })) as CalEvent[];
+  },
+  async saveActivity(a: Partial<Activity> & { title: string; starts_at: string }, by: string) {
+    const row = { kind: a.kind || 'appuntamento', title: a.title.trim(), member_id: a.member_id || null, starts_at: a.starts_at, ends_at: a.ends_at || null, note: a.note?.trim() || null };
+    if (a.id) ok(await supabase.from('activities').update(row).eq('id', a.id));
+    else ok(await supabase.from('activities').insert({ ...row, trainer_id: by }));
+  },
+  async deleteActivity(id: string) { ok(await supabase.from('activities').delete().eq('id', id)); },
+  async announcements(): Promise<Announcement[]> {
+    return ok(await supabase.from('push_announcements').select('*').order('created_at', { ascending: false }).limit(30)) as Announcement[];
+  },
+  async sendAnnouncement(title: string, body: string, audience: Announcement['audience'], members: string[]): Promise<{ id: string; targets: number; recipients: number }> {
+    return ok(await supabase.rpc('send_announcement', { p_title: title, p_body: body, p_audience: audience, p_members: members })) as any;
+  },
 
   // ───── Staff ─────
   async members(): Promise<MemberRow[]> {

@@ -1,17 +1,13 @@
-// Scheda «Palestra»: numeri del mese, PT e (per il titolare) gestione del team e del codice di iscrizione.
-import React, { useMemo, useState } from 'react';
+// Bacheca dello staff: numeri della palestra, ultimi iscritti, collaboratori e schede, cose da seguire.
+import React, { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { api, errText, MemberRow, Profile, Stats, useAsync } from '../data';
-import { useTabs, useVersion } from '../nav';
-import { useSession } from '../session';
-import { useTheme } from '../theme';
-import { Avatar, BarChart, Button, ErrorState, Field, Group, Icon, Page, Pill, Row, SectionTitle, Sheet, Spinner, Stat, Txt, useUi } from '../ui';
-import { addDays, fmtDate, isoDay, startOfWeek } from '../util';
-import { AccountSection } from './member';
-import { MemberPicker, useMemberFilter } from './staffMembers';
-
-const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-const randomCode = () => Array.from({ length: 6 }, () => CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]).join('');
+import { api, Stats, useAsync } from '../data';
+import { useNav, useTabs } from '../nav';
+import { NUM, useTheme } from '../theme';
+import { Avatar, BarChart, ErrorState, Group, Icon, Page, Pill, Row, SectionTitle, Spinner, Stat, Txt } from '../ui';
+import { addDays, ageOf, fmtDate, fmtDateShortY, isoDay, startOfWeek } from '../util';
+import { planState } from './staffPrograms';
+import { useMemberFilter } from './staffMembers';
 
 function weeklyFromStats(s: Stats) {
   const by = new Map(s.weekly.map((w) => [w.week.slice(0, 10), w.workouts]));
@@ -22,51 +18,53 @@ function weeklyFromStats(s: Stats) {
   });
 }
 
+function Counter({ icon, value, label, onPress }: { icon: string; value: number; label: string; onPress: () => void }) {
+  const { t } = useTheme();
+  return (
+    <Pressable accessibilityLabel={`${label}: ${value}`} onPress={onPress}
+      style={({ pressed }: any) => ({ flexGrow: 1, flexBasis: '30%', minWidth: 96, backgroundColor: pressed ? t.card2 : t.card, borderRadius: 18, padding: 14, gap: 6 })}>
+      <View style={{ width: 34, height: 34, borderRadius: 11, backgroundColor: t.accentSoft, alignItems: 'center', justifyContent: 'center' }}><Icon name={icon} size={19} color="accentInk" /></View>
+      <Text style={[{ color: t.text, fontSize: 28, fontWeight: '800', letterSpacing: -0.5 }, NUM]}>{value}</Text>
+      <Text style={{ color: t.sub, fontSize: 13 }}>{label}</Text>
+    </Pressable>
+  );
+}
+
 export function GymTab() {
   const { t } = useTheme();
+  const nav = useNav();
   const tabs = useTabs();
-  const { setFilter } = useMemberFilter();
-  const { role } = useSession();
-  const { toast, confirm } = useUi();
-  const { bump } = useVersion();
-  const owner = role === 'owner';
-  const d = useAsync(async () => ({ stats: await api.stats(30), gym: await api.gym(), staff: await api.staffProfiles() }), []);
-  const [pick, setPick] = useState(false);
-  const [edit, setEdit] = useState<{ name: string; code: string } | null>(null);
-  const [staffSel, setStaffSel] = useState<Profile | null>(null);
-  const [busy, setBusy] = useState(false);
-
+  const { setFilter, setPview } = useMemberFilter();
+  const d = useAsync(async () => ({ stats: await api.stats(30), gym: await api.gym() }), []);
   const weekly = useMemo(() => (d.data ? weeklyFromStats(d.data.stats) : []), [d.data]);
-  const run = async (fn: () => Promise<void>, ok?: string) => {
-    setBusy(true);
-    try { await fn(); bump(); if (ok) toast(ok); } catch (e) { toast(errText(e), 'error'); } finally { setBusy(false); }
-  };
   const go = (f: 'nop' | 'exp') => { setFilter(f); tabs.setTab('soci'); };
-
-  const promote = async (m: MemberRow) => {
-    setPick(false);
-    if (!(await confirm({ title: `Nominare ${m.full_name} personal trainer?`, message: 'Potrà vedere tutti i soci, creare e modificare schede e scrivere note riservate.', confirmLabel: 'Nomina' }))) return;
-    await run(() => api.setRole(m.id, 'trainer'), 'Nuovo personal trainer.');
-  };
-  const demote = async (p: Profile) => {
-    setStaffSel(null);
-    if (!(await confirm({ title: `Togliere il ruolo a ${p.full_name}?`, message: 'Torna a essere un normale socio: non vedrà più gli altri soci né le note.', confirmLabel: 'Togli il ruolo', destructive: true }))) return;
-    await run(() => api.setRole(p.id, 'member'), 'Ruolo rimosso.');
-  };
-  const saveGym = async () => {
-    if (!edit) return;
-    if (!edit.name.trim()) return toast('Scrivi il nome della palestra.', 'error');
-    const code = edit.code.trim().toUpperCase();
-    await run(async () => { await api.saveGym({ name: edit.name.trim(), join_code: code || null }); setEdit(null); }, 'Dati salvati.');
-  };
-
   const s = d.data?.stats;
+  const c = s?.counts;
+
   return (
-    <Page title="Palestra" subtitle={d.data?.gym?.name || undefined}>
+    <Page title="Bacheca" subtitle={d.data?.gym?.name || undefined}>
       <View style={{ paddingHorizontal: 16, gap: 14, paddingTop: 4 }}>
         {d.loading && !d.data ? <Spinner /> : d.error && !d.data ? <ErrorState error={d.error} onRetry={d.reload} /> : s ? (
           <>
-            <Txt v="sub" c="sub" style={{ paddingHorizontal: 4 }}>Ultimi 30 giorni</Txt>
+            {c ? (
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+                <Counter icon="people" value={c.members} label="Utenti" onPress={() => { setFilter('all'); tabs.setTab('soci'); }} />
+                <Counter icon="clipboard" value={c.programs} label="Schede" onPress={() => { setPview('assigned'); tabs.setTab('schede'); }} />
+                <Counter icon="barbell" value={c.exercises} label="Esercizi" onPress={() => tabs.setTab('esercizi')} />
+                <Counter icon="albums" value={c.templates} label="Modelli" onPress={() => { setPview('templates'); tabs.setTab('schede'); }} />
+                <Counter icon="calendar" value={c.courses} label="Corsi" onPress={() => nav.push('courses')} />
+              </View>
+            ) : null}
+
+            <SectionTitle>Da seguire</SectionTitle>
+            <Group>
+              <Row title="Soci senza scheda" value={String(s.without_program)} chevron={s.without_program > 0} onPress={s.without_program ? () => go('nop') : undefined}
+                left={<Icon name={s.without_program ? 'alert-circle' : 'checkmark-circle'} size={24} color={s.without_program ? t.warn : t.ok} />} />
+              <Row title="Schede in scadenza" sub="Entro 7 giorni o già scadute" value={String(s.expiring)} chevron={s.expiring > 0} onPress={s.expiring ? () => go('exp') : undefined}
+                left={<Icon name={s.expiring ? 'time' : 'checkmark-circle'} size={24} color={s.expiring ? t.warn : t.ok} />} />
+            </Group>
+
+            <SectionTitle>Ultimi 30 giorni</SectionTitle>
             <View style={{ flexDirection: 'row', gap: 10 }}>
               <Stat value={s.members_active} label="soci attivi" />
               <Stat value={s.members_training} label="si sono allenati" tone="accentInk" />
@@ -80,55 +78,49 @@ export function GymTab() {
               <BarChart data={weekly} height={120} />
             </View>
 
-            <SectionTitle>Da seguire</SectionTitle>
-            <Group>
-              <Row title="Soci senza scheda" value={String(s.without_program)} chevron={s.without_program > 0} onPress={s.without_program ? () => go('nop') : undefined}
-                left={<Icon name={s.without_program ? 'alert-circle' : 'checkmark-circle'} size={24} color={s.without_program ? t.warn : t.ok} />} />
-              <Row title="Schede in scadenza" sub="Entro 7 giorni o già scadute" value={String(s.expiring)} chevron={s.expiring > 0} onPress={s.expiring ? () => go('exp') : undefined}
-                left={<Icon name={s.expiring ? 'time' : 'checkmark-circle'} size={24} color={s.expiring ? t.warn : t.ok} />} />
-            </Group>
-
-            <SectionTitle>Personal trainer</SectionTitle>
-            <Group>
-              {s.trainers.map((tr) => (
-                <Row key={tr.id} title={tr.name} sub={`${tr.members} ${tr.members === 1 ? 'socio seguito' : 'soci seguiti'}`} left={<Avatar name={tr.name} size={40} />}
-                  right={d.data!.staff.find((x) => x.id === tr.id)?.role === 'owner' ? <Pill label="Titolare" /> : undefined}
-                  onPress={owner && d.data!.staff.find((x) => x.id === tr.id)?.role === 'trainer' ? () => setStaffSel(d.data!.staff.find((x) => x.id === tr.id)!) : undefined} />
-              ))}
-            </Group>
-            {owner ? <Button label="Nomina un personal trainer" icon="person-add-outline" kind="secondary" onPress={() => setPick(true)} /> : null}
-
-            {owner ? (
+            {s.latest_members?.length ? (
               <>
-                <SectionTitle>Iscrizione dei soci</SectionTitle>
+                <SectionTitle>Ultimi utenti</SectionTitle>
                 <Group>
-                  <Row title="Nome della palestra" value={d.data!.gym?.name || '–'} chevron onPress={() => setEdit({ name: d.data!.gym?.name || '', code: d.data!.gym?.join_code || '' })} />
-                  <Row title="Codice palestra" sub={d.data!.gym?.join_code ? 'Chi si registra deve scriverlo' : 'Nessun codice: chiunque può registrarsi'} value={d.data!.gym?.join_code || 'Libero'} chevron onPress={() => setEdit({ name: d.data!.gym?.name || '', code: d.data!.gym?.join_code || '' })} />
+                  {s.latest_members.map((m) => {
+                    const age = ageOf(m.birth_date);
+                    return <Row key={m.id} title={m.full_name || 'Senza nome'} sub={`Iscritto il ${fmtDateShortY(m.created_at)}${age !== null ? ` · ${age} anni` : ''}`} left={<Avatar name={m.full_name} size={40} />} chevron onPress={() => nav.push('member', { id: m.id })} />;
+                  })}
+                </Group>
+              </>
+            ) : null}
+
+            {s.latest_staff?.length ? (
+              <>
+                <SectionTitle>Ultimi collaboratori</SectionTitle>
+                <Group>
+                  {s.latest_staff.map((m) => (
+                    <Row key={m.id} title={m.full_name || 'Senza nome'} sub={`Dal ${fmtDateShortY(m.created_at)}`} left={<Avatar name={m.full_name} size={40} />}
+                      right={<Pill label={m.role === 'owner' ? 'Titolare' : 'Personal trainer'} />} onPress={() => nav.push('staff')} />
+                  ))}
+                </Group>
+              </>
+            ) : null}
+
+            {s.latest_programs?.length ? (
+              <>
+                <SectionTitle>Ultime schede</SectionTitle>
+                <Group>
+                  {s.latest_programs.map((p) => {
+                    const st = planState({ status: p.status, ends_on: p.ends_on });
+                    return (
+                      <Row key={p.id} title={p.name} minHeight={60} chevron onPress={() => nav.push('builder', { id: p.id })}
+                        sub={[p.member_name || 'Senza socio', p.trainer_name ? `seguito da ${p.trainer_name}` : ''].filter(Boolean).join(' · ')}
+                        right={<Pill label={st.state === 'draft' ? 'Bozza' : st.state === 'archived' ? 'Archiviata' : st.state === 'expired' ? 'Scaduta' : st.state === 'expiring' ? 'In scadenza' : 'Attiva'}
+                          color={st.state === 'active' ? t.accentSoft : undefined} textColor={st.state === 'active' ? t.accentInk : undefined} />} />
+                    );
+                  })}
                 </Group>
               </>
             ) : null}
           </>
         ) : null}
-
-        <SectionTitle>Il tuo profilo</SectionTitle>
-        <AccountSection />
       </View>
-
-      <MemberPicker visible={pick} onClose={() => setPick(false)} onPick={promote} busy={busy} />
-      <Sheet visible={!!staffSel} onClose={() => setStaffSel(null)} title={staffSel?.full_name || ''}>
-        <Group>
-          <Row title="Togli il ruolo di personal trainer" danger onPress={() => demote(staffSel!)} />
-        </Group>
-      </Sheet>
-      <Sheet visible={!!edit} onClose={() => setEdit(null)} title="Iscrizione dei soci" footer={<Button label="Salva" onPress={saveGym} loading={busy} />}>
-        <Field label="Nome della palestra" value={edit?.name} onChangeText={(name) => setEdit((e) => (e ? { ...e, name } : e))} />
-        <Field label="Codice palestra" value={edit?.code} onChangeText={(code) => setEdit((e) => (e ? { ...e, code } : e))} autoCapitalize="characters"
-          hint="Lo dai ai nuovi soci: senza codice non possono registrarsi. Lascialo vuoto per lasciare la registrazione libera." />
-        <View style={{ flexDirection: 'row', gap: 8 }}>
-          <Button small kind="secondary" label="Genera un codice" icon="refresh" full={false} onPress={() => setEdit((e) => (e ? { ...e, code: randomCode() } : e))} />
-          <Button small kind="ghost" label="Togli il codice" full={false} onPress={() => setEdit((e) => (e ? { ...e, code: '' } : e))} />
-        </View>
-      </Sheet>
     </Page>
   );
 }

@@ -8,7 +8,9 @@ import { useNav, useVersion } from '../nav';
 import { useSession } from '../session';
 import { Mode, NUM, plate, useTheme } from '../theme';
 import { Avatar, BarChart, Button, Empty, ErrorState, Field, Group, Icon, IconButton, Page, Pill, Row, SectionTitle, Segmented, Sheet, Spinner, Stat, Txt, useUi } from '../ui';
-import { addDays, ago, fmtDate, fmtDateLong, fmtDateShortY, fmtNum, fmtRest, fmtTime, isoDay, MUSCLE, parseNum, startOfWeek } from '../util';
+import { addDays, ago, fmtDate, fmtDateLong, fmtDateShortY, fmtNum, fmtRest, fmtTime, isoDay, LEVEL, MUSCLE, muscleLabel, OBJECTIVE, parseNum, startOfWeek } from '../util';
+import { BodyView } from './body';
+import { MyDocuments } from './docs';
 import { CommentsThread, ExerciseTile } from './shared';
 import { programWeek } from './Today';
 
@@ -20,6 +22,8 @@ export function ProgramView({ program, memberName, actions, showComments = true 
   const staff = useAsync(() => api.staff(), []);
   const w = programWeek(program);
   const trainer = staff.data?.find((s) => s.id === program.trainer_id)?.full_name;
+  const courses = useAsync(() => (program.course_ids?.length ? api.courses() : Promise.resolve([])), [program.id]);
+  const recommended = (courses.data || []).filter((c) => program.course_ids?.includes(c.id));
   return (
     <View style={{ paddingHorizontal: 16, gap: 14, paddingTop: 4 }}>
       <View style={{ backgroundColor: t.card, borderRadius: 22, padding: 18, gap: 10 }}>
@@ -28,6 +32,8 @@ export function ProgramView({ program, memberName, actions, showComments = true 
           {program.status === 'active' ? <Pill label="Attiva" color={t.accentSoft} textColor={t.accentInk} icon="flash" /> : null}
           {program.status === 'archived' ? <Pill label="Archiviata" icon="archive-outline" /> : null}
           {program.status === 'draft' && !program.is_template ? <Pill label="Bozza" icon="create-outline" /> : null}
+          {program.objective ? <Pill label={OBJECTIVE[program.objective] || program.objective} icon="trophy-outline" /> : null}
+          {program.level ? <Pill label={`Livello ${(LEVEL[program.level] || program.level).toLowerCase()}`} icon="speedometer-outline" /> : null}
         </View>
         <Text style={{ color: t.text, fontSize: 24, fontWeight: '800', letterSpacing: -0.4 }}>{program.name}</Text>
         {program.goal ? <Txt c="sub">{program.goal}</Txt> : null}
@@ -38,6 +44,12 @@ export function ProgramView({ program, memberName, actions, showComments = true 
           <View style={{ gap: 6 }}>
             <View style={{ height: 6, borderRadius: 3, backgroundColor: t.card2 }}><View style={{ height: 6, borderRadius: 3, width: `${Math.min(100, (w.n / w.total) * 100)}%` as any, backgroundColor: t.accent }} /></View>
             <Txt v="cap" c="sub">{w.over ? 'Scheda terminata' : `Settimana ${w.n} di ${w.total}`} · fine {fmtDate(w.endsOn)}</Txt>
+          </View>
+        ) : null}
+        {recommended.length ? (
+          <View style={{ gap: 6 }}>
+            <Txt v="cap" c="sub">Corsi consigliati</Txt>
+            <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap' }}>{recommended.map((c) => <Pill key={c.id} label={c.name} icon="people-outline" color={t.accentSoft} textColor={t.accentInk} />)}</View>
           </View>
         ) : null}
         {program.notes ? (
@@ -60,11 +72,15 @@ export function ProgramView({ program, memberName, actions, showComments = true 
               </View>
             </View>
             <Group>
-              {day.items.map((it, i) => (
+              {day.items.map((it, i) => (it.kind || 'exercise') === 'exercise' && it.exercise ? (
                 <Row key={it.id || i} title={it.exercise.name} left={<ExerciseTile e={it.exercise} size={44} />} chevron minHeight={60}
                   sub={`${it.sets} × ${it.reps}${it.load_hint ? ` · ${it.load_hint}` : ''} · rec. ${fmtRest(it.rest_sec)}${it.note ? `\n${it.note}` : ''}`}
                   right={it.superset ? <Pill label={`Superserie ${it.superset}`} /> : undefined}
                   onPress={() => nav.push('exercise', { id: it.exercise_id })} />
+              ) : (
+                <Row key={it.id || i} minHeight={60} lines={2} title={it.title || it.course?.name || 'Voce della scheda'}
+                  left={<View style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: t.accentSoft, alignItems: 'center', justifyContent: 'center' }}><Icon name={it.kind === 'lesson' ? 'people' : it.kind === 'rest' ? 'cafe' : 'flash'} size={22} color="accentInk" /></View>}
+                  sub={[it.kind === 'lesson' ? 'Lezione' : it.kind === 'rest' ? `Riposo${it.rest_sec ? ` ${fmtRest(it.rest_sec)}` : ''}` : 'Tecnica di allenamento', it.kind === 'lesson' && it.course?.duration_min ? `${it.course.duration_min} min` : ''].filter(Boolean).join(' · ') + (it.note ? `\n${it.note}` : '')} />
               ))}
               {!day.items.length ? <Row title="Nessun esercizio" /> : null}
             </Group>
@@ -126,7 +142,7 @@ export function ProgressView({ memberId, mine }: { memberId: string; mine: boole
   return (
     <View style={{ paddingHorizontal: 16, gap: 14, paddingTop: 4 }}>
       <Segmented items={[['Carichi', 'carichi'], ['Corpo', 'corpo'], ['Storico', 'storico']]} value={tab} onChange={setTab} />
-      {tab === 'carichi' ? <Loads memberId={memberId} /> : tab === 'corpo' ? <Body memberId={memberId} /> : <History memberId={memberId} />}
+      {tab === 'carichi' ? <Loads memberId={memberId} /> : tab === 'corpo' ? <BodyView memberId={memberId} /> : <History memberId={memberId} />}
     </View>
   );
 }
@@ -177,105 +193,6 @@ function Loads({ memberId }: { memberId: string }) {
         </Group>
       )}
     </View>
-  );
-}
-
-const M_FIELDS: [keyof Measurement, string, string][] = [
-  ['weight_kg', 'Peso', 'kg'], ['body_fat_pct', 'Massa grassa', '%'], ['waist_cm', 'Vita', 'cm'], ['chest_cm', 'Petto', 'cm'], ['hips_cm', 'Fianchi', 'cm'], ['arm_cm', 'Braccio', 'cm'], ['thigh_cm', 'Coscia', 'cm'],
-];
-
-function Body({ memberId }: { memberId: string }) {
-  const { t } = useTheme();
-  const { userId } = useSession();
-  const { toast, confirm } = useUi();
-  const { bump } = useVersion();
-  const d = useAsync(() => api.measurements(memberId), [memberId]);
-  const [edit, setEdit] = useState<Partial<Measurement> | null>(null);
-  if (d.loading && !d.data) return <Spinner />;
-  if (d.error && !d.data) return <ErrorState error={d.error} onRetry={d.reload} />;
-  const list = d.data || [];
-  const withW = list.filter((m) => m.weight_kg != null);
-  const lastW = withW[0], prevW = withW[1];
-  const wDelta = lastW && prevW ? (lastW.weight_kg! - prevW.weight_kg!) : null;
-  const chart = [...withW].slice(0, 10).reverse().map((m, i, a) => ({ label: fmtDate(m.measured_on), value: m.weight_kg!, on: i === a.length - 1 }));
-  const latest = (k: keyof Measurement) => list.find((m) => m[k] != null);
-  const prevOf = (k: keyof Measurement) => { const f = list.filter((m) => m[k] != null); return f[1]; };
-  return (
-    <View style={{ gap: 14 }}>
-      <Button label="Aggiungi misure" icon="add" kind="secondary" onPress={() => setEdit({ measured_on: isoDay(new Date()) })} />
-      {lastW ? (
-        <View style={{ backgroundColor: t.card, borderRadius: 20, padding: 16, gap: 12 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <View>
-              <Txt v="sub" c="sub">Peso · {fmtDate(lastW.measured_on)}</Txt>
-              <Text style={[{ color: t.text, fontSize: 38, fontWeight: '800', letterSpacing: -1 }, NUM]}>{fmtNum(lastW.weight_kg, 1)}<Text style={{ fontSize: 18, color: t.sub }}> kg</Text></Text>
-            </View>
-            {wDelta !== null ? <Pill label={`${wDelta > 0 ? '+' : ''}${fmtNum(wDelta, 1)} kg`} icon={wDelta > 0 ? 'trending-up' : 'trending-down'} /> : null}
-          </View>
-          {chart.length > 1 ? <BarChart data={chart} height={110} format={(n) => fmtNum(n, 1)} labelEvery={Math.ceil(chart.length / 4)} /> : null}
-        </View>
-      ) : null}
-      {list.length ? (
-        <>
-          <SectionTitle>Ultime misure</SectionTitle>
-          <Group>
-            {M_FIELDS.filter(([k]) => k !== 'weight_kg' && latest(k)).map(([k, label, unit]) => {
-              const cur = latest(k)!, prev = prevOf(k);
-              const dl = prev ? (cur[k] as number) - (prev[k] as number) : null;
-              return <Row key={k} title={label} sub={fmtDate(cur.measured_on)} value={`${fmtNum(cur[k] as number, 1)} ${unit}`} right={dl ? <Pill label={`${dl > 0 ? '+' : ''}${fmtNum(dl, 1)}`} /> : undefined} />;
-            })}
-          </Group>
-          <SectionTitle>Storico</SectionTitle>
-          <Group>
-            {list.map((m) => (
-              <Row key={m.id} title={fmtDateShortY(m.measured_on)} sub={M_FIELDS.filter(([k]) => m[k] != null).map(([k, l, u]) => `${l} ${fmtNum(m[k] as number, 1)}${u === '%' ? '%' : ''}`).join(' · ')} chevron onPress={() => setEdit(m)} />
-            ))}
-          </Group>
-        </>
-      ) : <Empty icon="body-outline" title="Nessuna misura" text="Registra peso e circonferenze ogni tanto: vedrai come cambiano nel tempo." />}
-      <MeasureSheet memberId={memberId} value={edit} onClose={() => setEdit(null)} />
-    </View>
-  );
-}
-
-function MeasureSheet({ memberId, value, onClose }: { memberId: string; value: Partial<Measurement> | null; onClose: () => void }) {
-  const { userId } = useSession();
-  const { toast, confirm } = useUi();
-  const { bump } = useVersion();
-  const [f, setF] = useState<Record<string, string>>({});
-  const [busy, setBusy] = useState(false);
-  React.useEffect(() => {
-    if (!value) return;
-    const o: Record<string, string> = { measured_on: value.measured_on || isoDay(new Date()), note: value.note || '' };
-    M_FIELDS.forEach(([k]) => { o[k] = value[k] != null ? fmtNum(value[k] as number, 2) : ''; });
-    setF(o);
-  }, [value]);
-  const save = async () => {
-    const row: any = { member_id: memberId, measured_on: f.measured_on, note: f.note?.trim() || null };
-    let any = false;
-    M_FIELDS.forEach(([k]) => { const n = parseNum(f[k]); row[k] = n; if (n !== null) any = true; });
-    if (!any) return toast('Scrivi almeno una misura.', 'error');
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(f.measured_on || '')) return toast('La data va scritta così: 2026-10-14.', 'error');
-    setBusy(true);
-    try { await api.saveMeasurement(row, userId!); bump(); toast('Misure salvate.'); onClose(); }
-    catch (e) { toast(errText(e), 'error'); } finally { setBusy(false); }
-  };
-  const del = async () => {
-    if (!value?.id) return;
-    if (!(await confirm({ title: 'Eliminare questa misurazione?', confirmLabel: 'Elimina', destructive: true }))) return;
-    try { await api.deleteMeasurement(value.id); bump(); onClose(); } catch (e) { toast(errText(e), 'error'); }
-  };
-  return (
-    <Sheet visible={!!value} onClose={onClose} title={value?.id ? 'Modifica misure' : 'Nuove misure'}
-      footer={<><Button label="Salva" onPress={save} loading={busy} />{value?.id ? <Button label="Elimina" kind="ghost" onPress={del} /> : null}</>}>
-      <Field label="Data" value={f.measured_on} onChangeText={(s) => setF({ ...f, measured_on: s })} hint="Anno-mese-giorno, per esempio 2026-10-14." />
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
-        {M_FIELDS.map(([k, label, unit]) => (
-          <Field key={k} label={label} value={f[k]} onChangeText={(s) => setF({ ...f, [k]: s })} suffix={unit} keyboardType="decimal-pad" style={{ width: '47.5%' }} />
-        ))}
-      </View>
-      <Field label="Note" value={f.note} onChangeText={(s) => setF({ ...f, note: s })} multiline />
-    </Sheet>
   );
 }
 
@@ -428,6 +345,7 @@ function EditProfile({ open, onClose }: { open: boolean; onClose: () => void }) 
 
 export function ProfileTab() {
   const { profile } = useSession();
+  const nav = useNav();
   const staff = useAsync(() => api.staff(), []);
   const trainer = staff.data?.find((s) => s.id === profile?.trainer_id)?.full_name;
   return (
@@ -435,6 +353,14 @@ export function ProfileTab() {
       <View style={{ paddingHorizontal: 16, gap: 14, paddingTop: 4 }}>
         <AccountSection />
         {trainer ? <Group><Row title={trainer} sub="Il tuo personal trainer" left={<Icon name="person-circle-outline" size={26} color="accentInk" />} /></Group> : null}
+        {profile?.role === 'member' ? (
+          <>
+            <Group>
+              <Row title="Come ti piace allenarti" sub="Obiettivo, giorni e orari preferiti" left={<Icon name="options-outline" size={24} color="accentInk" />} chevron onPress={() => nav.push('prefs', { id: profile.id, mine: true })} />
+            </Group>
+            <MyDocuments />
+          </>
+        ) : null}
       </View>
     </Page>
   );

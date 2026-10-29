@@ -11,7 +11,13 @@ import { ThemeProvider, useTheme } from './src/theme';
 import { Button, Empty, Logo, TabBar, TabDef, Txt, UiProvider } from './src/ui';
 import Auth from './src/screens/Auth';
 import ProgramBuilder from './src/screens/builder';
+import { BodyScreen } from './src/screens/body';
+import { CalendarScreen } from './src/screens/calendar';
+import { DocumentsScreen } from './src/screens/docs';
 import { GymTab } from './src/screens/gym';
+import { AnamnesisScreen, PrefsScreen, ReportScreen } from './src/screens/memberData';
+import { AccountScreen, CoursesScreen, GymSettingsScreen, MoreTab, StaffScreen } from './src/screens/more';
+import { PushScreen } from './src/screens/push';
 import { MemberDetail, MembersTab, StaffProvider } from './src/screens/staffMembers';
 import { ProgramsTab } from './src/screens/staffPrograms';
 import { MemberProgressScreen, ProfileTab, ProgramScreen, ProgramTab, ProgressTab, WorkoutDetail } from './src/screens/member';
@@ -27,15 +33,16 @@ const MEMBER_TABS: TabDef[] = [
   { key: 'profilo', label: 'Profilo', icon: 'person-outline', iconOn: 'person' },
 ];
 const STAFF_TABS: TabDef[] = [
+  { key: 'bacheca', label: 'Bacheca', icon: 'speedometer-outline', iconOn: 'speedometer' },
   { key: 'soci', label: 'Soci', icon: 'people-outline', iconOn: 'people' },
   { key: 'schede', label: 'Schede', icon: 'albums-outline', iconOn: 'albums' },
   { key: 'esercizi', label: 'Esercizi', icon: 'barbell-outline', iconOn: 'barbell' },
-  { key: 'palestra', label: 'Palestra', icon: 'speedometer-outline', iconOn: 'speedometer' },
+  { key: 'altro', label: 'Altro', icon: 'ellipsis-horizontal-circle-outline', iconOn: 'ellipsis-horizontal-circle' },
 ];
 
 const ROOTS: Record<string, React.ComponentType> = {
   oggi: Today, scheda: ProgramTab, progressi: ProgressTab, esercizi: Library, profilo: ProfileTab,
-  soci: MembersTab, schede: ProgramsTab, palestra: GymTab,
+  bacheca: GymTab, soci: MembersTab, schede: ProgramsTab, altro: MoreTab,
 };
 
 const SCREENS: Record<string, React.ComponentType<any>> = {
@@ -46,6 +53,17 @@ const SCREENS: Record<string, React.ComponentType<any>> = {
   'workout-detail': WorkoutDetail,
   member: MemberDetail,
   'member-progress': MemberProgressScreen,
+  anamnesis: AnamnesisScreen,
+  prefs: PrefsScreen,
+  report: ReportScreen,
+  body: BodyScreen,
+  documents: DocumentsScreen,
+  courses: CoursesScreen,
+  calendar: CalendarScreen,
+  push: PushScreen,
+  staff: StaffScreen,
+  'gym-settings': GymSettingsScreen,
+  account: AccountScreen,
 };
 
 function Splash() {

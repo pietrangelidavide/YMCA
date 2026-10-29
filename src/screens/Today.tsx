@@ -10,9 +10,18 @@ import { addDays, ago, fmtDateLong, greeting, isoDay, parseDay, sameDay, startOf
 
 // durata stimata dell'allenamento in minuti (40 s a serie + recuperi), arrotondata a 5
 export function estimateMinutes(d: Day) {
-  const sec = d.items.reduce((a, i) => a + i.sets * 40 + Math.max(0, i.sets - 1) * i.rest_sec, 0);
+  const sec = d.items.reduce((a, i) => {
+    const kind = i.kind || 'exercise';
+    if (kind === 'rest') return a + i.rest_sec;
+    if (kind === 'lesson') return a + (i.course?.duration_min || 45) * 60;
+    if (kind === 'technique') return a;
+    return a + i.sets * 40 + Math.max(0, i.sets - 1) * i.rest_sec;
+  }, 0);
   return Math.max(10, Math.round(sec / 300) * 5);
 }
+
+// solo le voci che sono esercizi: sono quelle che il socio registra serie per serie
+export const exerciseItems = (d: Day) => d.items.filter((i) => (i.kind || 'exercise') === 'exercise' && i.exercise);
 
 export function dayIndexOf(program: Program, w?: Pick<WorkoutRow, 'day_id' | 'day_name'> | null): number {
   if (!w) return -1;
@@ -142,16 +151,16 @@ function NextCard({ program, idx, onStart }: { program: Program; idx: number; on
           {day.focus ? <Text style={{ color: p.on, fontSize: 17, fontWeight: '500', opacity: 0.9 }}>{day.focus}</Text> : null}
         </View>
         <View style={{ alignItems: 'flex-end' }}>
-          <Text style={{ color: p.on, fontSize: 26, fontWeight: '800', fontVariant: ['tabular-nums'] as any }}>{day.items.length}</Text>
-          <Text style={{ color: sub, fontSize: 13 }}>esercizi</Text>
+          <Text style={{ color: p.on, fontSize: 26, fontWeight: '800', fontVariant: ['tabular-nums'] as any }}>{exerciseItems(day).length}</Text>
+          <Text style={{ color: sub, fontSize: 13 }}>{exerciseItems(day).length === 1 ? 'esercizio' : 'esercizi'}</Text>
           <Text style={{ color: sub, fontSize: 13 }}>~{estimateMinutes(day)} min</Text>
         </View>
       </View>
       <View style={{ gap: 4 }}>
-        {day.items.slice(0, 4).map((it, i) => (
-          <Text key={i} numberOfLines={1} style={{ color: p.on, fontSize: 15.5, opacity: 0.95 }}>{it.exercise.name}<Text style={{ opacity: 0.7 }}>  {it.sets}×{it.reps}</Text></Text>
+        {exerciseItems(day).slice(0, 4).map((it, i) => (
+          <Text key={i} numberOfLines={1} style={{ color: p.on, fontSize: 15.5, opacity: 0.95 }}>{it.exercise!.name}<Text style={{ opacity: 0.7 }}>  {it.sets}×{it.reps}</Text></Text>
         ))}
-        {day.items.length > 4 ? <Text style={{ color: sub, fontSize: 14 }}>e altri {day.items.length - 4}</Text> : null}
+        {exerciseItems(day).length > 4 ? <Text style={{ color: sub, fontSize: 14 }}>e altri {exerciseItems(day).length - 4}</Text> : null}
       </View>
       <Pressable accessibilityLabel={`Inizia ${day.name}`} onPress={onStart} style={({ pressed }: any) => ({ height: 54, borderRadius: 16, backgroundColor: dark ? '#fff' : '#111114', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 8, opacity: pressed ? 0.8 : 1 })}>
         <Icon name="play" size={20} color={dark ? '#111114' : '#fff'} />

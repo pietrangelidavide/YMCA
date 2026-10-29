@@ -113,8 +113,8 @@ export function Avatar({ name, size = 44 }: { name?: string | null; size?: numbe
 
 // ───────── Campi di testo ─────────
 
-export function Field({ label, value, onChangeText, placeholder, secure, multiline, keyboardType, suffix, autoCapitalize, style, inputStyle, align, editable = true, hint }: {
-  label?: string; value?: string; onChangeText?: (s: string) => void; placeholder?: string; secure?: boolean; multiline?: boolean; keyboardType?: any; suffix?: string; autoCapitalize?: any; style?: any; inputStyle?: any; align?: 'left' | 'center' | 'right'; editable?: boolean; hint?: string;
+export function Field({ label, value, onChangeText, placeholder, secure, multiline, keyboardType, suffix, autoCapitalize, style, inputStyle, align, editable = true, hint, maxLength }: {
+  label?: string; value?: string; onChangeText?: (s: string) => void; placeholder?: string; secure?: boolean; multiline?: boolean; keyboardType?: any; suffix?: string; autoCapitalize?: any; style?: any; inputStyle?: any; align?: 'left' | 'center' | 'right'; editable?: boolean; hint?: string; maxLength?: number;
 }) {
   const { t } = useTheme();
   return (
@@ -130,6 +130,7 @@ export function Field({ label, value, onChangeText, placeholder, secure, multili
           secureTextEntry={secure}
           multiline={multiline}
           editable={editable}
+          maxLength={maxLength}
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize ?? (secure || keyboardType === 'email-address' ? 'none' : 'sentences')}
           autoCorrect={false}
@@ -139,6 +140,17 @@ export function Field({ label, value, onChangeText, placeholder, secure, multili
       </View>
       {hint ? <Text style={{ color: t.faint, fontSize: 12.5, marginLeft: 4 }}>{hint}</Text> : null}
     </View>
+  );
+}
+
+// Interruttore sì/no
+export function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
+  const { t } = useTheme();
+  return (
+    <Pressable accessibilityRole="switch" accessibilityState={{ checked: value }} accessibilityLabel={label} onPress={() => onChange(!value)} hitSlop={8}
+      style={{ width: 50, height: 30, borderRadius: 15, backgroundColor: value ? t.accent : t.card2, justifyContent: 'center', padding: 3 }}>
+      <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: value ? t.onAccent : t.faint, alignSelf: value ? 'flex-end' : 'flex-start' }} />
+    </Pressable>
   );
 }
 

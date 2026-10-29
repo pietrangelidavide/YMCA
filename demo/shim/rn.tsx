@@ -189,10 +189,10 @@ export const Image = React.forwardRef<any, any>(function Image({ source, style, 
   const fit = ({ cover: 'cover', contain: 'contain', stretch: 'fill', center: 'none' } as any)[resizeMode || st.resizeMode || 'cover'];
   return <img ref={ref} src={src} alt="" draggable={false} style={{ ...BASE, display: 'block', objectFit: fit, ...toCss(style) }} />;
 });
-export function TextInput({ style, value, onChangeText, placeholder, placeholderTextColor, secureTextEntry, multiline, editable, keyboardType, ...rest }: any) {
+export function TextInput({ style, value, onChangeText, placeholder, placeholderTextColor, secureTextEntry, multiline, editable, keyboardType, maxLength, ...rest }: any) {
   const css: any = { ...BASE, ...toCss(style), font: 'inherit', fontFamily: "Inter, system-ui, sans-serif", fontSize: flatten(style).fontSize ?? 14, background: flatten(style).backgroundColor ?? 'transparent', outline: 'none', resize: 'none', color: flatten(style).color ?? '#000', ['--ph' as any]: placeholderTextColor || '#999' };
   const P: any = multiline ? 'textarea' : 'input';
-  return <P className="rn-input" style={css} value={value ?? ''} placeholder={placeholder} type={secureTextEntry ? 'password' : 'text'} disabled={editable === false} onChange={(e: any) => onChangeText?.(e.target.value)} />;
+  return <P className="rn-input" style={css} value={value ?? ''} placeholder={placeholder} type={secureTextEntry ? 'password' : 'text'} disabled={editable === false} maxLength={maxLength} onChange={(e: any) => onChangeText?.(e.target.value)} />;
 }
 export function ActivityIndicator({ color = '#888', size, style }: any) {
   const d = size === 'small' ? 18 : 26;
@@ -205,7 +205,28 @@ export function Modal({ visible, children, transparent }: any) {
   return createPortal(<div style={{ ...BASE, position: 'absolute', inset: 0, zIndex: 50, background: transparent ? 'transparent' : undefined }}>{children}</div>, host);
 }
 export const Alert: any = { alert: (t: string, m?: string, b?: any[]) => { (window as any).__alerts = [...((window as any).__alerts || []), [t, m]]; console.log('ALERT', t, m); } };
-export const Linking: any = { openURL: (u: string) => { (window as any).__opened = [...((window as any).__opened || []), u]; return Promise.resolve(); } };
+export const Linking: any = {
+  openURL: (u: string) => {
+    (window as any).__opened = [...((window as any).__opened || []), u];
+    if (/^(blob:|https?:)/.test(u)) { try { window.open(u, '_blank'); } catch { /* popup bloccato */ } }
+    return Promise.resolve();
+  },
+};
+// «Condividi»: sul telefono apre il pannello del sistema; qui scarica il CSV oppure copia il testo negli appunti
+export const Share: any = {
+  share: async ({ title, message }: { title?: string; message: string }) => {
+    (window as any).__shared = [...((window as any).__shared || []), { title, message }];
+    if (title && /\.csv$/i.test(title)) {
+      const url = URL.createObjectURL(new Blob([message], { type: 'text/csv;charset=utf-8' }));
+      const a = document.createElement('a');
+      a.href = url; a.download = title; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    } else {
+      try { await navigator.clipboard.writeText(message); } catch { /* appunti non disponibili */ }
+    }
+    return { action: 'sharedAction' };
+  },
+};
 export const AccessibilityInfo: any = { isReduceMotionEnabled: () => Promise.resolve(false) };
 export function useColorScheme() { const t = Q.get('theme'); if (t) return t; return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; }
 export function useWindowDimensions() { const [d, set] = useState(() => dims()); useEffect(() => { const f = () => set(dims()); window.addEventListener('resize', f); return () => window.removeEventListener('resize', f); }, []); return d; }

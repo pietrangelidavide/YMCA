@@ -8,6 +8,7 @@ import { NUM, plate, useTheme } from '../theme';
 import { Button, Chip, Field, Icon, Page, Pill, Sheet, Spinner, Txt, useUi } from '../ui';
 import { fmtClock, fmtNum, fmtRest, firstReps, loadNumber, parseNum, uuid } from '../util';
 import { ExerciseTile } from './shared';
+import { exerciseItems } from './Today';
 
 type SetRow = DraftWorkout['sets'][number];
 
@@ -24,7 +25,7 @@ export default function Workout({ dayIndex }: { dayIndex: number }) {
     const program = await api.activeProgram();
     if (!program) return null;
     const day = program.days[dayIndex];
-    const ids = [...new Set(day.items.map((i) => i.exercise_id))];
+    const ids = [...new Set(exerciseItems(day).map((i) => i.exercise_id!))];
     const [last, progress, draft] = await Promise.all([api.lastSets(ids), api.progress(), loadDraft()]);
     return { program, day, last, progress, draft };
   }, [dayIndex]);
@@ -46,13 +47,13 @@ function Session({ program, day, last, progress, draft, dayIndex }: { program: a
   const initial = useMemo<DraftWorkout>(() => {
     if (draft && draft.program_id === program.id && draft.day_name === day.name) return draft;
     const sets: SetRow[] = [];
-    (day.items as Item[]).forEach((it) => {
+    exerciseItems(day).forEach((it) => {
       const prev = last.filter((l) => l.exercise_id === it.exercise_id);
       for (let n = 1; n <= it.sets; n++) {
         const ref = prev.find((l) => l.set_no === n) || prev[prev.length - 1];
         const kg = ref?.weight_kg ?? loadNumber(it.load_hint);
         const reps = ref?.reps ?? firstReps(it.reps);
-        sets.push({ key: `${it.id}:${n}`, item_id: it.id!, exercise_id: it.exercise_id, set_no: n, kg: kg ? fmtNum(kg, 2) : '', reps: reps ? String(reps) : '', done: false });
+        sets.push({ key: `${it.id}:${n}`, item_id: it.id!, exercise_id: it.exercise_id!, set_no: n, kg: kg ? fmtNum(kg, 2) : '', reps: reps ? String(reps) : '', done: false });
       }
     });
     return { id: uuid(), program_id: program.id, day_id: day.id ?? null, day_name: day.name, started_at: new Date().toISOString(), sets };
@@ -80,14 +81,14 @@ function Session({ program, day, last, progress, draft, dayIndex }: { program: a
   const addSet = (it: Item) => setW((s) => {
     const mine = s.sets.filter((r) => r.item_id === it.id);
     const lastRow = mine[mine.length - 1];
-    const row: SetRow = { key: `${it.id}:${mine.length + 1}:x${Date.now()}`, item_id: it.id!, exercise_id: it.exercise_id, set_no: mine.length + 1, kg: lastRow?.kg ?? '', reps: lastRow?.reps ?? '', done: false };
+    const row: SetRow = { key: `${it.id}:${mine.length + 1}:x${Date.now()}`, item_id: it.id!, exercise_id: it.exercise_id!, set_no: mine.length + 1, kg: lastRow?.kg ?? '', reps: lastRow?.reps ?? '', done: false };
     const idx = s.sets.lastIndexOf(lastRow);
     const sets = [...s.sets]; sets.splice(idx + 1, 0, row);
     return { ...s, sets };
   });
   const toggle = (it: Item, r: SetRow) => {
     set(r.key, { done: !r.done });
-    if (!r.done && it.rest_sec > 0) setRest({ until: Date.now() + it.rest_sec * 1000, total: it.rest_sec, name: it.exercise.name });
+    if (!r.done && it.rest_sec > 0) setRest({ until: Date.now() + it.rest_sec * 1000, total: it.rest_sec, name: it.exercise!.name });
     if (r.done) setRest(null);
   };
 
@@ -131,7 +132,7 @@ function Session({ program, day, last, progress, draft, dayIndex }: { program: a
       done.forEach((r) => byEx.set(r.exercise_id, Math.max(byEx.get(r.exercise_id) || 0, parseNum(r.kg) || 0)));
       byEx.forEach((kg, ex) => {
         const pr = progress.find((x) => x.exercise_id === ex);
-        if (pr && pr.pr_weight > 0 && kg > pr.pr_weight) records.push(`${(day.items as Item[]).find((i) => i.exercise_id === ex)?.exercise.name}: ${fmtNum(kg, 2)} kg`);
+        if (pr && pr.pr_weight > 0 && kg > pr.pr_weight) records.push(`${exerciseItems(day).find((i) => i.exercise_id === ex)?.exercise!.name}: ${fmtNum(kg, 2)} kg`);
       });
       setFinishing(false);
       setResult({ minutes: Math.max(1, Math.round((finished.getTime() - new Date(w.started_at).getTime()) / 60000)), sets: done.length, volume: volume(done), records, queued: !saved });
@@ -159,7 +160,7 @@ function Session({ program, day, last, progress, draft, dayIndex }: { program: a
       }>
       <View style={{ paddingHorizontal: 16, gap: 14, paddingTop: 4 }}>
         {day.focus ? <Text style={{ color: t.sub, fontSize: 15 }}>{day.focus}</Text> : null}
-        {items.map((it) => (
+        {items.map((it) => (it.kind || 'exercise') !== 'exercise' || !it.exercise ? <InfoCard key={it.id} it={it} /> : (
           <ExerciseCard key={it.id} it={it} rows={w.sets.filter((r) => r.item_id === it.id)} last={last.filter((l) => l.exercise_id === it.exercise_id)} color={p.c}
             onSet={set} onToggle={(r) => toggle(it, r)} onAdd={() => addSet(it)} onOpen={() => nav.push('exercise', { id: it.exercise_id })} />
         ))}
@@ -183,14 +184,15 @@ function ExerciseCard({ it, rows, last, color, onSet, onToggle, onAdd, onOpen }:
   it: Item; rows: SetRow[]; last: any[]; color: string; onSet: (k: string, p: Partial<SetRow>) => void; onToggle: (r: SetRow) => void; onAdd: () => void; onOpen: () => void;
 }) {
   const { t } = useTheme();
+  const ex = it.exercise!;
   const allDone = rows.length > 0 && rows.every((r) => r.done);
   const prev = last.length ? last.map((l) => `${l.weight_kg ? fmtNum(l.weight_kg, 2) : '–'}×${l.reps ?? '–'}`).join('  ') : '';
   return (
     <View style={{ backgroundColor: t.card, borderRadius: 22, padding: 14, gap: 12, opacity: allDone ? 0.78 : 1 }}>
-      <Pressable accessibilityLabel={`Apri ${it.exercise.name}`} onPress={onOpen} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-        <ExerciseTile e={it.exercise} size={46} />
+      <Pressable accessibilityLabel={`Apri ${ex.name}`} onPress={onOpen} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+        <ExerciseTile e={ex} size={46} />
         <View style={{ flex: 1, gap: 2 }}>
-          <Text numberOfLines={2} style={{ color: t.text, fontSize: 17.5, fontWeight: '700', letterSpacing: -0.2 }}>{it.exercise.name}</Text>
+          <Text numberOfLines={2} style={{ color: t.text, fontSize: 17.5, fontWeight: '700', letterSpacing: -0.2 }}>{ex.name}</Text>
           <Text style={{ color: t.sub, fontSize: 14 }}>{it.sets} × {it.reps}{it.load_hint ? ` · ${it.load_hint}` : ''} · rec. {fmtRest(it.rest_sec)}</Text>
         </View>
         {it.superset ? <View style={{ width: 26, height: 26, borderRadius: 13, backgroundColor: t.accentSoft, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: t.accentInk, fontSize: 13, fontWeight: '800' }}>{it.superset}</Text></View> : null}
@@ -212,17 +214,33 @@ function ExerciseCard({ it, rows, last, color, onSet, onToggle, onAdd, onOpen }:
             <View style={{ width: 26, height: 26, borderRadius: 13, backgroundColor: r.done ? color : t.card2, alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ color: r.done ? '#fff' : t.sub, fontSize: 13, fontWeight: '700' }}>{i + 1}</Text>
             </View>
-            <NumInput value={r.kg} onChange={(kg) => onSet(r.key, { kg: clean(kg) })} label={`Chilogrammi serie ${i + 1} ${it.exercise.name}`} placeholder="–" />
-            <NumInput value={r.reps} onChange={(reps) => onSet(r.key, { reps: clean(reps).replace(/[.,]/g, '') })} label={`Ripetizioni serie ${i + 1} ${it.exercise.name}`} placeholder="–" />
+            <NumInput value={r.kg} onChange={(kg) => onSet(r.key, { kg: clean(kg) })} label={`Chilogrammi serie ${i + 1} ${ex.name}`} placeholder="–" />
+            <NumInput value={r.reps} onChange={(reps) => onSet(r.key, { reps: clean(reps).replace(/[.,]/g, '') })} label={`Ripetizioni serie ${i + 1} ${ex.name}`} placeholder="–" />
             <Pressable accessibilityLabel={r.done ? `Serie ${i + 1} fatta, tocca per annullare` : `Segna serie ${i + 1} come fatta`} onPress={() => onToggle(r)}
               style={({ pressed }: any) => ({ width: 52, height: 46, borderRadius: 14, backgroundColor: r.done ? t.ok : t.card2, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.7 : 1 })}>
               <Icon name="checkmark" size={26} color={r.done ? '#fff' : 'faint'} />
             </Pressable>
           </View>
         ))}
-        <Pressable accessibilityLabel={`Aggiungi una serie a ${it.exercise.name}`} onPress={onAdd} style={{ height: 38, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 }}>
+        <Pressable accessibilityLabel={`Aggiungi una serie a ${ex.name}`} onPress={onAdd} style={{ height: 38, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 }}>
           <Icon name="add" size={18} color="accentInk" /><Text style={{ color: t.accentInk, fontSize: 15, fontWeight: '600' }}>Aggiungi serie</Text>
         </Pressable>
+      </View>
+    </View>
+  );
+}
+
+// Tecnica, lezione o riposo della scheda: si leggono, non si registrano
+function InfoCard({ it }: { it: Item }) {
+  const { t } = useTheme();
+  const meta = it.kind === 'lesson' ? { icon: 'people', label: 'Lezione' } : it.kind === 'rest' ? { icon: 'cafe', label: 'Riposo' } : { icon: 'flash', label: 'Tecnica' };
+  return (
+    <View style={{ flexDirection: 'row', gap: 12, backgroundColor: t.card, borderRadius: 18, padding: 14, borderLeftWidth: 4, borderLeftColor: t.accent }}>
+      <View style={{ width: 40, height: 40, borderRadius: 11, backgroundColor: t.accentSoft, alignItems: 'center', justifyContent: 'center' }}><Icon name={meta.icon} size={21} color="accentInk" /></View>
+      <View style={{ flex: 1, gap: 2 }}>
+        <Text style={{ color: t.accentInk, fontSize: 12.5, fontWeight: '700' }}>{meta.label}{it.kind === 'rest' && it.rest_sec ? ` · ${fmtRest(it.rest_sec)}` : it.kind === 'lesson' && it.course?.duration_min ? ` · ${it.course.duration_min} min` : ''}</Text>
+        <Text style={{ color: t.text, fontSize: 16.5, fontWeight: '600' }}>{it.title || it.course?.name || meta.label}</Text>
+        {it.note ? <Text style={{ color: t.sub, fontSize: 14.5, lineHeight: 20 }}>{it.note}</Text> : null}
       </View>
     </View>
   );

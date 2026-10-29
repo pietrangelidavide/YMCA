@@ -37,7 +37,16 @@
           }
         }
       ],
-      "expo-notifications"
+      "expo-notifications",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "L'app usa le tue foto solo per aggiungere l'immagine di un esercizio.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      "expo-document-picker"
     ],
     "backgroundColor": "#0A0A0B"
   }

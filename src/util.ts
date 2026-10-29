@@ -31,6 +31,10 @@ export const parseDay = (s: string) => { const [y, m, d] = s.slice(0, 10).split(
 export const fmtDate = (d: Date | string) => { const x = typeof d === 'string' ? new Date(d) : d; return `${x.getDate()} ${MESI[x.getMonth()]}`; };
 export const fmtDateLong = (d: Date | string) => { const x = typeof d === 'string' ? new Date(d) : d; return `${GIORNI_LUNGHI[x.getDay()]} ${x.getDate()} ${MESI_LUNGHI[x.getMonth()]}`; };
 export const fmtDateShortY = (d: Date | string) => { const x = typeof d === 'string' ? (d.length === 10 ? parseDay(d) : new Date(d)) : d; return `${x.getDate()} ${MESI[x.getMonth()]} ${x.getFullYear()}`; };
+// «ott 26» per i grafici mensili
+export const fmtMonthShort = (d: Date | string) => { const x = typeof d === 'string' ? parseDay(d) : d; return `${MESI[x.getMonth()]} ${String(x.getFullYear()).slice(2)}`; };
+export const fmtMonthLong = (d: Date) => `${MESI_LUNGHI[d.getMonth()]} ${d.getFullYear()}`;
+export const isDayStr = (s?: string | null) => !!s && /^\d{4}-\d{2}-\d{2}$/.test(s) && !Number.isNaN(parseDay(s).getTime());
 export const fmtWeekday = (d: Date | string) => { const x = typeof d === 'string' ? new Date(d) : d; return GIORNI[x.getDay()]; };
 export const fmtTime = (d: Date | string) => { const x = typeof d === 'string' ? new Date(d) : d; return `${String(x.getHours()).padStart(2, '0')}:${String(x.getMinutes()).padStart(2, '0')}`; };
 
@@ -68,6 +72,7 @@ export function fmtNum(n: number | null | undefined, max = 1): string {
   const r = Math.round(n * 10 ** max) / 10 ** max;
   return String(r).replace('.', ',');
 }
+export const fmtSize = (b?: number | null) => (!b ? '' : b < 1024 * 1024 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${fmtNum(b / 1048576, 1)} MB`);
 export const fmtKg = (n: number | null | undefined) => (n ? `${fmtNum(n, 2)} kg` : 'corpo libero');
 
 // "10" o "8-10" -> prima cifra (per proporre le ripetizioni); "30 sec" -> null
@@ -83,11 +88,68 @@ export function loadNumber(hint?: string | null): number | null {
 
 export const initials = (name?: string | null) => (name || '?').split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p[0]!.toUpperCase()).join('') || '?';
 
+// Categorie muscolari (stessi valori del database, vedi supabase/update_1_1.sql)
 export const MUSCLE: Record<string, string> = {
-  petto: 'Petto', schiena: 'Schiena', spalle: 'Spalle', bicipiti: 'Bicipiti', tricipiti: 'Tricipiti', gambe: 'Gambe',
-  glutei: 'Glutei', polpacci: 'Polpacci', addome: 'Addome', cardio: 'Cardio', total_body: 'Total body', mobilita: 'Mobilità',
+  petto: 'Pettorali', schiena: 'Dorsali', spalle: 'Spalle', trapezi: 'Trapezi', bicipiti: 'Bicipiti', tricipiti: 'Tricipiti', avambracci: 'Avambracci',
+  quadricipiti: 'Quadricipiti', femorali: 'Femorali', glutei: 'Glutei', adduttori: 'Adduttori', abduttori: 'Abduttori', polpacci: 'Polpacci',
+  addome: 'Addominali', lombari: 'Lombari', cardio: 'Cardio', total_body: 'Total body', mobilita: 'Mobilità',
 };
 export const MUSCLE_KEYS = Object.keys(MUSCLE);
+export const muscleLabel = (g?: string | null) => (g && MUSCLE[g]) || g || '';
+
+// Categorie degli esercizi (che tipo di lavoro è, a prescindere dal muscolo)
+export const CATEGORY: Record<string, string> = {
+  forza: 'Forza', funzionale: 'Funzionale', pliometria: 'Pliometria', cardio: 'Cardio', mobilita: 'Mobilità', stretching: 'Stretching',
+};
+export const CATEGORY_KEYS = Object.keys(CATEGORY);
+// «senza attrezzo» = corpo libero oppure nessun attrezzo indicato
+export const noEquipment = (equipment?: string | null) => !equipment || /^corpo libero$/i.test(equipment.trim());
+
+// Dati delle schede
+export const OBJECTIVE: Record<string, string> = {
+  mantenimento: 'Mantenimento', forza: 'Aumento forza', dimagrimento: 'Dimagrimento', massa: 'Aumento massa', definizione: 'Definizione', tonificazione: 'Tonificazione',
+};
+export const OBJECTIVE_KEYS = Object.keys(OBJECTIVE);
+export const LEVEL: Record<string, string> = { facile: 'Facile', medio: 'Medio', avanzato: 'Avanzato' };
+export const LEVEL_KEYS = Object.keys(LEVEL);
+export const TARGET: Record<string, string> = { tutti: 'Uomo e donna', uomo: 'Uomo', donna: 'Donna' };
+export const TARGET_KEYS = Object.keys(TARGET);
+
+// Età in anni compiuti da una data di nascita «2000-05-17»
+export function ageOf(birth?: string | null, now = new Date()): number | null {
+  if (!birth) return null;
+  const b = parseDay(birth);
+  let a = now.getFullYear() - b.getFullYear();
+  if (now.getMonth() < b.getMonth() || (now.getMonth() === b.getMonth() && now.getDate() < b.getDate())) a--;
+  return a >= 0 && a < 120 ? a : null;
+}
+
+// Indice di massa corporea
+export const bmi = (kg?: number | null, cm?: number | null) => (kg && cm ? kg / ((cm / 100) ** 2) : null);
+
+// Percentuale di grasso dalle pliche: Jackson-Pollock a 3 punti + equazione di Siri.
+// Uomo: petto, addome, coscia. Donna: tricipite, soprailiaca, coscia (millimetri).
+export const SKINFOLD_SITES: Record<'m' | 'f', [string, string][]> = {
+  m: [['chest_mm', 'Petto'], ['abdominal_mm', 'Addome'], ['thigh_mm', 'Coscia']],
+  f: [['triceps_mm', 'Tricipite'], ['suprailiac_mm', 'Soprailiaca'], ['thigh_mm', 'Coscia']],
+};
+export function jacksonPollock3(sex: 'm' | 'f' | null | undefined, age: number | null, folds: Record<string, number | null | undefined>): { bf: number; density: number } | null {
+  if (!sex || age === null) return null;
+  const sites = SKINFOLD_SITES[sex].map(([k]) => folds[k]);
+  if (sites.some((v) => v === null || v === undefined || !(v > 0))) return null;
+  const s = (sites as number[]).reduce((a, b) => a + b, 0);
+  const density = sex === 'm'
+    ? 1.10938 - 0.0008267 * s + 0.0000016 * s * s - 0.0002574 * age
+    : 1.0994921 - 0.0009929 * s + 0.0000023 * s * s - 0.0001392 * age;
+  const bf = 495 / density - 450;
+  return bf > 1 && bf < 70 ? { bf: Math.round(bf * 10) / 10, density } : null;
+}
+
+// Tabella per Excel italiano: separatore «;» e segno di codifica all'inizio
+export function toCsv(rows: (string | number | null | undefined)[][]): string {
+  const cell = (v: any) => { const s = v === null || v === undefined ? '' : String(v); return /[";\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  return '﻿' + rows.map((r) => r.map(cell).join(';')).join('\r\n');
+}
 
 // parole chiave per cercare senza badare a maiuscole e accenti
 export const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
