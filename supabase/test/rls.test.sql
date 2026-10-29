@@ -45,7 +45,7 @@ end $$;
 -- 2. esercizi
 do $$ declare n int; begin
   perform t_as('00000000-0000-0000-0000-0000000000b1');
-  select count(*) into n from exercises; assert n >= 70, 'il socio legge il catalogo';
+  select count(*) into n from exercises; assert n >= 600, 'il socio legge il catalogo';
   assert t_fails($q$ insert into exercises (name, muscle_group) values ('Mio esercizio','petto') $q$), 'il socio non crea esercizi';
 end $$;
 do $$ begin
@@ -446,6 +446,71 @@ do $$ declare r jsonb; before_n int; begin
   assert t_fails($q$ insert into push_announcements (title, body, audience) values ('a', 'b', 'all') $q$), 'gli avvisi si creano solo con send_announcement';
 end $$;
 
+-- 10d. archivio esercizi 1.2: illustrazioni e nessun doppione
+do $$ declare n int; begin
+  perform t_as('00000000-0000-0000-0000-0000000000b1');
+  select count(*) into n from exercises where library_image is not null; assert n >= 250, 'illustrazioni di libreria presenti';
+  assert (select library_image from exercises where name = 'Panca piana con bilanciere') = '0042', 'illustrazione della panca piana';
+  assert (select count(*) from exercises where library_image is not null and library_image !~ '^[0-9]{4}$') = 0, 'codici a 4 cifre';
+  assert (select count(*) from (select lower(name) from exercises group by 1 having count(*) > 1) d) = 0, 'nessun nome doppio';
+  assert (program_json((select id from programs where member_id = auth.uid() limit 1))->'days'->0->'items'->0->'exercise' ? 'library_image'), 'la scheda porta il codice dell''illustrazione';
+end $$;
+do $$ begin
+  perform t_as('00000000-0000-0000-0000-0000000000a2');
+  assert t_fails($q$ update exercises set library_image = 'abc' where name = 'Plank' $q$), 'codice illustrazione non valido';
+end $$;
+
+-- 10e. classifica delle tonnellate
+do $$ declare r jsonb; begin
+  perform t_as('00000000-0000-0000-0000-0000000000b2');
+  -- Bob si allena: 10 x 100 kg = 1 t adesso e 5 x 100 kg più di un anno fa
+  perform save_workout(jsonb_build_object('id', gen_random_uuid(), 'day_name', 'Libero', 'started_at', now() - interval '3 hours',
+     'sets', jsonb_build_array(jsonb_build_object('exercise_id', (select id from exercises where name = 'Leg press'), 'set_no', 1, 'reps', 10, 'weight_kg', 100),
+                               jsonb_build_object('exercise_id', (select id from exercises where name = 'Plank'), 'set_no', 1, 'reps', 30, 'weight_kg', null))));
+  perform save_workout(jsonb_build_object('id', gen_random_uuid(), 'day_name', 'Vecchio', 'started_at', now() - interval '400 days',
+     'sets', jsonb_build_array(jsonb_build_object('exercise_id', (select id from exercises where name = 'Leg press'), 'set_no', 1, 'reps', 5, 'weight_kg', 100))));
+  r := leaderboard();
+  assert (r->>'participants')::int = 0 and jsonb_array_length(r->'rows') = 0, 'all''inizio nessuno partecipa';
+  assert (r->'me'->>'opt_in')::boolean = false and (r->'me'->>'kg')::numeric = 1500 and (r->'me'->>'kg_all')::numeric = 1500, 'Bob vede le proprie tonnellate (la serie senza carico vale zero)';
+  assert (r->'me'->>'rank') is null, 'ma senza aderire non è in classifica';
+  assert (set_leaderboard(true)) = true, 'Bob aderisce';
+  r := leaderboard();
+  assert (r->>'participants')::int = 1 and (r->'rows'->0->>'name') = 'Bob N.' and (r->'rows'->0->>'kg')::numeric = 1500, 'Bob compare con nome e iniziale';
+  assert (r->'rows'->0->>'is_me')::boolean and (r->'rows'->0->>'id') is not null, 'Bob riconosce la propria riga';
+  assert (leaderboard('year')->'rows'->0->>'kg')::numeric = 1000, 'quest''anno: solo l''allenamento recente';
+  assert (leaderboard('week')->>'ranked')::int in (0, 1), 'periodo settimana valido';
+  assert t_fails($q$ select leaderboard('decade') $q$), 'periodo non valido';
+end $$;
+do $$ declare r jsonb; begin
+  perform t_as('00000000-0000-0000-0000-0000000000b1');
+  r := leaderboard();
+  assert (r->'rows'->0->>'name') = 'Bob N.' and (r->'rows'->0->>'id') is null, 'Alice vede Bob senza il suo identificativo';
+  assert (r->'me'->>'opt_in')::boolean = false and (r->'me'->>'kg')::numeric = 1307.5, 'Alice: 8x60 + 7x62,5 + 6x65 = 1307,5 kg, ma non partecipa';
+  assert jsonb_array_length(r->'rows') = 1, 'Alice non compare finché non aderisce';
+  perform set_leaderboard(true);
+  r := leaderboard();
+  assert jsonb_array_length(r->'rows') = 2 and (r->'rows'->0->>'name') = 'Bob N.' and (r->'rows'->1->>'name') = 'Alice V.', 'classifica: Bob 1500, Alice 1307,5';
+  assert (r->'rows'->1->>'rank')::int = 2 and (r->'me'->>'rank')::int = 2, 'Alice seconda';
+  assert (r->>'total_kg')::numeric = 2807.5 and (r->>'participants')::int = 2, 'totale dei partecipanti';
+  perform save_workout(jsonb_build_object('id', gen_random_uuid(), 'day_name', 'Sorpasso', 'started_at', now() - interval '30 minutes',
+     'sets', jsonb_build_array(jsonb_build_object('exercise_id', (select id from exercises where name = 'Leg press'), 'set_no', 1, 'reps', 10, 'weight_kg', 100))));
+  r := leaderboard();
+  assert (r->'rows'->0->>'name') = 'Alice V.' and (r->'me'->>'rank')::int = 1, 'Alice supera Bob';
+  perform set_leaderboard(false);
+  assert jsonb_array_length(leaderboard()->'rows') = 1, 'Alice esce dalla classifica';
+end $$;
+do $$ declare r jsonb; begin
+  perform t_as('00000000-0000-0000-0000-0000000000a2');
+  r := leaderboard();
+  assert (r->'rows'->0->>'name') = 'Bob Neri' and (r->'rows'->0->>'id') is not null, 'il PT vede nome completo e identificativo';
+  assert t_fails($q$ select set_leaderboard(true) $q$), 'lo staff non partecipa alla classifica';
+end $$;
+do $$ begin
+  perform set_config('request.jwt.claim.sub', '', true); execute 'set local role anon';
+  assert t_fails($q$ select leaderboard() $q$), 'senza accesso niente classifica';
+  assert t_fails($q$ select set_leaderboard(true) $q$), 'né adesione';
+end $$;
+
 -- 11. eliminazione account
 do $$ begin
   perform t_as('00000000-0000-0000-0000-0000000000b1');
@@ -456,7 +521,7 @@ do $$ begin
   assert (select count(*) from workouts where member_id = '00000000-0000-0000-0000-0000000000b1') = 0, 'e i suoi allenamenti';
   assert (select count(*) from programs where member_id = '00000000-0000-0000-0000-0000000000b1') = 0, 'e le sue schede';
   assert (select count(*) from program_comments) = 0, 'e i messaggi legati alle sue schede';
-  assert (select count(*) from exercises) >= 70, 'il catalogo resta';
+  assert (select count(*) from exercises) >= 600, 'il catalogo resta';
   assert (select count(*) from anamnesis) = 0 and (select count(*) from training_prefs) = 0 and (select count(*) from skinfolds) = 0
      and (select count(*) from bia_scans) = 0 and (select count(*) from document_members) = 0 and (select count(*) from activities where member_id is not null) = 0,
      'e anamnesi, preferenze, plicometria, BIA, assegnazioni ai documenti e appuntamenti';

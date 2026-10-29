@@ -1,6 +1,7 @@
 // Pezzi usati sia dal socio sia dallo staff: archivio esercizi, scheda dell'esercizio, scelta esercizi, messaggi.
 import React, { useMemo, useState } from 'react';
 import { Image, Linking, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { EXERCISE_IMAGES } from '../exerciseImages';
 import { api, Comment, Exercise, ExerciseLite, errText, useAsync, useExercises } from '../data';
 import { Picked, pickImage, publicUrl, removeFile, uploadFile } from '../files';
 import { useNav, useVersion } from '../nav';
@@ -8,6 +9,10 @@ import { useSession } from '../session';
 import { Theme, TYPE, useTheme } from '../theme';
 import { Button, Chip, Empty, ErrorState, Field, Group, Icon, Page, Pill, Row, SectionTitle, Segmented, Sheet, Spinner, Txt, BarChart, IconButton, useUi } from '../ui';
 import { ago, CATEGORY, CATEGORY_KEYS, fmtDate, fmtNum, MUSCLE, MUSCLE_KEYS, muscleLabel, noEquipment, norm, uuid, youtubeId } from '../util';
+
+// Crediti delle illustrazioni di libreria (obbligo di attribuzione della licenza CC BY-SA)
+export const ILLUSTRATIONS_URL = 'https://everkinetic.com';
+export const ILLUSTRATIONS_CREDIT = 'Illustrazioni © Everkinetic (everkinetic.com), licenza CC BY-SA; ridimensionate e ricentrate.';
 
 export const MUSCLE_ICON: Record<string, string> = {
   petto: 'body', schiena: 'accessibility', spalle: 'barbell', trapezi: 'triangle', bicipiti: 'fitness', tricipiti: 'flash', avambracci: 'hand-left',
@@ -19,14 +24,18 @@ const UPPER = ['petto', 'schiena', 'spalle', 'trapezi', 'bicipiti', 'tricipiti',
 const LOWER = ['quadricipiti', 'femorali', 'glutei', 'adduttori', 'abduttori', 'polpacci'];
 export const groupColor = (g: string, t: Theme) => (UPPER.includes(g) ? t.accentInk : LOWER.includes(g) ? '#7F8693' : t.text);
 
-// Riquadro con l'immagine dell'esercizio, o con l'icona del gruppo muscolare; se c'è un video mostra il tasto play
-export function ExerciseTile({ e, size = 48, play }: { e: Pick<ExerciseLite, 'muscle_group' | 'video_url'> & { image_url?: string | null }; size?: number; play?: boolean }) {
+// Riquadro con l'immagine dell'esercizio (propria della palestra, altrimenti l'illustrazione di libreria) o con l'icona del gruppo muscolare;
+// se c'è un video mostra il tasto play
+export function ExerciseTile({ e, size = 48, play }: { e: Pick<ExerciseLite, 'muscle_group' | 'video_url'> & { image_url?: string | null; library_image?: string | null }; size?: number; play?: boolean }) {
   const { t } = useTheme();
   const c = groupColor(e.muscle_group, t);
+  const lib = !e.image_url && e.library_image ? EXERCISE_IMAGES[e.library_image] : undefined;
   return (
-    <View style={{ width: size, height: size, borderRadius: size * 0.27, backgroundColor: c + '29', alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ width: size, height: size, borderRadius: size * 0.27, backgroundColor: lib ? '#FFFFFF' : c + '29', alignItems: 'center', justifyContent: 'center' }}>
       {e.image_url ? (
         <Image source={{ uri: e.image_url }} resizeMode="cover" style={{ width: size, height: size, borderRadius: size * 0.27 }} accessibilityLabel="Immagine dell'esercizio" />
+      ) : lib ? (
+        <Image source={lib.thumb === 2 ? lib.end : lib.start} resizeMode="contain" style={{ width: size, height: size, borderRadius: size * 0.27 }} accessibilityLabel="Illustrazione dell'esercizio" />
       ) : <Icon name={MUSCLE_ICON[e.muscle_group] || 'barbell'} size={size * 0.5} color={c} />}
       {(play ?? !!e.video_url) && e.video_url ? (
         <View style={{ position: 'absolute', right: -3, bottom: -3, width: size * 0.38, height: size * 0.38, borderRadius: size * 0.19, backgroundColor: '#111114', alignItems: 'center', justifyContent: 'center' }}>
@@ -164,11 +173,28 @@ export function ExerciseDetail({ id }: { id: string }) {
   const yt = youtubeId(e?.video_url);
   const { t } = useTheme();
   const gc = e ? groupColor(e.muscle_group, t) : t.text;
+  const lib = e && !e.image_url && e.library_image ? EXERCISE_IMAGES[e.library_image] : undefined;
   return (
     <Page onBack={nav.pop} navTitle={e?.name || 'Esercizio'}
       right={isStaff && e ? <IconButton name="create-outline" label="Modifica" color="accentInk" onPress={() => setEdit(e)} /> : undefined}>
       {!e ? <Spinner /> : (
         <View style={{ gap: 16, paddingHorizontal: 16, paddingTop: 4 }}>
+          {lib ? (
+            <View style={{ gap: 8 }}>
+              <View style={{ flexDirection: 'row', borderRadius: 22, overflow: 'hidden', backgroundColor: '#FFFFFF' }}>
+                {([['Partenza', lib.start], ['Arrivo', lib.end]] as const).map(([label, src]) => (
+                  <View key={label} style={{ flex: 1, minWidth: 0 }}>
+                    <Image source={src} resizeMode="contain" style={{ width: '100%', aspectRatio: 1 }} accessibilityLabel={`${e.name}: posizione di ${label.toLowerCase()}`} />
+                    <Text style={{ position: 'absolute', left: 12, top: 10, color: '#6B7280', fontSize: 11.5, fontWeight: '700' }}>{label}</Text>
+                  </View>
+                ))}
+              </View>
+              {e.video_url ? <Button small kind="secondary" label="Guarda il video" icon="play" onPress={() => Linking.openURL(e.video_url!)} /> : null}
+              <Pressable accessibilityLabel="Crediti delle illustrazioni" onPress={() => Linking.openURL(ILLUSTRATIONS_URL)}>
+                <Txt v="cap" c="faint">{ILLUSTRATIONS_CREDIT}</Txt>
+              </Pressable>
+            </View>
+          ) : (
           <Pressable accessibilityLabel={e.video_url ? 'Guarda il video' : 'Immagine dell\'esercizio'} disabled={!e.video_url} onPress={() => e.video_url && Linking.openURL(e.video_url)}
             style={{ height: 220, borderRadius: 22, overflow: 'hidden', backgroundColor: gc + '29', alignItems: 'center', justifyContent: 'center' }}>
             <Icon name={MUSCLE_ICON[e.muscle_group] || 'barbell'} size={84} color={gc} />
@@ -181,6 +207,7 @@ export function ExerciseDetail({ id }: { id: string }) {
               </View>
             ) : null}
           </Pressable>
+          )}
           <View>
             <Text style={[{ color: t.text }, TYPE.title]}>{e.name}</Text>
             <Text style={{ color: t.accentInk, fontSize: 14, fontWeight: '600', marginTop: 4 }}>Categoria muscolare › {muscleLabel(e.muscle_group)}</Text>
@@ -195,7 +222,7 @@ export function ExerciseDetail({ id }: { id: string }) {
               <Txt c="sub" style={{ lineHeight: 23 }}>{e.description}</Txt>
             </View>
           ) : null}
-          {isStaff && (!e.video_url || !e.image_url) ? <Txt v="sub" c="faint">{[!e.image_url ? 'Nessuna immagine' : '', !e.video_url ? 'nessun video' : ''].filter(Boolean).join(', ')}: aggiungili da «Modifica» per farli vedere ai soci.</Txt> : null}
+          {isStaff && (!e.video_url || (!e.image_url && !lib)) ? <Txt v="sub" c="faint">{[!e.image_url && !lib ? 'Nessuna immagine' : '', !e.video_url ? 'nessun video' : ''].filter(Boolean).join(', ')}: aggiungili da «Modifica» per farli vedere ai soci.</Txt> : null}
           {mine ? (
             <View style={{ gap: 10 }}>
               <Txt v="head">Il tuo andamento</Txt>

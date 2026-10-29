@@ -15,6 +15,7 @@ import { BodyScreen } from './src/screens/body';
 import { CalendarScreen } from './src/screens/calendar';
 import { DocumentsScreen } from './src/screens/docs';
 import { GymTab } from './src/screens/gym';
+import { LeaderboardScreen } from './src/screens/leaderboard';
 import { AnamnesisScreen, PrefsScreen, ReportScreen } from './src/screens/memberData';
 import { AccountScreen, CoursesScreen, GymSettingsScreen, MoreTab, StaffScreen } from './src/screens/more';
 import { PushScreen } from './src/screens/push';
@@ -64,6 +65,7 @@ const SCREENS: Record<string, React.ComponentType<any>> = {
   staff: StaffScreen,
   'gym-settings': GymSettingsScreen,
   account: AccountScreen,
+  leaderboard: LeaderboardScreen,
 };
 
 function Splash() {

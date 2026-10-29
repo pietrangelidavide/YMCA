@@ -11,7 +11,8 @@ import { Avatar, BarChart, Button, Empty, ErrorState, Field, Group, Icon, IconBu
 import { addDays, ago, fmtDate, fmtDateLong, fmtDateShortY, fmtNum, fmtRest, fmtTime, isoDay, LEVEL, MUSCLE, muscleLabel, OBJECTIVE, parseNum, startOfWeek } from '../util';
 import { BodyView } from './body';
 import { MyDocuments } from './docs';
-import { CommentsThread, ExerciseTile } from './shared';
+import { LeaderboardCard } from './leaderboard';
+import { CommentsThread, ExerciseTile, ILLUSTRATIONS_CREDIT, ILLUSTRATIONS_URL } from './shared';
 import { programWeek } from './Today';
 
 // ───────── Scheda ─────────
@@ -218,7 +219,12 @@ function History({ memberId }: { memberId: string }) {
 
 export function ProgressTab() {
   const { userId } = useSession();
-  return <Page title="Progressi"><ProgressView memberId={userId!} mine /></Page>;
+  return (
+    <Page title="Progressi">
+      <View style={{ paddingHorizontal: 16, paddingTop: 4, paddingBottom: 14 }}><LeaderboardCard /></View>
+      <ProgressView memberId={userId!} mine />
+    </Page>
+  );
 }
 
 export function MemberProgressScreen({ id, name }: { id: string; name?: string }) {
@@ -307,6 +313,7 @@ export function AccountSection() {
       <Group>
         {BRAND.privacyUrl ? <Row title="Informativa privacy" chevron onPress={() => Linking.openURL(BRAND.privacyUrl)} /> : null}
         {BRAND.supportWhatsapp ? <Row title="Scrivi alla segreteria" sub="WhatsApp" chevron onPress={() => Linking.openURL(`https://wa.me/${BRAND.supportWhatsapp}`)} /> : null}
+        <Row title="Crediti delle illustrazioni" sub={ILLUSTRATIONS_CREDIT} chevron onPress={() => Linking.openURL(ILLUSTRATIONS_URL)} />
         <Row title="Esci" onPress={signOut} />
         <Row title="Elimina il mio account" danger onPress={del} />
       </Group>

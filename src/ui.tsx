@@ -25,12 +25,12 @@ export function Icon({ name, size = 22, color, style }: { name: string; size?: n
 
 // ───────── Pulsanti ─────────
 
-export function Button({ label, onPress, kind = 'primary', icon, loading, disabled, small, style, full = true }: {
-  label: string; onPress?: () => void; kind?: 'primary' | 'secondary' | 'ghost' | 'danger'; icon?: string; loading?: boolean; disabled?: boolean; small?: boolean; style?: any; full?: boolean;
+export function Button({ label, onPress, kind = 'primary', icon, loading, disabled, small, style, full = true, fg: fgOverride }: {
+  label: string; onPress?: () => void; kind?: 'primary' | 'secondary' | 'ghost' | 'danger'; icon?: string; loading?: boolean; disabled?: boolean; small?: boolean; style?: any; full?: boolean; fg?: string;
 }) {
   const { t } = useTheme();
   const bg = kind === 'primary' ? t.accent : kind === 'danger' ? t.danger : kind === 'secondary' ? t.card2 : 'transparent';
-  const fg = kind === 'primary' || kind === 'danger' ? t.onAccent : kind === 'ghost' ? t.accentInk : t.text;
+  const fg = fgOverride ?? (kind === 'primary' || kind === 'danger' ? t.onAccent : kind === 'ghost' ? t.accentInk : t.text);
   const off = disabled || loading;
   return (
     <Pressable
@@ -44,7 +44,7 @@ export function Button({ label, onPress, kind = 'primary', icon, loading, disabl
       ]}
     >
       {loading ? <ActivityIndicator color={fg} size="small" /> : icon ? <Icon name={icon} size={small ? 18 : 20} color={fg} /> : null}
-      <Text style={{ color: kind === 'danger' && !t.dark ? '#fff' : fg, fontSize: small ? 15 : 17, fontWeight: '600' }}>{label}</Text>
+      <Text style={{ color: !fgOverride && kind === 'danger' && !t.dark ? '#fff' : fg, fontSize: small ? 15 : 17, fontWeight: '600' }}>{label}</Text>
     </Pressable>
   );
 }

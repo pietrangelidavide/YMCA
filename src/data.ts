@@ -10,12 +10,19 @@ export type Role = 'member' | 'trainer' | 'owner';
 export type Profile = {
   id: string; first_name: string | null; last_name: string | null; full_name: string | null; phone: string | null; email: string | null;
   role: Role; trainer_id: string | null; goal: string | null; height_cm: number | null; active: boolean; created_at: string;
-  birth_date: string | null; sex: 'm' | 'f' | null;
+  birth_date: string | null; sex: 'm' | 'f' | null; leaderboard_opt_in?: boolean;
+};
+// Classifica delle tonnellate (vedi supabase/update_1_2.sql)
+export type LeaderRow = { rank: number; name: string; kg: number; sets: number; workouts: number; is_me: boolean; id?: string | null };
+export type Leaderboard = {
+  period: string; since: string | null; participants: number; ranked: number; total_kg: number;
+  me: { opt_in: boolean; rank: number | null; kg: number; sets: number; workouts: number; kg_all: number };
+  rows: LeaderRow[];
 };
 export type Exercise = {
-  id: string; name: string; muscle_group: string; category: string; equipment: string | null; description: string | null; video_url: string | null; image_url: string | null; active: boolean;
+  id: string; name: string; muscle_group: string; category: string; equipment: string | null; description: string | null; video_url: string | null; image_url: string | null; library_image?: string | null; active: boolean;
 };
-export type ExerciseLite = Pick<Exercise, 'id' | 'name' | 'muscle_group' | 'equipment' | 'description' | 'video_url' | 'image_url'> & { category?: string };
+export type ExerciseLite = Pick<Exercise, 'id' | 'name' | 'muscle_group' | 'equipment' | 'description' | 'video_url' | 'image_url' | 'library_image'> & { category?: string };
 // Una voce della scheda: un esercizio, oppure una tecnica di allenamento, una lezione di un corso, un riposo
 export type ItemKind = 'exercise' | 'technique' | 'lesson' | 'rest';
 export type CourseLite = { id: string; name: string; category: string | null; duration_min: number | null };
@@ -156,6 +163,14 @@ export const api = {
     const r = await supabase.rpc('check_join_code', { p_code: code });
     if (r.error) throw r.error;
     return !!r.data;
+  },
+
+  // ───── Classifica delle tonnellate ─────
+  async leaderboard(period: 'all' | 'year' | 'month' | 'week' = 'all'): Promise<Leaderboard> {
+    return ok(await supabase.rpc('leaderboard', { p_period: period })) as Leaderboard;
+  },
+  async setLeaderboard(on: boolean): Promise<boolean> {
+    return ok(await supabase.rpc('set_leaderboard', { p_on: on })) as boolean;
   },
 
   // ───── Esercizi ─────

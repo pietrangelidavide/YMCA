@@ -5,6 +5,7 @@ import { api, DraftWorkout, Day, loadDraft, Program, saveDraft, useAsync, Workou
 import { useNav, useTabs, useVersion } from '../nav';
 import { useSession } from '../session';
 import { plate, useTheme } from '../theme';
+import { LeaderboardCard } from './leaderboard';
 import { Button, Empty, ErrorState, Group, Icon, Page, Row, SectionTitle, Spinner, Txt, useUi } from '../ui';
 import { addDays, ago, fmtDateLong, greeting, isoDay, parseDay, sameDay, startOfWeek, WEEKDAYS_MON } from '../util';
 
@@ -88,6 +89,7 @@ export default function Today() {
             <Empty icon="clipboard-outline" title="Nessuna scheda attiva" text="Il tuo personal trainer non ti ha ancora assegnato una scheda. Quando sarà pronta la troverai qui." />
           </View>
         ) : null}
+        {d.data && !program ? <LeaderboardCard /> : null}
 
         {program ? (
           <>
@@ -114,6 +116,8 @@ export default function Today() {
                 })}
               </View>
             </View>
+
+            <LeaderboardCard />
 
             <SectionTitle>I giorni della scheda</SectionTitle>
             <Group>

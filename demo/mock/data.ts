@@ -17,14 +17,14 @@ const VIDEO = new Set(['Panca piana con bilanciere', 'Squat con bilanciere', 'St
 const slug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const exercises: Row[] = (SEED as Row[]).map((e, i) => ({
   id: `ex${i + 1}`, name: e.name, muscle_group: e.muscle_group, category: e.category, equipment: e.equipment, description: e.description,
-  video_url: VIDEO.has(e.name) ? `https://example.com/video/${slug(e.name)}` : null, image_url: null, active: true, created_at: at(-200, 9),
+  video_url: VIDEO.has(e.name) ? `https://example.com/video/${slug(e.name)}` : null, image_url: null, library_image: e.library_image ?? null, active: true, created_at: at(-200, 9),
 }));
 const EX = (name: string): Row => { const e = exercises.find((x) => x.name === name); if (!e) throw new Error('Esercizio mancante: ' + name); return e; };
 
 // ───────── Persone ─────────
 const person = (id: string, first: string, last: string, role: string, extra: Row = {}): Row => ({
   id, first_name: first, last_name: last, full_name: `${first} ${last}`, phone: null, email: `${first.toLowerCase()}.${last.toLowerCase()}@esempio.it`, role,
-  trainer_id: null, goal: null, height_cm: null, active: true, birth_date: null, sex: null, created_at: at(-120, 10), ...extra,
+  trainer_id: null, goal: null, height_cm: null, active: true, birth_date: null, sex: null, leaderboard_opt_in: false, created_at: at(-120, 10), ...extra,
 });
 const profiles: Row[] = [
   person('u-owner', 'Laura', 'Conti', 'owner', { email: 'titolare@demo.it', phone: '333 7001122' }),
@@ -52,6 +52,8 @@ const WHO: Record<string, ['m' | 'f', string]> = {
   'u-member': ['f', '1994-03-12'], m2: ['m', '1991-07-04'], m3: ['f', '2001-11-19'], m4: ['m', '1985-01-27'], m5: ['f', '1998-06-08'], m6: ['m', '2003-12-02'],
   m7: ['f', '1976-04-15'], m8: ['m', '1983-10-09'], m9: ['f', '1990-08-23'], m10: ['m', '1966-03-31'], m11: ['f', '1996-02-14'], m12: ['m', '1989-07-17'], m13: ['f', '1993-12-28'], m14: ['m', '1980-05-05'], m15: ['f', '1987-09-02'],
 };
+// partecipanti alla classifica delle tonnellate (Giulia, la socia della demo, può entrare dalla schermata)
+for (const id of ['m2', 'm4', 'm5', 'm7', 'm8', 'm10', 'm12', 'm13', 'm14']) profiles.find((p) => p.id === id)!.leaderboard_opt_in = true;
 profiles.forEach((p) => { const w = WHO[p.id]; if (w) { p.sex = w[0]; p.birth_date = w[1]; } });
 
 // ───────── Corsi ─────────

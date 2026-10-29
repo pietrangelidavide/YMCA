@@ -1,5 +1,5 @@
 // Database finto per la demo: stesse tabelle e funzioni che usa l'app, con i dati di prova di data.ts.
-import { addDays, isoDay, parseDay } from '../../src/util';
+import { addDays, isoDay, parseDay, startOfWeek } from '../../src/util';
 import { DB, GYM, JOIN_CODE, Row, uid } from './data';
 
 const Q = new URLSearchParams(location.search);
@@ -107,7 +107,7 @@ class Qb {
 // ───────── Funzioni (RPC) ─────────
 const exLite = (id: string) => {
   const e = DB.exercises.find((x) => x.id === id)!;
-  return { id: e.id, name: e.name, muscle_group: e.muscle_group, category: e.category, equipment: e.equipment, description: e.description, video_url: e.video_url, image_url: e.image_url };
+  return { id: e.id, name: e.name, muscle_group: e.muscle_group, category: e.category, equipment: e.equipment, description: e.description, video_url: e.video_url, image_url: e.image_url, library_image: e.library_image ?? null };
 };
 // riga della scheda: esercizio vero, oppure tecnica / lezione di un corso / recupero (senza esercizio)
 const itemOut = (i: Row) => {
@@ -354,6 +354,55 @@ function sendAnnouncement(a: any) {
   return { id, targets: users.length, recipients };
 }
 
+// Classifica delle tonnellate: stessi criteri della funzione SQL (solo chi partecipa, solo serie con carico, primi 50)
+function periodStart(period: string): Date | null {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  if (period === 'week') return startOfWeek(d);
+  if (period === 'month') { d.setDate(1); return d; }
+  if (period === 'year') { d.setMonth(0, 1); return d; }
+  return null;
+}
+function leaderboard(a: any) {
+  const id = me();
+  if (!id) err('login_required');
+  const period = a.p_period ?? 'all';
+  if (!['week', 'month', 'year', 'all'].includes(period)) err('invalid_period');
+  const since = periodStart(period);
+  const staff = isStaff();
+  const started = new Map(DB.workouts.map((w) => [w.id, +new Date(w.started_at)]));
+  const tot = new Map<string, { kg: number; sets: number; ws: Set<string> }>();
+  let kgAll = 0;
+  for (const s of DB.set_logs) {
+    if (!(s.weight_kg > 0 && s.reps > 0)) continue;
+    if (s.member_id === id) kgAll += s.weight_kg * s.reps;
+    if (since && !((started.get(s.workout_id) ?? 0) >= +since)) continue;
+    const t = tot.get(s.member_id) ?? { kg: 0, sets: 0, ws: new Set<string>() };
+    t.kg += s.weight_kg * s.reps; t.sets += 1; t.ws.add(s.workout_id);
+    tot.set(s.member_id, t);
+  }
+  const players = DB.profiles.filter((p) => p.role === 'member' && p.active && p.leaderboard_opt_in);
+  const shown = (p: Row) => (staff ? p.full_name : ([p.first_name, p.last_name ? p.last_name.trim().charAt(0) + '.' : ''].filter(Boolean).join(' ') || 'Socio'));
+  const ranked = players.filter((p) => tot.has(p.id)).map((p) => ({ p, ...tot.get(p.id)!, name: shown(p) }))
+    .sort((x, y) => y.kg - x.kg || x.name.localeCompare(y.name, 'it'));
+  const pos = (kg: number) => 1 + ranked.filter((r) => r.kg > kg).length;
+  const mine = ranked.find((r) => r.p.id === id);
+  const mt = tot.get(id!);
+  return {
+    period, since: since ? since.toISOString() : null, participants: players.length, ranked: ranked.length,
+    total_kg: ranked.reduce((n, r) => n + r.kg, 0),
+    me: { opt_in: !!DB.profiles.find((p) => p.id === id)?.leaderboard_opt_in, rank: mine ? pos(mine.kg) : null, kg: mt?.kg ?? 0, sets: mt?.sets ?? 0, workouts: mt?.ws.size ?? 0, kg_all: kgAll },
+    rows: ranked.slice(0, 50).map((r) => ({ rank: pos(r.kg), name: r.name, kg: r.kg, sets: r.sets, workouts: r.ws.size, is_me: r.p.id === id, id: staff || r.p.id === id ? r.p.id : null })),
+  };
+}
+function setLeaderboard(a: any) {
+  const p = DB.profiles.find((x) => x.id === me());
+  if (!p) err('login_required');
+  if (p!.role !== 'member') err('only_members');
+  p!.leaderboard_opt_in = !!a.p_on;
+  return !!a.p_on;
+}
+
 function rpcImpl(fn: string, a: any): any {
   switch (fn) {
     case 'staff_directory': return DB.profiles.filter((p) => p.role !== 'member').map((p) => ({ id: p.id, full_name: p.full_name, role: p.role }));
@@ -388,6 +437,8 @@ function rpcImpl(fn: string, a: any): any {
     case 'workout_report': return workoutReport(a);
     case 'calendar_events': return calendarEvents(a);
     case 'send_announcement': return sendAnnouncement(a);
+    case 'leaderboard': return leaderboard(a);
+    case 'set_leaderboard': return setLeaderboard(a);
     case 'register_push_token': return null;
     default: err('Funzione non disponibile nella demo: ' + fn);
   }

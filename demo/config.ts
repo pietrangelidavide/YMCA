@@ -12,7 +12,7 @@ export const rememberChoices = (o: Record<string, string>) => {
 export type View = 'phone' | 'computer' | 'direct';
 export const PHONE_W = 390;
 export const PHONE_H = 844;
-export const BAR_H = 56;
+export const BAR_H = 0; // la demo non ha più la barra in alto
 
 const wide = innerWidth >= 720;
 const asked = Q.get('view');
@@ -22,10 +22,26 @@ export const themeAsked = Q.get('theme') === 'light' || Q.get('theme') === 'dark
 export const dark = themeAsked ? themeAsked === 'dark' : !matchMedia('(prefers-color-scheme: light)').matches;
 
 const stage = () => document.getElementById('phone');
+// Sul telefono vero (pagina a tutto schermo) usa i margini di sicurezza reali dello schermo: isola, barra di stato, barra home
+function safeInsets() {
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px) 0';
+  document.body.appendChild(probe);
+  const cs = getComputedStyle(probe);
+  const top = parseFloat(cs.paddingTop) || 0, bottom = parseFloat(cs.paddingBottom) || 0;
+  probe.remove();
+  return { top: Math.max(top, 12), bottom: Math.max(bottom, 14) };
+}
 (window as any).__DEMO = {
   gym: Q.get('gym') || 'YMCA Prime Sport Club',
   os: view === 'computer' ? 'web' : 'ios',
-  insets: view === 'phone' ? { top: 47, bottom: 34 } : view === 'direct' ? { top: 10, bottom: 18 } : { top: 0, bottom: 0 },
+  insets: view === 'phone' ? { top: 47, bottom: 34 } : view === 'direct' ? safeInsets() : { top: 0, bottom: 0 },
+  // accessi rapidi del benvenuto (esistono solo nella demo)
+  quickLogins: [
+    { label: 'Accedi come cliente', email: 'socio@demo.it' },
+    { label: 'Accedi come trainer', email: 'pt@demo.it' },
+    { label: 'Accedi come titolare', email: 'titolare@demo.it' },
+  ],
   dims: () => {
     if (view === 'phone') return { width: PHONE_W, height: PHONE_H };
     const el = stage();

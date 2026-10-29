@@ -23,8 +23,21 @@ export default function Auth() {
   return <Form mode={mode} setMode={setMode} email={email} setEmail={setEmail} />;
 }
 
+// Solo nella demo online: accessi rapidi come cliente, trainer o titolare (nell'app vera non esistono)
+const QUICK_LOGINS: { label: string; email: string }[] = (globalThis as any).__DEMO?.quickLogins || [];
+
+// La schermata di benvenuto è sempre scura, anche con il tema chiaro: i colori dei pulsanti sono fissi
+const WELCOME_LINK = '#FF6B70';
+
 function Welcome({ onLogin, onRegister }: { onLogin: () => void; onRegister: () => void }) {
   const insets = useSafeAreaInsets();
+  const { toast } = useUi();
+  const [busy, setBusy] = useState('');
+  const quick = async (email: string) => {
+    setBusy(email);
+    const { error } = await supabase.auth.signInWithPassword({ email, password: 'demo' });
+    if (error) { setBusy(''); toast(errText(error), 'error'); }
+  };
   return (
     <View style={{ flex: 1, backgroundColor: '#0A0A0B', paddingTop: insets.top, paddingBottom: Math.max(insets.bottom, 16), paddingHorizontal: 24 }}>
       <View style={{ flex: 1, justifyContent: 'center', gap: 28 }}>
@@ -34,11 +47,25 @@ function Welcome({ onLogin, onRegister }: { onLogin: () => void; onRegister: () 
           <Text style={{ color: '#A5A5AD', fontSize: 18, lineHeight: 25 }}>{BRAND.tagline}</Text>
         </View>
       </View>
-      <View style={{ gap: 10 }}>
-        <Button label="Accedi" onPress={onLogin} />
-        <Button label="Crea il tuo profilo" kind="secondary" onPress={onRegister} style={{ backgroundColor: '#26262A' }} />
-        <Text style={{ color: '#76767E', fontSize: 12.5, textAlign: 'center', marginTop: 4 }}>Le tue schede e i tuoi allenamenti, sempre con te.</Text>
-      </View>
+      {QUICK_LOGINS.length ? (
+        <View style={{ gap: 10 }}>
+          {QUICK_LOGINS.map((q, i) => (
+            <Button key={q.email} label={q.label} kind={i === 0 ? 'primary' : 'secondary'} loading={busy === q.email} disabled={!!busy && busy !== q.email}
+              onPress={() => quick(q.email)} style={i === 0 ? undefined : { backgroundColor: '#26262A' }} fg="#fff" />
+          ))}
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View style={{ flex: 1 }}><Button label="Accedi con email" kind="ghost" small fg={WELCOME_LINK} onPress={onLogin} /></View>
+            <View style={{ flex: 1 }}><Button label="Crea un profilo" kind="ghost" small fg={WELCOME_LINK} onPress={onRegister} /></View>
+          </View>
+          <Text style={{ color: '#76767E', fontSize: 12.5, textAlign: 'center' }}>Demo con dati di prova: nulla viene salvato davvero. Codice per registrarti: PRIME.</Text>
+        </View>
+      ) : (
+        <View style={{ gap: 10 }}>
+          <Button label="Accedi" onPress={onLogin} />
+          <Button label="Crea il tuo profilo" kind="secondary" fg="#fff" onPress={onRegister} style={{ backgroundColor: '#26262A' }} />
+          <Text style={{ color: '#76767E', fontSize: 12.5, textAlign: 'center', marginTop: 4 }}>Le tue schede e i tuoi allenamenti, sempre con te.</Text>
+        </View>
+      )}
     </View>
   );
 }

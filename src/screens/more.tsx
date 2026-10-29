@@ -31,6 +31,7 @@ export function MoreTab() {
           <Row title="Notifiche push" sub="Manda un avviso ai soci" left={<MenuIcon name="notifications-outline" />} chevron onPress={() => nav.push('push')} />
           <Row title="Corsi" sub="Lezioni di gruppo da consigliare nelle schede" left={<MenuIcon name="people-outline" />} chevron onPress={() => nav.push('courses')} />
           <Row title="Documenti" sub="PDF da assegnare ai soci" left={<MenuIcon name="document-text-outline" />} chevron onPress={() => nav.push('documents')} />
+          <Row title="Classifica delle tonnellate" sub="Chi ha sollevato di più (solo chi partecipa)" left={<MenuIcon name="trophy-outline" />} chevron onPress={() => nav.push('leaderboard')} />
         </Group>
 
         <SectionTitle>Dati dei soci</SectionTitle>

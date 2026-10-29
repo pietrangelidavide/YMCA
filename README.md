@@ -20,14 +20,15 @@ STORE_CHECKLIST.md   pubblicazione negli store
 
 ## Cosa fa
 
-**Socio** (5 schede): *Oggi* (prossimo allenamento, settimana, avvio con un tocco), *Scheda* (giorni, esercizi, note del PT, messaggi), *Progressi* (carichi per esercizio, record, misure del corpo, storico), *Esercizi* (libreria con descrizione e video), *Profilo* (obiettivo, tema, notifiche, eliminazione account).
+**Socio** (5 schede): *Oggi* (prossimo allenamento, settimana, avvio con un tocco), *Scheda* (giorni, esercizi, note del PT, messaggi), *Progressi* (carichi per esercizio, record, misure del corpo, storico), *Esercizi* (libreria con foto di partenza e arrivo, descrizione e video), *Profilo* (obiettivo, tema, notifiche, crediti delle illustrazioni, eliminazione account).
+**Classifica delle tonnellate** (nel riquadro di *Oggi* e di *Progressi*): chi ha sollevato di più (peso × ripetizioni delle serie con un carico), per periodo (sempre, anno, mese, settimana), podio, posizione e distacco dal socio davanti, traguardi personali a tonnellate. **È facoltativa**: ci si entra con un tocco e si esce quando si vuole; agli altri soci compaiono solo nome, iniziale del cognome e tonnellate (mai schede o carichi dei singoli esercizi). Lo staff la vede dal menu *Altro* con i nomi completi e può aprire i progressi del socio.
 Durante l'allenamento: serie una alla volta con i valori dell'ultima volta già compilati, timer di recupero, fatica percepita (RPE) a fine seduta. Funziona anche con la rete debole: l'allenamento resta sul telefono e si invia appena torna la connessione.
 
 **Personal trainer** (5 schede):
 - *Bacheca*: numero di utenti, schede, esercizi, modelli e corsi (ogni numero apre l'elenco), soci senza scheda o con scheda in scadenza, ultimi 30 giorni, ultimi iscritti, collaboratori e schede.
 - *Soci*: ricerca, filtri (miei, senza scheda, in scadenza, fermi da due settimane, disattivati), ordinamento (cognome, nome, PT, ultimo allenamento, data di iscrizione), esportazione in CSV (si apre in Excel), invito di un nuovo socio (codice palestra e messaggio pronto per WhatsApp). Ogni riga si apre in azioni rapide: scheda, report, peso e misure, anamnesi, preferenze, documenti, chiama, WhatsApp.
 - *Schede*: «Assegnate» (filtri per stato, ricerca, CSV) e «Modelli» (archivio con obiettivo, livello, destinatario e durata; si assegna a un socio in pochi tocchi, si duplica, si modifica).
-- *Esercizi*: archivio di 282 esercizi originali (18 gruppi muscolari, tipo, attrezzo), ricerca e filtri; ogni esercizio può avere descrizione, immagine e link a un video.
+- *Esercizi*: archivio di 646 esercizi (18 gruppi muscolari, tipo, attrezzo), ricerca e filtri; 264 hanno già due illustrazioni (partenza e arrivo); ogni esercizio può avere descrizione, immagine propria e link a un video.
 - *Altro*: Calendario (giorno, settimana, mese: allenamenti dei soci, schede da rinnovare, appuntamenti e lezioni da aggiungere), Notifiche push (avviso a tutti i soci, solo staff o soci scelti), Corsi, Documenti (PDF fino a 2 MB da assegnare ai soci), Peso e misure, Report allenamenti, Collaboratori.
 
 Dal socio: scheda attiva, preparare la prossima, progressi, ultimi allenamenti, messaggi, note riservate (il socio non le vede) e, riservati allo staff, **anamnesi** (generale, sportiva, alimentare, fisiologica, familiare, con consenso e data) e **preferenze di allenamento** (obiettivo, zone, giorni, orari, cosa piace e cosa no; le compila anche il socio da Profilo). Peso e misure: misure del corpo, **plicometria** (stima del grasso con Jackson-Pollock a 3 pliche) e **BIA**, con grafici per periodo. Report: allenamenti al mese, esercizi per seduta, frequenza e progressione dei carichi per esercizio, per periodo e per scheda.
@@ -48,7 +49,9 @@ Dal socio: scheda attiva, preparare la prossima, progressi, ultimi allenamenti, 
    ```
    Con `join_code` compilato si registra solo chi conosce il codice (si cambia anche dall'app, *Altro > Iscrizione dei soci*). Da lì il titolare nomina i PT.
 
-**Hai già la versione 1.0?** Non rifare tutto: incolla `supabase/update_1_1.sql` nel SQL Editor ed eseguilo **una volta sola**. Aggiunge anamnesi, preferenze, documenti, corsi, plicometria, BIA, calendario, avvisi, i nuovi campi delle schede e i 282 esercizi (i tuoi esercizi, i video e le schede già fatte restano). I contenitori di file (`documents`, privato, e `exercise-media`, pubblico) si creano da soli; se il tuo progetto non ha l'area *Storage* attiva, abilitala prima.
+**Hai già la versione 1.0?** Non rifare tutto: incolla `supabase/update_1_1.sql` nel SQL Editor ed eseguilo **una volta sola**. Aggiunge anamnesi, preferenze, documenti, corsi, plicometria, BIA, calendario, avvisi, i nuovi campi delle schede e i 282 esercizi (i tuoi esercizi, i video e le schede già fatte restano).
+
+**Hai già la 1.1?** Incolla `supabase/update_1_2.sql` ed eseguilo **una volta sola** (si può rilanciare senza danni): porta gli esercizi a 646, aggiunge il collegamento alle illustrazioni (`library_image`) e la classifica delle tonnellate (partecipazione facoltativa, disattivata per tutti finché il socio non entra). Per un progetto nuovo basta `setup.sql`, che le contiene già. Poi pubblica una nuova versione dell'app: le immagini sono dentro l'app (6 MB circa in più). I contenitori di file (`documents`, privato, e `exercise-media`, pubblico) si creano da soli; se il tuo progetto non ha l'area *Storage* attiva, abilitala prima.
 
 ### 2. App
 ```
@@ -66,7 +69,8 @@ Crea il file `.env` (modello in `.env.example`) con URL e chiave *anon* del prog
 - `src/theme.tsx`: colori. Quelli di partenza sono del marchio YMCA Prime: rosso `#E21D23`, bianco e grafite; i giorni della scheda e gli avatar usano rosso, grafite, bordeaux, rosa e argento.
 - `assets/`: `logo.svg` è il logo, vettorializzato da un'immagine piccola (366 px): con il file vettoriale originale del club sostituiscilo e lancia `NODE_PATH=<node_modules con sharp> node scripts/gen-assets.cjs`, che rigenera `logo.png`, icona (triangolo rosso su nero), icona Android, schermata di avvio e favicon.
 - `app.json`: `name`, `ios.bundleIdentifier` e `android.package` (**non cambiano più dopo la pubblicazione**: oggi sono segnaposto `it.example.ymcaprimetraining`).
-- Immagini e video degli esercizi: i 282 esercizi di partenza hanno nome, gruppo muscolare, tipo, attrezzo e una breve descrizione scritta per questa app, **senza immagini né video** (quelli di altri programmi sono protetti da diritto d'autore). Il PT aggiunge da *Esercizi > Modifica* un'immagine propria (JPG, PNG o WebP fino a 5 MB) e/o un link a un video (YouTube «non in elenco» va benissimo).
+- Immagini e video degli esercizi: 264 esercizi hanno due illustrazioni (partenza e arrivo) già dentro l'app, prese dal progetto **Everkinetic** con licenza **CC BY-SA** (ridimensionate; l'attribuzione è nel dettaglio dell'esercizio e in *Profilo > Crediti delle illustrazioni*: non toglierla, vedi `assets/exercises/LICENSE.md`). Gli altri 382 hanno nome, gruppo, tipo, attrezzo e descrizione scritta per questa app, senza illustrazione. Il PT può aggiungere da *Esercizi > Modifica* un'immagine propria (JPG, PNG o WebP fino a 5 MB), che ha sempre la precedenza, e/o un link a un video (YouTube «non in elenco» va benissimo). Altre raccolte trovate in rete (copiate da siti commerciali) non sono state usate perché il diritto d'autore non è chiaro.
+- Rigenerare le illustrazioni: `EVERKINETIC_DIR=<cartella dati> python3 scripts/build-exercise-images.py`; elenco esercizi in `supabase/seed/exercises.json`, poi `node scripts/gen-seed-sql.cjs && node scripts/build-setup.cjs`.
 
 ### 4. Notifiche push
 Nuova scheda, messaggi e gli avvisi scritti dallo staff (*Altro > Notifiche push*) arrivano come push. Le invia il database stesso (funzione `send_push`, estensione `pg_net`, servizio Expo): non servono funzioni server. Su iPhone le chiavi le gestisce EAS; su Android serve in più Firebase (`google-services.json` caricato su EAS). Sui simulatori e sul web le push non ci sono e l'app funziona lo stesso.
@@ -74,6 +78,7 @@ Nuova scheda, messaggi e gli avvisi scritti dallo staff (*Altro > Notifiche push
 ## Dati e privacy
 - Le **note riservate** del PT sono visibili solo allo staff. L'app ricorda di non scrivere diagnosi: se si annotano informazioni sulla salute sono dati particolarmente protetti (GDPR), serve un'informativa adeguata e un consenso esplicito.
 - **Anamnesi, BIA e plicometria sono dati sulla salute** (GDPR, art. 9). L'anamnesi la vede e la scrive solo lo staff (permessi di riga nel database, provati dai test); non si salva senza la data del consenso del socio. Il socio vede le proprie misure, plicometria e BIA, ma non l'anamnesi. Prima di usarle servono: informativa che le nomina, consenso esplicito, un elenco di chi tra lo staff può accedervi e un periodo di conservazione deciso dalla palestra. Le preferenze di allenamento non sono dati sulla salute.
+- La **classifica delle tonnellate** è a partecipazione volontaria (`profiles.leaderboard_opt_in`, falso di default): chi non entra non compare e non vede il proprio nome nell'elenco. Gli altri soci vedono solo nome, iniziale del cognome e totale; lo staff i nomi completi. I dati sono quelli degli allenamenti già registrati, che non vengono mai mostrati. Nell'informativa privacy va citata questa finalità facoltativa; il socio può uscire in ogni momento dalla schermata stessa.
 - I **documenti** (PDF fino a 2 MB) stanno in un contenitore privato: il socio apre solo quelli che gli sono assegnati e che lo staff ha reso «visibili». Non caricare referti medici se la palestra non ha una base giuridica per trattarli.
 - Il socio elimina il proprio account dall'app (richiesto da Apple); l'ultimo titolare non può eliminarsi.
 - Serve una **informativa privacy online** con un indirizzo pubblico (da mettere in `src/brand.ts` e negli store). Titolare del trattamento è la palestra; il fornitore dell'app è responsabile del trattamento: serve il relativo accordo.
@@ -84,7 +89,7 @@ Nuova scheda, messaggi e gli avvisi scritti dallo staff (*Altro > Notifiche push
 
 ## Demo online per il cliente (Cloudflare, gratis)
 `demo/` costruisce una versione web con **dati finti** (non si collega a Supabase): serve a far vedere l'app senza installare nulla.
-- Socio, PT e titolare con i pulsanti in alto; cornice telefono o schermo intero; tema Auto, Chiaro, Scuro.
+- Dalla schermata di benvenuto: **Accedi come cliente / trainer / titolare**; cornice telefono o schermo intero; tema Auto, Chiaro, Scuro.
 - Parametri nell'indirizzo: `?login=member|trainer|owner` (salta l'accesso), `&view=phone|computer`, `&theme=light|dark`, `&gym=Nome della palestra`. Per provare la registrazione, il codice palestra è `PRIME`.
 - Orologio fisso alle 10:40 (ora di Roma), così «Oggi» è uguale a ogni apertura. I dati finti (soci, schede, modelli, corsi, anamnesi, documenti, calendario, avvisi) stanno in `demo/mock/data.ts`. Nella demo i file «caricati» (PDF, immagini) restano in memoria finché la pagina è aperta e gli avvisi non partono davvero.
 - Ha `noindex` e `robots.txt`: non compare su Google.
@@ -96,6 +101,7 @@ Su Cloudflare: *Workers & Pages > Create > Import a repository*, **Build command
 - Non provato su un dispositivo: le notifiche push (anche gli avvisi dello staff), la scelta di PDF e immagini dal telefono e il comportamento con rete assente vanno verificati su iPhone e Android reali. Caricamento e apertura dei file su Supabase Storage sono provati solo come regole del database, non con un progetto vero.
 - Non c'è la creazione di un account socio da parte dello staff (serve una funzione sul server con chiave riservata): il socio si registra da solo con il codice palestra e lo staff lo invita da *Soci > Invita*.
 - Non ci sono abbonamenti e prezzi, negozio, chat di assistenza né cambio lingua (solo italiano).
+- La classifica conta solo gli allenamenti registrati con un carico: chi si allena a corpo libero o non segna i pesi non sale. Pesi inseriti a mano (anche sbagliati) contano come inseriti: non c'è un controllo antibarare, è pensata per divertirsi tra soci.
 - Il PT o il titolare che apre da telefono con la tastiera aperta dentro due finestre sovrapposte (per esempio un avviso con scelta dei soci) va provato su iPhone: la sovrapposizione di finestre cambia da un sistema all'altro.
 - Su Android il tasto «indietro» del telefono dal costruttore schede esce senza chiedere conferma se ci sono modifiche non salvate.
 - I link ai video sono aperti nel browser/app del telefono (nessun lettore integrato).
