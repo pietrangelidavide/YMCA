@@ -329,7 +329,7 @@ function Bia({ list, from, canEdit, onAdd, onEdit }: { list: BiaScan[]; from: st
 export function BodyScreen({ id, name }: { id: string; name?: string }) {
   const nav = useNav();
   return (
-    <Page onBack={nav.pop} navTitle="Peso e misure" title={name} subtitle="Peso e misure">
+    <Page onBack={nav.pop} navTitle="Peso e misure" title={name} subtitle="Peso e misure" maxWidth="wide">
       <View style={{ paddingHorizontal: 16 }}><BodyView memberId={id} /></View>
     </Page>
   );

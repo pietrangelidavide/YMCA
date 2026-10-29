@@ -43,7 +43,7 @@ export function ProgramsTab() {
     return { assigned, templates };
   }, []);
   return (
-    <Page title="Schede" subtitle={d.data ? `${d.data.assigned.length} schede · ${d.data.templates.length} modelli` : undefined}
+    <Page title="Schede" maxWidth="wide" subtitle={d.data ? `${d.data.assigned.length} schede · ${d.data.templates.length} modelli` : undefined}
       right={<IconButton name="add-circle" size={30} color="accentInk" label={view === 'assigned' ? 'Nuova scheda' : 'Nuovo modello'} onPress={() => (view === 'assigned' ? setPick(true) : nav.push('builder', { template: true }))} />}>
       <View style={{ paddingHorizontal: 16, paddingTop: 4, gap: 12 }}>
         <Segmented items={[['Assegnate', 'assigned'], ['Modelli', 'templates']]} value={view} onChange={setView} />
@@ -99,12 +99,12 @@ function Assigned({ rows }: { rows: ProgramOverview[] }) {
             <Txt v="sub" c="sub">{list.length} {list.length === 1 ? 'scheda' : 'schede'}</Txt>
             <Button small kind="ghost" icon="download-outline" label="Esporta (CSV)" full={false} onPress={exportCsv} />
           </View>
-          <View style={{ gap: 8 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {list.map((r) => {
               const s = st.get(r.id)!;
               return (
                 <Pressable key={r.id} accessibilityLabel={`${r.name}, ${r.member_name || ''}`} onPress={() => nav.push('builder', { id: r.id })}
-                  style={({ pressed }: any) => ({ backgroundColor: pressed ? t.card2 : t.card, borderRadius: 18, padding: 14, gap: 8 })}>
+                  style={({ pressed }: any) => ({ flexGrow: 1, flexBasis: 420, minWidth: 0, maxWidth: '100%', backgroundColor: pressed ? t.card2 : t.card, borderRadius: 18, padding: 14, gap: 8 })}>
                   <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 10 }}>
                     <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
                       <Text numberOfLines={2} style={{ color: t.text, fontSize: 16.5, fontWeight: '700' }}>{r.name}</Text>

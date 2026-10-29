@@ -1,14 +1,15 @@
 // Punto di partenza dell'app: tema, sessione, accesso e le schede principali di socio e staff.
 import React, { useEffect, useState } from 'react';
-import { View, useWindowDimensions } from 'react-native';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { onNotificationOpen, registerForPush } from './lib/push';
 import { BRAND } from './src/brand';
+import { useLayout } from './src/layout';
 import { NavProvider, StackView, TabCtx, useNav } from './src/nav';
 import { SessionProvider, useSession } from './src/session';
 import { ThemeProvider, useTheme } from './src/theme';
-import { Button, Empty, Logo, TabBar, TabDef, Txt, UiProvider } from './src/ui';
+import { Button, Empty, Logo, SideNav, TabBar, TabDef, Txt, UiProvider } from './src/ui';
 import Auth from './src/screens/Auth';
 import ProgramBuilder from './src/screens/builder';
 import { BodyScreen } from './src/screens/body';
@@ -95,27 +96,35 @@ function PushRouting({ setTab }: { setTab: (k: string) => void }) {
 
 function Main() {
   const { t } = useTheme();
-  const { isStaff } = useSession();
+  const { isStaff, profile } = useSession();
+  const L = useLayout();
   const tabs = isStaff ? STAFF_TABS : MEMBER_TABS;
   const [tab, setTab] = useState(tabs[0].key);
+  const role = profile?.role === 'owner' ? 'Titolare' : profile?.role === 'trainer' ? 'Personal trainer' : 'Socio';
   return (
     <StaffProvider>
       <NavProvider onRootBack={() => false}>
         {(nav) => (
           <TabCtx.Provider value={{ tab, setTab: (k) => { nav.popToRoot(); setTab(k); } }}>
-            <View style={{ flex: 1, backgroundColor: t.bg }}>
-              <View style={{ flex: 1 }}>
-                {tabs.map((tb) => {
-                  const Root = ROOTS[tb.key];
-                  return (
-                    <View key={tb.key} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, display: tb.key === tab ? 'flex' : 'none' }}>
-                      <Root />
-                    </View>
-                  );
-                })}
-                <StackView stack={nav.stack} screens={SCREENS} />
+            <View style={{ flex: 1, flexDirection: L.hasSide ? 'row' : 'column', backgroundColor: t.bg }}>
+              {L.hasSide ? (
+                <SideNav tabs={tabs} active={tab} onPick={(k) => { nav.popToRoot(); setTab(k); }} name={profile?.full_name} role={role}
+                  onProfile={() => (isStaff ? nav.push('account') : (nav.popToRoot(), setTab('profilo')))} />
+              ) : null}
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <View style={{ flex: 1 }}>
+                  {tabs.map((tb) => {
+                    const Root = ROOTS[tb.key];
+                    return (
+                      <View key={tb.key} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, display: tb.key === tab ? 'flex' : 'none' }}>
+                        <Root />
+                      </View>
+                    );
+                  })}
+                  <StackView stack={nav.stack} screens={SCREENS} />
+                </View>
+                {!L.hasSide && nav.stack.length === 0 ? <TabBar tabs={tabs} active={tab} onPick={(k) => setTab(k)} /> : null}
               </View>
-              {nav.stack.length === 0 ? <TabBar tabs={tabs} active={tab} onPick={(k) => setTab(k)} /> : null}
               <PushRouting setTab={(k) => setTab(k)} />
             </View>
           </TabCtx.Provider>
@@ -150,18 +159,13 @@ function Root() {
   return <Main key={s.userId} />;
 }
 
-// Su schermi larghi (web su computer) l'app sta in una colonna centrata, come su un telefono grande
-const COLUMN = 880;
+// Telefono: a tutto schermo con la barra in basso. Tablet e computer: barra laterale e contenuti in colonne centrate (vedi src/layout.ts)
 function Themed() {
   const { t } = useTheme();
-  const { width } = useWindowDimensions();
-  const wide = width > COLUMN + 80;
   return (
-    <View style={{ flex: 1, backgroundColor: wide ? (t.dark ? '#000' : '#E4E4E9') : t.bg }}>
+    <View style={{ flex: 1, backgroundColor: t.bg }}>
       <StatusBar style={t.dark ? 'light' : 'dark'} />
-      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN, alignSelf: 'center', backgroundColor: t.bg, ...(wide ? { borderLeftWidth: 1, borderRightWidth: 1, borderColor: t.line } : null) }}>
-        <Root />
-      </View>
+      <Root />
     </View>
   );
 }

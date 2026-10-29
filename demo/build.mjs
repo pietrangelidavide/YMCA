@@ -22,6 +22,7 @@ const shim = {
   'expo-image-picker': R('shim/misc.tsx'),
   'expo-document-picker': R('shim/misc.tsx'),
   'expo-font': R('shim/misc.tsx'),
+  'expo-video': R('shim/video.tsx'),
   '@react-native-async-storage/async-storage': R('shim/storage.ts'),
 };
 const plugin = {
@@ -46,9 +47,7 @@ await build({
   platform: 'browser',
   target: 'es2020',
   jsx: 'automatic',
-  loader: { '.png': 'dataurl', '.jpg': 'dataurl', '.webp': 'file' },
-  assetNames: 'img/[name]-[hash]',
-  publicPath: '.',
+  loader: { '.png': 'dataurl', '.jpg': 'dataurl' },
   plugins: [plugin],
   nodePaths: [R('node_modules')],
   define: { 'process.env.NODE_ENV': '"production"' },

@@ -446,18 +446,25 @@ do $$ declare r jsonb; before_n int; begin
   assert t_fails($q$ insert into push_announcements (title, body, audience) values ('a', 'b', 'all') $q$), 'gli avvisi si creano solo con send_announcement';
 end $$;
 
--- 10d. archivio esercizi 1.2: illustrazioni e nessun doppione
-do $$ declare n int; begin
+-- 10d. archivio esercizi 1.2 e video degli esercizi
+do $$ begin
   perform t_as('00000000-0000-0000-0000-0000000000b1');
-  select count(*) into n from exercises where library_image is not null; assert n >= 250, 'illustrazioni di libreria presenti';
-  assert (select library_image from exercises where name = 'Panca piana con bilanciere') = '0042', 'illustrazione della panca piana';
-  assert (select count(*) from exercises where library_image is not null and library_image !~ '^[0-9]{4}$') = 0, 'codici a 4 cifre';
   assert (select count(*) from (select lower(name) from exercises group by 1 having count(*) > 1) d) = 0, 'nessun nome doppio';
-  assert (program_json((select id from programs where member_id = auth.uid() limit 1))->'days'->0->'items'->0->'exercise' ? 'library_image'), 'la scheda porta il codice dell''illustrazione';
+  assert not exists (select 1 from information_schema.columns where table_name = 'exercises' and column_name = 'library_image'), 'niente illustrazioni di libreria';
+  assert (select file_size_limit from storage.buckets where id = 'exercise-videos') = 52428800, 'video: massimo 50 MB';
+  assert (select public from storage.buckets where id = 'exercise-videos'), 'i video si guardano con un indirizzo pubblico';
+  assert 'video/mp4' = any (select unnest(allowed_mime_types) from storage.buckets where id = 'exercise-videos'), 'mp4 ammesso';
+  assert not exists (select 1 from storage.buckets where id = 'exercise-videos' and 'image/jpeg' = any (allowed_mime_types)), 'solo video nel contenitore dei video';
+  assert t_fails($q$ insert into storage.objects (bucket_id, name) values ('exercise-videos', 'v/hack.mp4') $q$), 'il socio non carica video';
 end $$;
 do $$ begin
   perform t_as('00000000-0000-0000-0000-0000000000a2');
-  assert t_fails($q$ update exercises set library_image = 'abc' where name = 'Plank' $q$), 'codice illustrazione non valido';
+  insert into storage.objects (bucket_id, name) values ('exercise-videos', 'v/squat.mp4');
+  assert (select count(*) from storage.objects where bucket_id = 'exercise-videos') = 1, 'il PT carica un video';
+  update exercises set video_url = 'https://example.test/storage/v1/object/public/exercise-videos/v/squat.mp4' where name = 'Plank';
+  assert (select video_url from exercises where name = 'Plank') like '%/exercise-videos/%', 'l''indirizzo del video si salva sull''esercizio';
+  delete from storage.objects where bucket_id = 'exercise-videos' and name = 'v/squat.mp4';
+  assert (select count(*) from storage.objects where bucket_id = 'exercise-videos') = 0, 'il PT elimina il video';
 end $$;
 
 -- 10e. classifica delle tonnellate

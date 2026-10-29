@@ -12,7 +12,7 @@ import { addDays, ago, fmtDate, fmtDateLong, fmtDateShortY, fmtNum, fmtRest, fmt
 import { BodyView } from './body';
 import { MyDocuments } from './docs';
 import { LeaderboardCard } from './leaderboard';
-import { CommentsThread, ExerciseTile, ILLUSTRATIONS_CREDIT, ILLUSTRATIONS_URL } from './shared';
+import { CommentsThread, ExerciseTile } from './shared';
 import { programWeek } from './Today';
 
 // ───────── Scheda ─────────
@@ -220,7 +220,7 @@ function History({ memberId }: { memberId: string }) {
 export function ProgressTab() {
   const { userId } = useSession();
   return (
-    <Page title="Progressi">
+    <Page title="Progressi" maxWidth="wide">
       <View style={{ paddingHorizontal: 16, paddingTop: 4, paddingBottom: 14 }}><LeaderboardCard /></View>
       <ProgressView memberId={userId!} mine />
     </Page>
@@ -229,7 +229,7 @@ export function ProgressTab() {
 
 export function MemberProgressScreen({ id, name }: { id: string; name?: string }) {
   const nav = useNav();
-  return <Page onBack={nav.pop} navTitle={name || 'Progressi'}><ProgressView memberId={id} mine={false} /></Page>;
+  return <Page onBack={nav.pop} navTitle={name || 'Progressi'} maxWidth="wide"><ProgressView memberId={id} mine={false} /></Page>;
 }
 
 export function WorkoutDetail({ workout }: { workout: WorkoutRow }) {
@@ -313,7 +313,6 @@ export function AccountSection() {
       <Group>
         {BRAND.privacyUrl ? <Row title="Informativa privacy" chevron onPress={() => Linking.openURL(BRAND.privacyUrl)} /> : null}
         {BRAND.supportWhatsapp ? <Row title="Scrivi alla segreteria" sub="WhatsApp" chevron onPress={() => Linking.openURL(`https://wa.me/${BRAND.supportWhatsapp}`)} /> : null}
-        <Row title="Crediti delle illustrazioni" sub={ILLUSTRATIONS_CREDIT} chevron onPress={() => Linking.openURL(ILLUSTRATIONS_URL)} />
         <Row title="Esci" onPress={signOut} />
         <Row title="Elimina il mio account" danger onPress={del} />
       </Group>

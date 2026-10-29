@@ -42,7 +42,7 @@ export function GymTab() {
   const c = s?.counts;
 
   return (
-    <Page title="Bacheca" subtitle={d.data?.gym?.name || undefined}>
+    <Page title="Bacheca" maxWidth="wide" subtitle={d.data?.gym?.name || undefined}>
       <View style={{ paddingHorizontal: 16, gap: 14, paddingTop: 4 }}>
         {d.loading && !d.data ? <Spinner /> : d.error && !d.data ? <ErrorState error={d.error} onRetry={d.reload} /> : s ? (
           <>

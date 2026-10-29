@@ -96,7 +96,7 @@ export function CalendarScreen() {
   };
 
   return (
-    <Page onBack={nav.pop} navTitle="Calendario" right={<IconButton name="add-circle" size={30} color="accentInk" label="Nuova attività" onPress={() => addActivity(mode === 'month' ? picked : cursor)} />}>
+    <Page onBack={nav.pop} navTitle="Calendario" maxWidth="wide" right={<IconButton name="add-circle" size={30} color="accentInk" label="Nuova attività" onPress={() => addActivity(mode === 'month' ? picked : cursor)} />}>
       <View style={{ paddingHorizontal: 16, gap: 12, paddingTop: 4 }}>
         <Segmented items={[['Giorno', 'day'], ['Settimana', 'week'], ['Mese', 'month']]} value={mode} onChange={(m) => { setMode(m); if (m === 'month') setPicked(cursor); }} />
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>

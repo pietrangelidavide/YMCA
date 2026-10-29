@@ -20,9 +20,9 @@ export type Leaderboard = {
   rows: LeaderRow[];
 };
 export type Exercise = {
-  id: string; name: string; muscle_group: string; category: string; equipment: string | null; description: string | null; video_url: string | null; image_url: string | null; library_image?: string | null; active: boolean;
+  id: string; name: string; muscle_group: string; category: string; equipment: string | null; description: string | null; video_url: string | null; active: boolean;
 };
-export type ExerciseLite = Pick<Exercise, 'id' | 'name' | 'muscle_group' | 'equipment' | 'description' | 'video_url' | 'image_url' | 'library_image'> & { category?: string };
+export type ExerciseLite = Pick<Exercise, 'id' | 'name' | 'muscle_group' | 'equipment' | 'description' | 'video_url'> & { category?: string };
 // Una voce della scheda: un esercizio, oppure una tecnica di allenamento, una lezione di un corso, un riposo
 export type ItemKind = 'exercise' | 'technique' | 'lesson' | 'rest';
 export type CourseLite = { id: string; name: string; category: string | null; duration_min: number | null };
@@ -107,6 +107,8 @@ const MESSAGES: Record<string, string> = {
   message_required: 'Scrivi il titolo e il testo dell\'avviso.',
   audience_invalid: 'Scegli a chi mandare l\'avviso.',
   exercise_required: 'Una voce della scheda non ha l\'esercizio.',
+  video_too_large: 'Il video supera 50 MB: registra un clip più breve (massimo 30 secondi).',
+  camera_denied: 'Consenti l\'uso della fotocamera dalle impostazioni del telefono per registrare un video.',
 };
 export function errText(e: any): string {
   const m = String(e?.message || e || '');
@@ -183,7 +185,7 @@ export const api = {
   async saveExercise(e: Partial<Exercise> & { name: string; muscle_group: string }) {
     const row = {
       name: e.name.trim(), muscle_group: e.muscle_group, category: e.category || 'forza', equipment: e.equipment?.trim() || null, description: e.description?.trim() || null,
-      video_url: e.video_url?.trim() || null, image_url: e.image_url || null, active: e.active ?? true,
+      video_url: e.video_url?.trim() || null, active: e.active ?? true,
     };
     if (e.id) ok(await supabase.from('exercises').update(row).eq('id', e.id));
     else ok(await supabase.from('exercises').insert(row));

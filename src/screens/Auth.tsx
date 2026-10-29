@@ -29,6 +29,9 @@ const QUICK_LOGINS: { label: string; email: string }[] = (globalThis as any).__D
 // La schermata di benvenuto è sempre scura, anche con il tema chiaro: i colori dei pulsanti sono fissi
 const WELCOME_LINK = '#FF6B70';
 
+// Su tablet e computer benvenuto e moduli restano in una colonna stretta al centro
+const COL: any = { flex: 1, width: '100%', maxWidth: 460, alignSelf: 'center' };
+
 function Welcome({ onLogin, onRegister }: { onLogin: () => void; onRegister: () => void }) {
   const insets = useSafeAreaInsets();
   const { toast } = useUi();
@@ -40,6 +43,7 @@ function Welcome({ onLogin, onRegister }: { onLogin: () => void; onRegister: () 
   };
   return (
     <View style={{ flex: 1, backgroundColor: '#0A0A0B', paddingTop: insets.top, paddingBottom: Math.max(insets.bottom, 16), paddingHorizontal: 24 }}>
+     <View style={COL}>
       <View style={{ flex: 1, justifyContent: 'center', gap: 28 }}>
         <Logo width={310} />
         <View style={{ gap: 12 }}>
@@ -66,6 +70,7 @@ function Welcome({ onLogin, onRegister }: { onLogin: () => void; onRegister: () 
           <Text style={{ color: '#76767E', fontSize: 12.5, textAlign: 'center', marginTop: 4 }}>Le tue schede e i tuoi allenamenti, sempre con te.</Text>
         </View>
       )}
+     </View>
     </View>
   );
 }
@@ -121,20 +126,22 @@ function Form({ mode, setMode, email, setEmail }: { mode: Mode; setMode: (m: Mod
 
   if (mode === 'check') {
     return (
-      <View style={{ flex: 1, backgroundColor: t.bg, paddingTop: insets.top + 60, paddingHorizontal: 24, gap: 14, alignItems: 'center' }}>
+      <View style={{ flex: 1, backgroundColor: t.bg, alignItems: 'center' }}>
+       <View style={{ width: '100%', maxWidth: 460 + 48, paddingTop: insets.top + 60, paddingHorizontal: 24, gap: 14, alignItems: 'center' }}>
         <Icon name="mail-open-outline" size={52} color="accentInk" />
         <Txt v="title" style={{ textAlign: 'center' }}>Controlla la posta</Txt>
         <Txt c="sub" style={{ textAlign: 'center' }}>Ti abbiamo scritto a {email.trim()}. Tocca il link nel messaggio per confermare l'indirizzo, poi accedi.</Txt>
         <View style={{ height: 8 }} />
         <Button label="Ho confermato, accedi" onPress={() => setMode('login')} />
         <Button label="Rimanda il messaggio" kind="ghost" onPress={async () => { const { error } = await supabase.auth.resend({ type: 'signup', email: email.trim() }); toast(error ? errText(error) : 'Messaggio inviato.', error ? 'error' : 'ok'); }} />
+       </View>
       </View>
     );
   }
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1, backgroundColor: t.bg }}>
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 24, paddingBottom: Math.max(insets.bottom, 16) + 24, gap: 14 }}>
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 24, paddingBottom: Math.max(insets.bottom, 16) + 24, gap: 14, width: '100%', maxWidth: 460 + 48, alignSelf: 'center' }}>
         <Pressable accessibilityLabel="Indietro" onPress={() => setMode(mode === 'forgot' ? 'login' : 'welcome')} style={{ height: 44, justifyContent: 'center', alignSelf: 'flex-start' }}>
           <Icon name="chevron-back" size={28} color="accentInk" />
         </Pressable>

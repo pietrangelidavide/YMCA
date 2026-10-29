@@ -178,7 +178,7 @@ export function ReportScreen({ id, name }: { id: string; name?: string }) {
   const realPlans = (plans.data || []).filter((p) => !p.is_template);
 
   return (
-    <Page onBack={nav.pop} navTitle="Report" title={name} subtitle="Report allenamenti">
+    <Page onBack={nav.pop} navTitle="Report" title={name} subtitle="Report allenamenti" maxWidth="wide">
       <View style={{ paddingHorizontal: 16, gap: 14 }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }} style={{ flexGrow: 0, marginHorizontal: -16 }}>
           {PRESETS.map(([k, l]) => <Chip key={k} label={l} on={preset === k} onPress={() => setPreset(k)} />)}

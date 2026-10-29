@@ -1,4 +1,4 @@
-import { PHONE_H, PHONE_W, dark, view } from './config';
+import { PHONE_H, PHONE_W, TABLET_H, TABLET_W, dark, view } from './config';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from '../App';
@@ -12,6 +12,7 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family
 #stagewrap{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #phone{position:relative;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
 #phone.v-phone{width:${PHONE_W}px;height:${PHONE_H}px;border-radius:50px;box-shadow:0 0 0 11px #121214,0 0 0 12px #3a3a3c,0 40px 90px rgba(0,0,0,.35);flex:none}
+#phone.v-tablet{width:${TABLET_W}px;height:${TABLET_H}px;border-radius:34px;box-shadow:0 0 0 12px #121214,0 0 0 13px #3a3a3c,0 40px 90px rgba(0,0,0,.35);flex:none}
 #phone.v-computer{position:absolute;inset:16px;border-radius:14px;box-shadow:0 0 0 1px var(--line),0 24px 60px rgba(0,0,0,.18)}
 #phone.v-direct{position:absolute;inset:0}
 #note{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:11.5px;color:var(--muted);pointer-events:none}
@@ -29,6 +30,7 @@ function Shell() {
     const fit = () => {
       const wrap = document.getElementById('stagewrap');
       if (wrap && view === 'phone') setK(Math.min(1, (wrap.clientHeight - 70) / PHONE_H, (wrap.clientWidth - 56) / PHONE_W));
+      if (wrap && view === 'tablet') setK(Math.min(1, (wrap.clientHeight - 80) / TABLET_H, (wrap.clientWidth - 64) / TABLET_W));
     };
     fit();
     window.dispatchEvent(new Event('resize')); // l'app legge le misure dello schermo solo quando arriva questo evento
@@ -37,7 +39,7 @@ function Shell() {
   }, []);
   useEffect(() => {
     const el = document.getElementById('phone');
-    if (!el || view === 'phone' || !('ResizeObserver' in window)) return;
+    if (!el || view === 'phone' || view === 'tablet' || !('ResizeObserver' in window)) return;
     const ro = new ResizeObserver(() => window.dispatchEvent(new Event('resize')));
     ro.observe(el);
     return () => ro.disconnect();
@@ -46,10 +48,10 @@ function Shell() {
   return (
     <div id="shell">
       <main id="stagewrap">
-        <div id="phone" className={'v-' + view} style={view === 'phone' ? { transform: `scale(${k})` } : undefined}>
+        <div id="phone" className={'v-' + view} style={view === 'phone' || view === 'tablet' ? { transform: `scale(${k})` } : undefined}>
           <App />
         </div>
-        {view === 'phone' && <div id="note">Dati di prova: nulla viene salvato davvero.</div>}
+        {(view === 'phone' || view === 'tablet') && <div id="note">Dati di prova: nulla viene salvato davvero.</div>}
       </main>
     </div>
   );

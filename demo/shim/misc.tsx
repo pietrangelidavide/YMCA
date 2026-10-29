@@ -38,7 +38,8 @@ export const getDocumentAsync = async () => {
   return { canceled: false, assets: [{ uri: URL.createObjectURL(blob), name: 'Piano-alimentare.pdf', size: blob.size, mimeType: 'application/pdf' }] };
 };
 // Selettore immagini: nella demo «sceglie» un'immagine disegnata al volo
-export const launchImageLibraryAsync = async () => {
+export const launchImageLibraryAsync = async (o?: any) => {
+  if (JSON.stringify(o?.mediaTypes || '').includes('video')) return { canceled: false, assets: [await sampleVideo()] };
   const c = document.createElement('canvas');
   c.width = 640; c.height = 480;
   const g = c.getContext('2d')!;
@@ -52,3 +53,40 @@ export const launchImageLibraryAsync = async () => {
 };
 export const requestMediaLibraryPermissionsAsync = async () => ({ granted: true });
 export const useFonts = () => [true, null];
+
+// Fotocamera: nella demo «registra» un breve video disegnato al volo (con MediaRecorder, se il browser lo ha)
+const sampleVideo = async (): Promise<{ uri: string; mimeType: string; fileSize: number; fileName: string }> => {
+  const c = document.createElement('canvas');
+  c.width = 360; c.height = 640;
+  const g = c.getContext('2d')!;
+  const draw = (t: number) => {
+    const gr = g.createLinearGradient(0, 0, 360, 640);
+    gr.addColorStop(0, '#26262A'); gr.addColorStop(1, '#E21D23');
+    g.fillStyle = gr; g.fillRect(0, 0, 360, 640);
+    g.fillStyle = 'rgba(255,255,255,.92)'; g.textAlign = 'center';
+    g.font = '700 26px sans-serif'; g.fillText('Video di prova', 180, 150);
+    g.font = '400 18px sans-serif'; g.fillText('registrato dalla demo', 180, 182);
+    // un'asta che sale e scende, come un bilanciere
+    const y = 330 + Math.sin(t / 350) * 110;
+    g.fillStyle = '#fff'; g.fillRect(70, y, 220, 10);
+    g.fillRect(52, y - 30, 18, 70); g.fillRect(290, y - 30, 18, 70);
+  };
+  const stream: MediaStream | undefined = (c as any).captureStream?.(25);
+  const MR: any = (window as any).MediaRecorder;
+  if (!stream || !MR) return { uri: URL.createObjectURL(new Blob([new Uint8Array(8)], { type: 'video/webm' })), mimeType: 'video/webm', fileSize: 8, fileName: 'video-prova.webm' };
+  const chunks: Blob[] = [];
+  const rec = new MR(stream, { mimeType: MR.isTypeSupported?.('video/webm;codecs=vp8') ? 'video/webm;codecs=vp8' : 'video/webm' });
+  rec.ondataavailable = (e: any) => { if (e.data?.size) chunks.push(e.data); };
+  const done = new Promise<void>((r) => { rec.onstop = () => r(); });
+  const t0 = performance.now();
+  let raf = 0;
+  const loop = () => { draw(performance.now() - t0); raf = requestAnimationFrame(loop); };
+  loop(); rec.start();
+  await new Promise((r) => setTimeout(r, 2200));
+  cancelAnimationFrame(raf); rec.stop(); await done;
+  const blob = new Blob(chunks, { type: 'video/webm' });
+  return { uri: URL.createObjectURL(blob), mimeType: 'video/webm', fileSize: blob.size, fileName: 'video-prova.webm' };
+};
+export const launchCameraAsync = async () => ({ canceled: false, assets: [await sampleVideo()] });
+export const requestCameraPermissionsAsync = async () => ({ granted: true });
+export const VideoExportPreset = { H264_960x540: 5 };

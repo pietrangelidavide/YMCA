@@ -3,13 +3,13 @@
     "name": "YMCA Prime Training",
     "slug": "ymca-prime-training",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "scheme": "ymcaprimetraining",
     "ios": {
       "bundleIdentifier": "it.example.ymcaprimetraining",
-      "supportsTablet": false,
+      "supportsTablet": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -41,9 +41,9 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "L'app usa le tue foto solo per aggiungere l'immagine di un esercizio.",
-          "cameraPermission": false,
-          "microphonePermission": false
+          "photosPermission": "L'app usa la tua libreria solo per scegliere il video di un esercizio.",
+          "cameraPermission": "L'app usa la fotocamera solo per registrare il video di un esercizio.",
+          "microphonePermission": "L'app usa il microfono solo per registrare la voce nel video di un esercizio."
         }
       ],
       "expo-document-picker"

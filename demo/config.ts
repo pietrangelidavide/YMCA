@@ -1,5 +1,5 @@
 // Va importato per primo: decide come mostrare l'app (telefono finto, computer o schermo intero) prima che l'app parta.
-// Le scelte stanno nell'indirizzo: ?login=member|trainer|owner  ?view=phone|computer  ?theme=light|dark  ?gym=Nome della palestra
+// Le scelte stanno nell'indirizzo: ?login=member|trainer|owner  ?view=phone|tablet|computer  ?orient=portrait (solo tablet)  ?theme=light|dark  ?gym=Nome della palestra
 // Dentro una pagina incorniciata (anteprima su claude.ai) l'indirizzo non porta i parametri: le scelte restano nella sessione.
 const framed = (() => { try { return self !== top; } catch { return true; } })();
 const saved: Record<string, string> = (() => { try { return framed ? JSON.parse(sessionStorage.getItem('demo-q') || '{}') : {}; } catch { return {}; } })();
@@ -9,14 +9,18 @@ export const rememberChoices = (o: Record<string, string>) => {
   try { sessionStorage.setItem('demo-q', JSON.stringify({ ...saved, ...o })); } catch { /* senza sessione la scelta non si ricorda */ }
 };
 
-export type View = 'phone' | 'computer' | 'direct';
+export type View = 'phone' | 'tablet' | 'computer' | 'direct';
 export const PHONE_W = 390;
 export const PHONE_H = 844;
 export const BAR_H = 0; // la demo non ha più la barra in alto
+// iPad Air 11": in orizzontale 1180×820, in verticale 820×1180
+export const portrait = Q.get('orient') === 'portrait';
+export const TABLET_W = portrait ? 820 : 1180;
+export const TABLET_H = portrait ? 1180 : 820;
 
 const wide = innerWidth >= 720;
 const asked = Q.get('view');
-export const view: View = !wide ? 'direct' : asked === 'computer' ? 'computer' : 'phone';
+export const view: View = !wide ? 'direct' : asked === 'computer' ? 'computer' : asked === 'tablet' ? 'tablet' : 'phone';
 export const login = Q.get('login') || '';
 export const themeAsked = Q.get('theme') === 'light' || Q.get('theme') === 'dark' ? (Q.get('theme') as 'light' | 'dark') : '';
 export const dark = themeAsked ? themeAsked === 'dark' : !matchMedia('(prefers-color-scheme: light)').matches;
@@ -35,7 +39,7 @@ function safeInsets() {
 (window as any).__DEMO = {
   gym: Q.get('gym') || 'YMCA Prime Sport Club',
   os: view === 'computer' ? 'web' : 'ios',
-  insets: view === 'phone' ? { top: 47, bottom: 34 } : view === 'direct' ? safeInsets() : { top: 0, bottom: 0 },
+  insets: view === 'phone' ? { top: 47, bottom: 34 } : view === 'tablet' ? { top: 24, bottom: 20 } : view === 'direct' ? safeInsets() : { top: 0, bottom: 0 },
   // accessi rapidi del benvenuto (esistono solo nella demo)
   quickLogins: [
     { label: 'Accedi come cliente', email: 'socio@demo.it' },
@@ -44,6 +48,7 @@ function safeInsets() {
   ],
   dims: () => {
     if (view === 'phone') return { width: PHONE_W, height: PHONE_H };
+    if (view === 'tablet') return { width: TABLET_W, height: TABLET_H };
     const el = stage();
     return { width: el?.clientWidth || innerWidth - (view === 'computer' ? 32 : 0), height: el?.clientHeight || innerHeight - BAR_H - (view === 'computer' ? 32 : 0) };
   },

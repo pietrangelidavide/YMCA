@@ -335,7 +335,7 @@ export default function ProgramBuilder({ id, memberId, template }: { id?: string
   );
 
   return (
-    <Page onBack={back} navTitle={title} footer={footer}>
+    <Page onBack={back} navTitle={title} footer={footer} maxWidth="wide">
       <View style={{ paddingHorizontal: 16, gap: 14, paddingTop: 4 }}>
         {isMember ? (
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>

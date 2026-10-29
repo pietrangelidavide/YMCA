@@ -146,7 +146,7 @@ export function MembersTab() {
   );
 
   return (
-    <Page title="Soci" subtitle={d.data ? `${counts.all} iscritti attivi` : undefined} scroll={false}
+    <Page title="Soci" maxWidth="wide" subtitle={d.data ? `${counts.all} iscritti attivi` : undefined} scroll={false}
       right={<>
         <IconButton name="download-outline" label="Esporta l'elenco" color="accentInk" onPress={exportCsv} />
         <IconButton name="person-add" label="Invita un socio" color="accentInk" onPress={() => setInviteOpen(true)} />
@@ -410,7 +410,7 @@ export function MemberDetail({ id }: { id: string }) {
   };
 
   return (
-    <Page onBack={nav.pop} navTitle={name}>
+    <Page onBack={nav.pop} navTitle={name} maxWidth="wide">
       {d.loading && !d.data ? <Spinner /> : d.error && !d.data ? <ErrorState error={d.error} onRetry={d.reload} /> : !m ? <Empty title="Socio non trovato" /> : (
         <View style={{ paddingHorizontal: 16, gap: 14, paddingTop: 4 }}>
           <View style={{ backgroundColor: t.card, borderRadius: 22, padding: 18, gap: 14 }}>

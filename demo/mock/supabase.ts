@@ -74,7 +74,7 @@ class Qb {
           if (this.t === 'courses' && all.some((e) => e.name.toLowerCase() === String(row.name).toLowerCase())) err('duplicate key value violates unique constraint "courses_name_uq"');
           const hit = this.op === 'upsert' && this.conflict ? all.find((r) => this.conflict!.every((k) => r[k] === row[k])) : null;
           if (hit) Object.assign(hit, row);
-          else all.push({ id: uid(), created_at: now(), ...(this.t === 'exercises' ? { active: true, image_url: null } : {}), ...row });
+          else all.push({ id: uid(), created_at: now(), ...(this.t === 'exercises' ? { active: true } : {}), ...row });
         }
         return { data: null, error: null };
       }
@@ -107,7 +107,7 @@ class Qb {
 // ───────── Funzioni (RPC) ─────────
 const exLite = (id: string) => {
   const e = DB.exercises.find((x) => x.id === id)!;
-  return { id: e.id, name: e.name, muscle_group: e.muscle_group, category: e.category, equipment: e.equipment, description: e.description, video_url: e.video_url, image_url: e.image_url, library_image: e.library_image ?? null };
+  return { id: e.id, name: e.name, muscle_group: e.muscle_group, category: e.category, equipment: e.equipment, description: e.description, video_url: e.video_url };
 };
 // riga della scheda: esercizio vero, oppure tecnica / lezione di un corso / recupero (senza esercizio)
 const itemOut = (i: Row) => {
@@ -444,7 +444,7 @@ function rpcImpl(fn: string, a: any): any {
   }
 }
 
-// Contenitori di file (PDF dei documenti, immagini degli esercizi): nella demo restano in memoria finché la pagina è aperta
+// Contenitori di file (PDF dei documenti, video degli esercizi): nella demo restano in memoria finché la pagina è aperta
 const SAMPLE_PDF_TEXT = '%PDF-1.1\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n'
   + '3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 320 120]/Contents 4 0 R/Resources<</Font<</F1 5 0 R>>>>>>endobj\n'
   + '4 0 obj<</Length 60>>stream\nBT /F1 14 Tf 20 60 Td (Documento di prova della demo) Tj ET\nendstream endobj\n'
@@ -460,7 +460,8 @@ const storage = {
       files.set(key, URL.createObjectURL(new Blob([bytes], { type: o?.contentType || 'application/octet-stream' })));
       return { data: { path }, error: null };
     },
-    getPublicUrl: (path: string) => ({ data: { publicUrl: files.get(`${bucket}/${path}`) || '' } }),
+    // l'indirizzo dei video porta il nome del contenitore (come su Supabase), così l'app li riconosce come «registrati nell'app»
+    getPublicUrl: (path: string) => { const u = files.get(`${bucket}/${path}`) || ''; return { data: { publicUrl: bucket === 'exercise-videos' ? `${u}#/exercise-videos/${path}` : u } }; },
     createSignedUrl: async (path: string) => ({ data: { signedUrl: files.get(`${bucket}/${path}`) || samplePdfUrl() }, error: null }),
     remove: async (paths: string[]) => { paths.forEach((p) => files.delete(`${bucket}/${p}`)); return { data: null, error: null }; },
   }),

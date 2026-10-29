@@ -4,64 +4,56 @@
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato sulla panca, scapole addotte e piedi a terra. Scendi con controllo fino al petto e spingi fino a braccia quasi distese.",
-  "library_image": "0042"
+  "description": "Sdraiato sulla panca, scapole addotte e piedi a terra. Scendi con controllo fino al petto e spingi fino a braccia quasi distese."
  },
  {
   "name": "Panca piana con manubri",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Come la panca col bilanciere ma con i manubri: maggiore escursione, i gomiti restano a circa 45° dal busto.",
-  "library_image": "0055"
+  "description": "Come la panca col bilanciere ma con i manubri: maggiore escursione, i gomiti restano a circa 45° dal busto."
  },
  {
   "name": "Panca inclinata con manubri",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Panca a 30°. Spingi i manubri in alto avvicinandoli senza farli battere; scendi fino a sentire lo stiramento dei pettorali.",
-  "library_image": "0061"
+  "description": "Panca a 30°. Spingi i manubri in alto avvicinandoli senza farli battere; scendi fino a sentire lo stiramento dei pettorali."
  },
  {
   "name": "Chest press",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Schiena aderente allo schienale, impugnature all'altezza del petto. Spingi in avanti senza staccare le spalle.",
-  "library_image": "0066"
+  "description": "Schiena aderente allo schienale, impugnature all'altezza del petto. Spingi in avanti senza staccare le spalle."
  },
  {
   "name": "Croci ai cavi",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Braccia leggermente flesse, porta le mani davanti al petto stringendo i pettorali; torna lentamente.",
-  "library_image": "0048"
+  "description": "Braccia leggermente flesse, porta le mani davanti al petto stringendo i pettorali; torna lentamente."
  },
  {
   "name": "Croci con manubri su panca",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Apri le braccia ad arco con i gomiti morbidi fino allo stiramento, poi richiudi come per abbracciare.",
-  "library_image": "0056"
+  "description": "Apri le braccia ad arco con i gomiti morbidi fino allo stiramento, poi richiudi come per abbracciare."
  },
  {
   "name": "Piegamenti sulle braccia",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Corpo in linea dalla testa ai talloni, addome contratto. Scendi con il petto verso il pavimento e risali.",
-  "library_image": "0077"
+  "description": "Corpo in linea dalla testa ai talloni, addome contratto. Scendi con il petto verso il pavimento e risali."
  },
  {
   "name": "Dip alle parallele",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Busto leggermente in avanti per coinvolgere il petto. Scendi finché le spalle sono all'altezza dei gomiti.",
-  "library_image": "0054"
+  "description": "Busto leggermente in avanti per coinvolgere il petto. Scendi finché le spalle sono all'altezza dei gomiti."
  },
  {
   "name": "Lat machine presa larga",
@@ -75,104 +67,91 @@
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Presa neutra o stretta: tira verso lo sterno tenendo i gomiti vicini al corpo.",
-  "library_image": "0096"
+  "description": "Presa neutra o stretta: tira verso lo sterno tenendo i gomiti vicini al corpo."
  },
  {
   "name": "Trazioni alla sbarra",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Parti a braccia distese, porta il mento sopra la sbarra guidando con i gomiti. Scendi in modo controllato.",
-  "library_image": "0087"
+  "description": "Parti a braccia distese, porta il mento sopra la sbarra guidando con i gomiti. Scendi in modo controllato."
  },
  {
   "name": "Rematore con bilanciere",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Busto inclinato a circa 45°, schiena neutra. Porta la barra verso l'ombelico stringendo le scapole.",
-  "library_image": "0028"
+  "description": "Busto inclinato a circa 45°, schiena neutra. Porta la barra verso l'ombelico stringendo le scapole."
  },
  {
   "name": "Rematore con manubrio",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Un ginocchio e una mano sulla panca. Tira il manubrio verso l'anca, gomito vicino al corpo.",
-  "library_image": "0024"
+  "description": "Un ginocchio e una mano sulla panca. Tira il manubrio verso l'anca, gomito vicino al corpo."
  },
  {
   "name": "Pulley basso",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Seduto, busto fermo. Tira l'impugnatura verso l'addome portando indietro i gomiti e stringendo le scapole.",
-  "library_image": "0025"
+  "description": "Seduto, busto fermo. Tira l'impugnatura verso l'addome portando indietro i gomiti e stringendo le scapole."
  },
  {
   "name": "Pulldown a braccia tese",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Braccia quasi distese, abbassa la barra fino alle cosce usando i dorsali, senza piegare i gomiti.",
-  "library_image": "0092"
+  "description": "Braccia quasi distese, abbassa la barra fino alle cosce usando i dorsali, senza piegare i gomiti."
  },
  {
   "name": "Stacco da terra",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Barra vicino alle tibie, schiena neutra. Spingi il pavimento con le gambe e distendi le anche fino alla posizione eretta.",
-  "library_image": "0099"
+  "description": "Barra vicino alle tibie, schiena neutra. Spingi il pavimento con le gambe e distendi le anche fino alla posizione eretta."
  },
  {
   "name": "Iperestensioni",
   "muscle_group": "lombari",
   "category": "forza",
   "equipment": "panca",
-  "description": "Sulla panca a 45°, scendi con la schiena neutra e risali fino ad allineare il corpo, senza iperestendere.",
-  "library_image": "0103"
+  "description": "Sulla panca a 45°, scendi con la schiena neutra e risali fino ad allineare il corpo, senza iperestendere."
  },
  {
   "name": "Lento avanti con manubri",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Da seduto o in piedi, spingi i manubri sopra la testa senza inarcare la schiena; scendi fino all'altezza delle orecchie.",
-  "library_image": "0012"
+  "description": "Da seduto o in piedi, spingi i manubri sopra la testa senza inarcare la schiena; scendi fino all'altezza delle orecchie."
  },
  {
   "name": "Military press con bilanciere",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In piedi, glutei e addome contratti. Spingi la barra sopra la testa passando vicino al viso.",
-  "library_image": "0004"
+  "description": "In piedi, glutei e addome contratti. Spingi la barra sopra la testa passando vicino al viso."
  },
  {
   "name": "Alzate laterali",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Gomiti leggermente flessi, alza i manubri di lato fino all'altezza delle spalle e scendi lentamente.",
-  "library_image": "0018"
+  "description": "Gomiti leggermente flessi, alza i manubri di lato fino all'altezza delle spalle e scendi lentamente."
  },
  {
   "name": "Alzate frontali",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Alza i manubri davanti a te fino all'altezza delle spalle, senza usare lo slancio.",
-  "library_image": "0010"
+  "description": "Alza i manubri davanti a te fino all'altezza delle spalle, senza usare lo slancio."
  },
  {
   "name": "Alzate posteriori",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Busto inclinato in avanti, apri le braccia di lato stringendo le scapole per lavorare sui deltoidi posteriori.",
-  "library_image": "0032"
+  "description": "Busto inclinato in avanti, apri le braccia di lato stringendo le scapole per lavorare sui deltoidi posteriori."
  },
  {
   "name": "Face pull",
@@ -186,96 +165,84 @@
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Braccia lungo i fianchi, alza le spalle verso le orecchie e fai una breve pausa in alto.",
-  "library_image": "0005"
+  "description": "Braccia lungo i fianchi, alza le spalle verso le orecchie e fai una breve pausa in alto."
  },
  {
   "name": "Curl con bilanciere",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Gomiti fermi lungo i fianchi, porta la barra verso le spalle e scendi lentamente.",
-  "library_image": "0211"
+  "description": "Gomiti fermi lungo i fianchi, porta la barra verso le spalle e scendi lentamente."
  },
  {
   "name": "Curl con manubri alternato",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Ruota il polso verso l'alto durante la salita; alterna le braccia senza dondolare.",
-  "library_image": "0223"
+  "description": "Ruota il polso verso l'alto durante la salita; alterna le braccia senza dondolare."
  },
  {
   "name": "Curl a martello",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Presa neutra (pollici in alto): lavora anche sull'avambraccio e sul brachiale.",
-  "library_image": "0227"
+  "description": "Presa neutra (pollici in alto): lavora anche sull'avambraccio e sul brachiale."
  },
  {
   "name": "Curl ai cavi",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Tensione continua dal basso: porta l'impugnatura alle spalle con i gomiti fermi.",
-  "library_image": "0212"
+  "description": "Tensione continua dal basso: porta l'impugnatura alle spalle con i gomiti fermi."
  },
  {
   "name": "Curl alla panca Scott",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Braccia appoggiate al cuscino: isola il bicipite, scendi fino quasi a distendere il gomito.",
-  "library_image": "0239"
+  "description": "Braccia appoggiate al cuscino: isola il bicipite, scendi fino quasi a distendere il gomito."
  },
  {
   "name": "French press con bilanciere EZ",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato, porta la barra verso la fronte piegando solo i gomiti, poi distendi.",
-  "library_image": "0183"
+  "description": "Sdraiato, porta la barra verso la fronte piegando solo i gomiti, poi distendi."
  },
  {
   "name": "Push down ai cavi",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Gomiti attaccati ai fianchi, spingi la barra o la corda verso il basso fino alla distensione completa.",
-  "library_image": "0205"
+  "description": "Gomiti attaccati ai fianchi, spingi la barra o la corda verso il basso fino alla distensione completa."
  },
  {
   "name": "Estensioni sopra la testa con manubrio",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Manubrio dietro la testa, gomiti stretti: distendi le braccia verso l'alto.",
-  "library_image": "0194"
+  "description": "Manubrio dietro la testa, gomiti stretti: distendi le braccia verso l'alto."
  },
  {
   "name": "Panca presa stretta",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Mani poco più strette delle spalle, gomiti vicini al busto: spingi con i tricipiti.",
-  "library_image": "0049"
+  "description": "Mani poco più strette delle spalle, gomiti vicini al busto: spingi con i tricipiti."
  },
  {
   "name": "Kickback con manubrio",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Busto inclinato, gomito alto e fermo: distendi l'avambraccio all'indietro.",
-  "library_image": "0204"
+  "description": "Busto inclinato, gomito alto e fermo: distendi l'avambraccio all'indietro."
  },
  {
   "name": "Squat con bilanciere",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Barra sui trapezi, piedi larghi come le spalle. Scendi con le anche indietro fino almeno al parallelo, ginocchia in linea con i piedi.",
-  "library_image": "0122"
+  "description": "Barra sui trapezi, piedi larghi come le spalle. Scendi con le anche indietro fino almeno al parallelo, ginocchia in linea con i piedi."
  },
  {
   "name": "Goblet squat",
@@ -289,32 +256,28 @@
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Piedi leggermente avanti rispetto alla barra, scendi con controllo e spingi sui talloni.",
-  "library_image": "0124"
+  "description": "Piedi leggermente avanti rispetto alla barra, scendi con controllo e spingi sui talloni."
  },
  {
   "name": "Leg press",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Schiena e glutei aderenti allo schienale. Scendi finché le ginocchia sono a circa 90° senza staccare il bacino.",
-  "library_image": "0127"
+  "description": "Schiena e glutei aderenti allo schienale. Scendi finché le ginocchia sono a circa 90° senza staccare il bacino."
  },
  {
   "name": "Hack squat",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Schiena sul supporto, piedi a metà pedana: scendi con controllo e spingi con tutto il piede.",
-  "library_image": "0123"
+  "description": "Schiena sul supporto, piedi a metà pedana: scendi con controllo e spingi con tutto il piede."
  },
  {
   "name": "Affondi con manubri",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Passo lungo in avanti o indietro, busto eretto: ginocchio posteriore vicino al pavimento, spingi sul tallone.",
-  "library_image": "0115"
+  "description": "Passo lungo in avanti o indietro, busto eretto: ginocchio posteriore vicino al pavimento, spingi sul tallone."
  },
  {
   "name": "Affondi bulgari",
@@ -328,32 +291,28 @@
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sali su una panca spingendo con la gamba di appoggio, senza darti slancio con l'altra.",
-  "library_image": "0137"
+  "description": "Sali su una panca spingendo con la gamba di appoggio, senza darti slancio con l'altra."
  },
  {
   "name": "Leg extension",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Distendi le ginocchia contraendo i quadricipiti, pausa in alto e discesa lenta.",
-  "library_image": "0142"
+  "description": "Distendi le ginocchia contraendo i quadricipiti, pausa in alto e discesa lenta."
  },
  {
   "name": "Leg curl sdraiato",
   "muscle_group": "femorali",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Porta i talloni verso i glutei senza sollevare il bacino; scendi lentamente.",
-  "library_image": "0117"
+  "description": "Porta i talloni verso i glutei senza sollevare il bacino; scendi lentamente."
  },
  {
   "name": "Stacco rumeno",
   "muscle_group": "femorali",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Ginocchia appena flesse, spingi il bacino indietro facendo scendere la barra lungo le gambe fino a sentire i femorali.",
-  "library_image": "0118"
+  "description": "Ginocchia appena flesse, spingi il bacino indietro facendo scendere la barra lungo le gambe fino a sentire i femorali."
  },
  {
   "name": "Hip thrust",
@@ -367,56 +326,49 @@
   "muscle_group": "glutei",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Sdraiato, piedi vicini ai glutei: solleva il bacino fino ad allineare ginocchia, anche e spalle.",
-  "library_image": "0109"
+  "description": "Sdraiato, piedi vicini ai glutei: solleva il bacino fino ad allineare ginocchia, anche e spalle."
  },
  {
   "name": "Abduzioni alla macchina",
   "muscle_group": "abduttori",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Seduto, apri le gambe contro la resistenza senza spostare il busto.",
-  "library_image": "0156"
+  "description": "Seduto, apri le gambe contro la resistenza senza spostare il busto."
  },
  {
   "name": "Kickback glutei ai cavi",
   "muscle_group": "glutei",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Cavigliera ai cavi: porta la gamba indietro contraendo il gluteo, senza inarcare la schiena.",
-  "library_image": "0112"
+  "description": "Cavigliera ai cavi: porta la gamba indietro contraendo il gluteo, senza inarcare la schiena."
  },
  {
   "name": "Calf in piedi",
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Sali sulle punte il più possibile, pausa in alto e discesa completa fino allo stiramento.",
-  "library_image": "0282"
+  "description": "Sali sulle punte il più possibile, pausa in alto e discesa completa fino allo stiramento."
  },
  {
   "name": "Calf seduto",
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Ginocchia a 90°: lavora sul soleo con salite lente e discesa completa.",
-  "library_image": "0279"
+  "description": "Ginocchia a 90°: lavora sul soleo con salite lente e discesa completa."
  },
  {
   "name": "Crunch",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Sdraiato, solleva spalle e scapole dal pavimento contraendo l'addome; non tirare il collo con le mani.",
-  "library_image": "0291"
+  "description": "Sdraiato, solleva spalle e scapole dal pavimento contraendo l'addome; non tirare il collo con le mani."
  },
  {
   "name": "Crunch ai cavi",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "cavi",
-  "description": "In ginocchio, corda dietro la testa: arrotola il busto verso il bacino contraendo l'addome.",
-  "library_image": "0288"
+  "description": "In ginocchio, corda dietro la testa: arrotola il busto verso il bacino contraendo l'addome."
  },
  {
   "name": "Plank",
@@ -430,8 +382,7 @@
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Appoggio su un avambraccio, anche alte e corpo in linea. Tieni la posizione e cambia lato.",
-  "library_image": "0113"
+  "description": "Appoggio su un avambraccio, anche alte e corpo in linea. Tieni la posizione e cambia lato."
  },
  {
   "name": "Sollevamento gambe alla sbarra",
@@ -564,48 +515,42 @@
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Panca a 30°, presa poco più larga delle spalle. Scendi alla parte alta del petto e spingi senza staccare i glutei dalla panca.",
-  "library_image": "0043"
+  "description": "Panca a 30°, presa poco più larga delle spalle. Scendi alla parte alta del petto e spingi senza staccare i glutei dalla panca."
  },
  {
   "name": "Panca declinata con bilanciere",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Panca declinata di 15-20° con i piedi bloccati. Porta la barra alla parte bassa del petto e spingi in verticale.",
-  "library_image": "0051"
+  "description": "Panca declinata di 15-20° con i piedi bloccati. Porta la barra alla parte bassa del petto e spingi in verticale."
  },
  {
   "name": "Panca declinata con manubri",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sulla panca declinata, spingi i manubri sopra il petto e scendi fino a sentire lo stiramento senza far arretrare le spalle.",
-  "library_image": "0052"
+  "description": "Sulla panca declinata, spingi i manubri sopra il petto e scendi fino a sentire lo stiramento senza far arretrare le spalle."
  },
  {
   "name": "Pectoral machine",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Seduto con i gomiti all'altezza delle spalle, chiudi le braccia davanti al petto stringendo i pettorali e torna lentamente.",
-  "library_image": "0047"
+  "description": "Seduto con i gomiti all'altezza delle spalle, chiudi le braccia davanti al petto stringendo i pettorali e torna lentamente."
  },
  {
   "name": "Chest press inclinata",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Schiena aderente allo schienale, impugnature poco sopra il petto: spingi in avanti e in alto senza sollevare le spalle.",
-  "library_image": "0084"
+  "description": "Schiena aderente allo schienale, impugnature poco sopra il petto: spingi in avanti e in alto senza sollevare le spalle."
  },
  {
   "name": "Croci inclinate con manubri",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Panca a 30°, gomiti morbidi: apri le braccia ad arco e richiudi portando i manubri sopra la parte alta del petto.",
-  "library_image": "0062"
+  "description": "Panca a 30°, gomiti morbidi: apri le braccia ad arco e richiudi portando i manubri sopra la parte alta del petto."
  },
  {
   "name": "Croci al cavo alto",
@@ -633,16 +578,14 @@
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Mani sotto il petto, gomiti vicini al busto: scendi controllando e risali. Coinvolge molto i tricipiti.",
-  "library_image": "0188"
+  "description": "Mani sotto il petto, gomiti vicini al busto: scendi controllando e risali. Coinvolge molto i tricipiti."
  },
  {
   "name": "Piegamenti con piedi sollevati",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Piedi appoggiati su una panca, corpo in linea: scendi con il petto verso il pavimento e risali. Sposta il carico sulla parte alta.",
-  "library_image": "0075"
+  "description": "Piedi appoggiati su una panca, corpo in linea: scendi con il petto verso il pavimento e risali. Sposta il carico sulla parte alta."
  },
  {
   "name": "Piegamenti sospesi al TRX",
@@ -663,24 +606,21 @@
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato sulla panca, porta il manubrio dietro la testa con le braccia semi-distese e risali sopra il petto.",
-  "library_image": "0079"
+  "description": "Sdraiato sulla panca, porta il manubrio dietro la testa con le braccia semi-distese e risali sopra il petto."
  },
  {
   "name": "Trazioni presa supina",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "sbarra",
-  "description": "Palmi verso di te, mani larghe come le spalle: porta il mento sopra la sbarra. Coinvolge molto i bicipiti.",
-  "library_image": "0089"
+  "description": "Palmi verso di te, mani larghe come le spalle: porta il mento sopra la sbarra. Coinvolge molto i bicipiti."
  },
  {
   "name": "Trazioni presa neutra",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "sbarra",
-  "description": "Con le maniglie parallele, tira portando i gomiti ai fianchi. Presa comoda per spalle e polsi.",
-  "library_image": "0090"
+  "description": "Con le maniglie parallele, tira portando i gomiti ai fianchi. Presa comoda per spalle e polsi."
  },
  {
   "name": "Trazioni assistite alla macchina",
@@ -694,8 +634,7 @@
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Palmi verso di te: tira la barra al petto alto con i gomiti vicini ai fianchi, senza dondolare.",
-  "library_image": "0093"
+  "description": "Palmi verso di te: tira la barra al petto alto con i gomiti vicini ai fianchi, senza dondolare."
  },
  {
   "name": "Lat machine monobraccio",
@@ -709,8 +648,7 @@
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "T-bar",
-  "description": "Busto inclinato, schiena neutra: porta la barra al petto stringendo le scapole e scendi con controllo.",
-  "library_image": "0029"
+  "description": "Busto inclinato, schiena neutra: porta la barra al petto stringendo le scapole e scendi con controllo."
  },
  {
   "name": "Rematore alla macchina",
@@ -780,16 +718,14 @@
   "muscle_group": "lombari",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "A pancia in giù, solleva insieme braccia e gambe, pausa di due secondi e rilascia con controllo.",
-  "library_image": "0105"
+  "description": "A pancia in giù, solleva insieme braccia e gambe, pausa di due secondi e rilascia con controllo."
  },
  {
   "name": "Good morning con bilanciere",
   "muscle_group": "lombari",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Barra sui trapezi, ginocchia appena flesse: porta il bacino indietro inclinando il busto finché senti i femorali, poi risali.",
-  "library_image": "0101"
+  "description": "Barra sui trapezi, ginocchia appena flesse: porta il bacino indietro inclinando il busto finché senti i femorali, poi risali."
  },
  {
   "name": "Estensioni lombari a terra",
@@ -810,16 +746,14 @@
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Schiena aderente, impugnature all'altezza delle spalle: spingi in alto senza bloccare del tutto i gomiti.",
-  "library_image": "0003"
+  "description": "Schiena aderente, impugnature all'altezza delle spalle: spingi in alto senza bloccare del tutto i gomiti."
  },
  {
   "name": "Arnold press",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Parti con i palmi verso di te e ruota i polsi mentre spingi i manubri in alto. Lavora tutte le parti del deltoide.",
-  "library_image": "0006"
+  "description": "Parti con i palmi verso di te e ruota i polsi mentre spingi i manubri in alto. Lavora tutte le parti del deltoide."
  },
  {
   "name": "Alzate laterali ai cavi",
@@ -847,8 +781,7 @@
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Di spalle alla carrucola bassa: porta la maniglia davanti a te fino alla spalla con il braccio quasi disteso.",
-  "library_image": "0008"
+  "description": "Di spalle alla carrucola bassa: porta la maniglia davanti a te fino alla spalla con il braccio quasi disteso."
  },
  {
   "name": "Alzate posteriori alla macchina",
@@ -911,8 +844,7 @@
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Barra davanti alle cosce, braccia distese: alza le spalle verso le orecchie, pausa in alto e scendi piano.",
-  "library_image": "0030"
+  "description": "Barra davanti alle cosce, braccia distese: alza le spalle verso le orecchie, pausa in alto e scendi piano."
  },
  {
   "name": "Shrug alla macchina",
@@ -926,40 +858,35 @@
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Presa poco più larga delle spalle: porta la barra vicino al busto fino al petto con i gomiti più alti dei polsi.",
-  "library_image": "0014"
+  "description": "Presa poco più larga delle spalle: porta la barra vicino al busto fino al petto con i gomiti più alti dei polsi."
  },
  {
   "name": "Curl su panca inclinata",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto sulla panca a 45° con le braccia che pendono dietro il busto: il bicipite lavora in massimo allungamento.",
-  "library_image": "0214"
+  "description": "Seduto sulla panca a 45° con le braccia che pendono dietro il busto: il bicipite lavora in massimo allungamento."
  },
  {
   "name": "Curl concentrato",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto, gomito appoggiato all'interno della coscia: porta il manubrio alla spalla e scendi lentamente.",
-  "library_image": "0220"
+  "description": "Seduto, gomito appoggiato all'interno della coscia: porta il manubrio alla spalla e scendi lentamente."
  },
  {
   "name": "Curl con corda ai cavi",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Tieni la corda a martello e porta le mani alle spalle, gomiti fermi lungo i fianchi.",
-  "library_image": "0216"
+  "description": "Tieni la corda a martello e porta le mani alle spalle, gomiti fermi lungo i fianchi."
  },
  {
   "name": "Curl con elastico",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "elastico",
-  "description": "In piedi sull'elastico, gomiti fermi: porta le mani alle spalle e torna senza lasciare l'elastico.",
-  "library_image": "0261"
+  "description": "In piedi sull'elastico, gomiti fermi: porta le mani alle spalle e torna senza lasciare l'elastico."
  },
  {
   "name": "Curl al TRX",
@@ -973,8 +900,7 @@
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Braccia sul cuscino: piega i gomiti e porta le impugnature alle spalle, senza staccare i gomiti.",
-  "library_image": "0253"
+  "description": "Braccia sul cuscino: piega i gomiti e porta le impugnature alle spalle, senza staccare i gomiti."
  },
  {
   "name": "Curl 21",
@@ -995,40 +921,35 @@
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Di lato alla carrucola, braccio lontano: porta la maniglia alla spalla ruotando il polso.",
-  "library_image": "0247"
+  "description": "Di lato alla carrucola, braccio lontano: porta la maniglia alla spalla ruotando il polso."
  },
  {
   "name": "Dip alla panca",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "panca",
-  "description": "Mani sul bordo di una panca, gambe avanti: piega i gomiti all'indietro scendendo con il bacino e risali.",
-  "library_image": "0162"
+  "description": "Mani sul bordo di una panca, gambe avanti: piega i gomiti all'indietro scendendo con il bacino e risali."
  },
  {
   "name": "Push down con corda",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Gomiti attaccati ai fianchi, spingi la corda verso il basso aprendo le mani a fine corsa.",
-  "library_image": "0206"
+  "description": "Gomiti attaccati ai fianchi, spingi la corda verso il basso aprendo le mani a fine corsa."
  },
  {
   "name": "Push down presa inversa",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Palmi verso l'alto: spingi la barra in basso con i gomiti fermi. Mette in evidenza la parte interna del tricipite.",
-  "library_image": "0189"
+  "description": "Palmi verso l'alto: spingi la barra in basso con i gomiti fermi. Mette in evidenza la parte interna del tricipite."
  },
  {
   "name": "French press con manubri",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato sulla panca, piega solo i gomiti portando i manubri ai lati della testa e distendi.",
-  "library_image": "0184"
+  "description": "Sdraiato sulla panca, piega solo i gomiti portando i manubri ai lati della testa e distendi."
  },
  {
   "name": "Estensioni sopra la testa ai cavi",
@@ -1056,16 +977,14 @@
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Seduto, spingi le impugnature verso il basso distendendo i gomiti, schiena aderente allo schienale.",
-  "library_image": "0171"
+  "description": "Seduto, spingi le impugnature verso il basso distendendo i gomiti, schiena aderente allo schienale."
  },
  {
   "name": "JM press",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Variante a metà tra panca stretta e french press: la barra scende verso il mento e risale con una spinta verticale.",
-  "library_image": "0175"
+  "description": "Variante a metà tra panca stretta e french press: la barra scende verso il mento e risale con una spinta verticale."
  },
  {
   "name": "Kickback ai cavi",
@@ -1121,8 +1040,7 @@
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Barra appoggiata sulle spalle davanti, gomiti alti: scendi con il busto verticale. Lavora molto quadricipiti e addome.",
-  "library_image": "0138"
+  "description": "Barra appoggiata sulle spalle davanti, gomiti alti: scendi con il busto verticale. Lavora molto quadricipiti e addome."
  },
  {
   "name": "Squat a corpo libero",
@@ -1136,8 +1054,7 @@
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "elastico",
-  "description": "Elastico sopra le ginocchia: mantieni le ginocchia aperte mentre scendi e risali. Insegna a usare i glutei.",
-  "library_image": "0155"
+  "description": "Elastico sopra le ginocchia: mantieni le ginocchia aperte mentre scendi e risali. Insegna a usare i glutei."
  },
  {
   "name": "Sissy squat",
@@ -1151,24 +1068,21 @@
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Scendi fino a sfiorare una panca dietro di te, poi spingi sui talloni: aiuta a controllare la profondità.",
-  "library_image": "0133"
+  "description": "Scendi fino a sfiorare una panca dietro di te, poi spingi sui talloni: aiuta a controllare la profondità."
  },
  {
   "name": "Affondi camminati",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Passo lungo in avanti, ginocchio posteriore vicino al pavimento, poi cambia gamba camminando.",
-  "library_image": "0121"
+  "description": "Passo lungo in avanti, ginocchio posteriore vicino al pavimento, poi cambia gamba camminando."
  },
  {
   "name": "Affondi indietro",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Fai un passo indietro e scendi con il ginocchio posteriore: più gentile per le ginocchia dell'affondo in avanti.",
-  "library_image": "0129"
+  "description": "Fai un passo indietro e scendi con il ginocchio posteriore: più gentile per le ginocchia dell'affondo in avanti."
  },
  {
   "name": "Pressa orizzontale",
@@ -1224,16 +1138,14 @@
   "muscle_group": "femorali",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Schiena aderente, cuscino sopra le caviglie: porta i talloni sotto il sedile e torna piano.",
-  "library_image": "0119"
+  "description": "Schiena aderente, cuscino sopra le caviglie: porta i talloni sotto il sedile e torna piano."
  },
  {
   "name": "Leg curl in piedi",
   "muscle_group": "femorali",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Una gamba alla volta: porta il tallone verso il gluteo senza inarcare la schiena.",
-  "library_image": "0120"
+  "description": "Una gamba alla volta: porta il tallone verso il gluteo senza inarcare la schiena."
  },
  {
   "name": "Stacco rumeno monopodalico",
@@ -1275,8 +1187,7 @@
   "muscle_group": "femorali",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Manubri vicini alle cosce, ginocchia appena flesse: spingi il bacino indietro e risali contraendo glutei e femorali.",
-  "library_image": "0107"
+  "description": "Manubri vicini alle cosce, ginocchia appena flesse: spingi il bacino indietro e risali contraendo glutei e femorali."
  },
  {
   "name": "Curl femorali al TRX",
@@ -1374,24 +1285,21 @@
   "muscle_group": "adduttori",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Seduto, chiudi le gambe contro i cuscinetti in modo controllato, senza scatti.",
-  "library_image": "0157"
+  "description": "Seduto, chiudi le gambe contro i cuscinetti in modo controllato, senza scatti."
  },
  {
   "name": "Adduzioni ai cavi",
   "muscle_group": "adduttori",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Cavigliera alla carrucola bassa: porta la gamba davanti all'altra, in piedi e ben stabile.",
-  "library_image": "0135"
+  "description": "Cavigliera alla carrucola bassa: porta la gamba davanti all'altra, in piedi e ben stabile."
  },
  {
   "name": "Squat sumo con manubrio",
   "muscle_group": "adduttori",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Piedi molto larghi con le punte aperte, manubrio tra le gambe: scendi con il busto eretto.",
-  "library_image": "0152"
+  "description": "Piedi molto larghi con le punte aperte, manubrio tra le gambe: scendi con il busto eretto."
  },
  {
   "name": "Affondi laterali",
@@ -1461,8 +1369,7 @@
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Sulla pressa, spingi la pedana con la punta dei piedi estendendo le caviglie e torna in massimo allungamento.",
-  "library_image": "0273"
+  "description": "Sulla pressa, spingi la pedana con la punta dei piedi estendendo le caviglie e torna in massimo allungamento."
  },
  {
   "name": "Calf monopodalico",
@@ -1476,8 +1383,7 @@
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "multipower",
-  "description": "Barra sulle spalle, punte su un rialzo: sali con controllo, pausa in alto e discesa completa.",
-  "library_image": "0280"
+  "description": "Barra sulle spalle, punte su un rialzo: sali con controllo, pausa in alto e discesa completa."
  },
  {
   "name": "Calf su step",
@@ -1498,16 +1404,14 @@
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Sdraiato, porta le ginocchia al petto sollevando il bacino dal pavimento e torna piano.",
-  "library_image": "0287"
+  "description": "Sdraiato, porta le ginocchia al petto sollevando il bacino dal pavimento e torna piano."
  },
  {
   "name": "Crunch bicicletta",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Sdraiato, porta alternativamente il gomito al ginocchio opposto pedalando con le gambe.",
-  "library_image": "0284"
+  "description": "Sdraiato, porta alternativamente il gomito al ginocchio opposto pedalando con le gambe."
  },
  {
   "name": "Crunch alla macchina",
@@ -1584,8 +1488,7 @@
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con un manubrio in una mano, inclinati lateralmente e risali contraendo l'obliquo.",
-  "library_image": "0294"
+  "description": "In piedi con un manubrio in una mano, inclinati lateralmente e risali contraendo l'obliquo."
  },
  {
   "name": "Flutter kick",
@@ -1606,8 +1509,7 @@
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "fitball",
-  "description": "Con la schiena appoggiata alla palla, solleva il busto in un movimento ampio e controllato.",
-  "library_image": "0295"
+  "description": "Con la schiena appoggiata alla palla, solleva il busto in un movimento ampio e controllato."
  },
  {
   "name": "Rotazioni con palla medica al muro",
@@ -2076,1328 +1978,1162 @@
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "In piedi o seduto, mani intrecciate dietro la nuca. Spingi la testa contro le mani senza muoverla e mantieni 10 secondi; poi ripeti con le mani sulla fronte.",
-  "library_image": "0001"
+  "description": "In piedi o seduto, mani intrecciate dietro la nuca. Spingi la testa contro le mani senza muoverla e mantieni 10 secondi; poi ripeti con le mani sulla fronte."
  },
  {
   "name": "Isometria laterale del collo",
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Appoggia una mano sul lato della testa e spingi contro la mano senza inclinare il collo. Tieni 10 secondi per lato, a intensità progressiva.",
-  "library_image": "0002"
+  "description": "Appoggia una mano sul lato della testa e spingi contro la mano senza inclinare il collo. Tieni 10 secondi per lato, a intensità progressiva."
  },
  {
   "name": "Alzate frontali con bilanciere",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In piedi, presa prona poco più larga delle spalle. Solleva il bilanciere davanti a te fino all'altezza degli occhi con i gomiti appena flessi, poi scendi piano.",
-  "library_image": "0007"
+  "description": "In piedi, presa prona poco più larga delle spalle. Solleva il bilanciere davanti a te fino all'altezza degli occhi con i gomiti appena flessi, poi scendi piano."
  },
  {
   "name": "Scrollate ai cavi",
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "cavi",
-  "description": "In piedi tra due cavi bassi (o davanti a uno), braccia distese lungo i fianchi. Porta le spalle verso le orecchie, trattieni un attimo e scendi lentamente.",
-  "library_image": "0009"
+  "description": "In piedi tra due cavi bassi (o davanti a uno), braccia distese lungo i fianchi. Porta le spalle verso le orecchie, trattieni un attimo e scendi lentamente."
  },
  {
   "name": "Lento avanti con bilanciere da seduto",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Seduto con la schiena appoggiata, parti dall'altezza delle clavicole. Spingi il bilanciere sopra la testa senza inarcare la schiena e scendi con controllo.",
-  "library_image": "0011"
+  "description": "Seduto con la schiena appoggiata, parti dall'altezza delle clavicole. Spingi il bilanciere sopra la testa senza inarcare la schiena e scendi con controllo."
  },
  {
   "name": "Tirate al mento al multipower",
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "multipower",
-  "description": "Presa prona alla larghezza delle spalle, barra davanti alle cosce. Porta i gomiti più in alto delle mani fino al petto, poi scendi lentamente.",
-  "library_image": "0013"
+  "description": "Presa prona alla larghezza delle spalle, barra davanti alle cosce. Porta i gomiti più in alto delle mani fino al petto, poi scendi lentamente."
  },
  {
   "name": "Tirate al mento ai cavi",
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Con la barra del cavo basso in presa prona, sali lungo il corpo con i gomiti alti fino al petto. Controlla la discesa senza dondolare il busto.",
-  "library_image": "0015"
+  "description": "Con la barra del cavo basso in presa prona, sali lungo il corpo con i gomiti alti fino al petto. Controlla la discesa senza dondolare il busto."
  },
  {
   "name": "Tirate al mento con manubri",
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Un manubrio per mano davanti alle cosce. Solleva portando i gomiti verso l'alto fino al petto, polsi più bassi dei gomiti, e riabbassa piano.",
-  "library_image": "0016"
+  "description": "Un manubrio per mano davanti alle cosce. Solleva portando i gomiti verso l'alto fino al petto, polsi più bassi dei gomiti, e riabbassa piano."
  },
  {
   "name": "Alzate posteriori ai cavi da piegati",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Busto inclinato in avanti, impugni con una mano il cavo opposto. Tira il braccio in diagonale verso l'esterno, gomito appena flesso, e torna lentamente.",
-  "library_image": "0017"
+  "description": "Busto inclinato in avanti, impugni con una mano il cavo opposto. Tira il braccio in diagonale verso l'esterno, gomito appena flesso, e torna lentamente."
  },
  {
   "name": "Cerchi con fitball al muro",
   "muscle_group": "spalle",
   "category": "mobilita",
   "equipment": "fitball",
-  "description": "In piedi, fitball tra il braccio teso e il muro. Disegna piccoli cerchi controllati con la palla, mantenendo la spalla bassa e il busto fermo.",
-  "library_image": "0019"
+  "description": "In piedi, fitball tra il braccio teso e il muro. Disegna piccoli cerchi controllati con la palla, mantenendo la spalla bassa e il busto fermo."
  },
  {
   "name": "Alzate posteriori con elastico",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "elastico",
-  "description": "Elastico fissato davanti a te, un'estremità in mano. Porta il braccio indietro e in fuori fino all'altezza del busto, spalla bassa, poi torna senza strappi.",
-  "library_image": "0020"
+  "description": "Elastico fissato davanti a te, un'estremità in mano. Porta il braccio indietro e in fuori fino all'altezza del busto, spalla bassa, poi torna senza strappi."
  },
  {
   "name": "Sollevamento gambe da sdraiato su panca",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "panca",
-  "description": "Sdraiato sulla panca, mani sotto i glutei e schiena aderente. Solleva le gambe quasi distese fino alla verticale e scendi senza toccare il piano.",
-  "library_image": "0021"
+  "description": "Sdraiato sulla panca, mani sotto i glutei e schiena aderente. Solleva le gambe quasi distese fino alla verticale e scendi senza toccare il piano."
  },
  {
   "name": "Rematore per deltoidi posteriori al multipower",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "multipower",
-  "description": "Busto flesso in avanti, presa prona più larga delle spalle. Tira la barra verso la parte alta dell'addome, gomiti larghi, e scendi lentamente.",
-  "library_image": "0022"
+  "description": "Busto flesso in avanti, presa prona più larga delle spalle. Tira la barra verso la parte alta dell'addome, gomiti larghi, e scendi lentamente."
  },
  {
   "name": "Alzate posteriori prone su panca inclinata",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato a pancia in giù su una panca, un manubrio per mano a braccia distese. Apri le braccia di lato fino all'altezza delle spalle e scendi con controllo.",
-  "library_image": "0023"
+  "description": "Sdraiato a pancia in giù su una panca, un manubrio per mano a braccia distese. Apri le braccia di lato fino all'altezza delle spalle e scendi con controllo."
  },
  {
   "name": "Rematore con bilanciere presa inversa",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Busto inclinato, schiena piatta, presa supina alla larghezza delle spalle. Tira il bilanciere verso l'ombelico stringendo le scapole, poi scendi piano.",
-  "library_image": "0026"
+  "description": "Busto inclinato, schiena piatta, presa supina alla larghezza delle spalle. Tira il bilanciere verso l'ombelico stringendo le scapole, poi scendi piano."
  },
  {
   "name": "Vacuum addominale in quadrupedia",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "In quadrupedia, schiena neutra. Espira e risucchia l'ombelico verso la colonna, trattieni 10-15 secondi respirando piano e rilascia.",
-  "library_image": "0027"
+  "description": "In quadrupedia, schiena neutra. Espira e risucchia l'ombelico verso la colonna, trattieni 10-15 secondi respirando piano e rilascia."
  },
  {
   "name": "Lento avanti con manubri su panca inclinata",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto su panca inclinata a 70-80°, manubri all'altezza delle spalle. Spingi verso l'alto avvicinandoli e scendi fino al livello delle orecchie.",
-  "library_image": "0031"
+  "description": "Seduto su panca inclinata a 70-80°, manubri all'altezza delle spalle. Spingi verso l'alto avvicinandoli e scendi fino al livello delle orecchie."
  },
  {
   "name": "Rotazioni interne ai cavi",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Seduto o in piedi di lato al cavo, gomito a 90° vicino al fianco. Ruota l'avambraccio verso l'addome senza muovere il gomito e torna lentamente.",
-  "library_image": "0034"
+  "description": "Seduto o in piedi di lato al cavo, gomito a 90° vicino al fianco. Ruota l'avambraccio verso l'addome senza muovere il gomito e torna lentamente."
  },
  {
   "name": "Alzate posteriori ai cavi da seduto",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Seduto, busto leggermente inclinato in avanti, impugni i cavi incrociati. Apri le braccia all'indietro e in fuori, gomiti appena flessi, e torna piano.",
-  "library_image": "0035"
+  "description": "Seduto, busto leggermente inclinato in avanti, impugni i cavi incrociati. Apri le braccia all'indietro e in fuori, gomiti appena flessi, e torna piano."
  },
  {
   "name": "Alzate posteriori a un braccio su panca",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato prono sulla panca, un manubrio in una mano. Solleva il braccio di lato fino all'altezza della spalla e scendi lentamente, poi cambia lato.",
-  "library_image": "0037"
+  "description": "Sdraiato prono sulla panca, un manubrio in una mano. Solleva il braccio di lato fino all'altezza della spalla e scendi lentamente, poi cambia lato."
  },
  {
   "name": "Lento avanti con manubrio a un braccio",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi, un manubrio all'altezza della spalla e l'altra mano sul fianco. Spingi sopra la testa senza inclinare il busto e riabbassa con controllo.",
-  "library_image": "0038"
+  "description": "In piedi, un manubrio all'altezza della spalla e l'altra mano sul fianco. Spingi sopra la testa senza inclinare il busto e riabbassa con controllo."
  },
  {
   "name": "Tirata al mento con manubrio a un braccio",
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con un manubrio davanti alla coscia. Sali portando il gomito più in alto della mano fino al petto, poi scendi piano; ripeti dall'altro lato.",
-  "library_image": "0039"
+  "description": "In piedi con un manubrio davanti alla coscia. Sali portando il gomito più in alto della mano fino al petto, poi scendi piano; ripeti dall'altro lato."
  },
  {
   "name": "Scrollate al multipower",
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "multipower",
-  "description": "In piedi con la barra del multipower davanti alle cosce, braccia distese. Alza le spalle verso le orecchie, trattieni un attimo e scendi lentamente.",
-  "library_image": "0041"
+  "description": "In piedi con la barra del multipower davanti alle cosce, braccia distese. Alza le spalle verso le orecchie, trattieni un attimo e scendi lentamente."
  },
  {
   "name": "Tirate al mento con elastico",
   "muscle_group": "trapezi",
   "category": "forza",
   "equipment": "elastico",
-  "description": "In piedi sopra l'elastico, impugnatura alla larghezza delle spalle. Sali con i gomiti alti fino al petto e torna senza far cadere di colpo la tensione.",
-  "library_image": "0094"
+  "description": "In piedi sopra l'elastico, impugnatura alla larghezza delle spalle. Sali con i gomiti alti fino al petto e torna senza far cadere di colpo la tensione."
  },
  {
   "name": "Cuban press con manubri",
   "muscle_group": "spalle",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Gomiti alti e manubri davanti alle cosce: tira verso l'alto fino all'altezza delle spalle, ruota gli avambracci verso l'alto e spingi sopra la testa. Torna con lo stesso percorso.",
-  "library_image": "0300"
+  "description": "Gomiti alti e manubri davanti alle cosce: tira verso l'alto fino all'altezza delle spalle, ruota gli avambracci verso l'alto e spingi sopra la testa. Torna con lo stesso percorso."
  },
  {
   "name": "Panca inclinata con elastici",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "elastico",
-  "description": "Sdraiato su panca inclinata con elastici ancorati dietro lo schienale. Spingi le impugnature in alto davanti al petto fino a braccia distese e torna piano.",
-  "library_image": "0044"
+  "description": "Sdraiato su panca inclinata con elastici ancorati dietro lo schienale. Spingi le impugnature in alto davanti al petto fino a braccia distese e torna piano."
  },
  {
   "name": "Pullover con bilanciere a braccia flesse",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato trasversalmente o lungo la panca, bilanciere sopra il petto. Porta il bilanciere dietro la testa con i gomiti flessi, senza inarcare la schiena, e riportalo su.",
-  "library_image": "0045"
+  "description": "Sdraiato trasversalmente o lungo la panca, bilanciere sopra il petto. Porta il bilanciere dietro la testa con i gomiti flessi, senza inarcare la schiena, e riportalo su."
  },
  {
   "name": "Pullover con manubrio a braccia flesse",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato sulla panca con un manubrio tenuto a due mani sopra il petto. Scendi dietro la testa con i gomiti flessi, poi riporta il manubrio sopra il petto.",
-  "library_image": "0046"
+  "description": "Sdraiato sulla panca con un manubrio tenuto a due mani sopra il petto. Scendi dietro la testa con i gomiti flessi, poi riporta il manubrio sopra il petto."
  },
  {
   "name": "Crossover con elastici",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "elastico",
-  "description": "In piedi con gli elastici ancorati in alto, braccia aperte. Chiudi le mani davanti al petto con i gomiti appena flessi e riapri lentamente.",
-  "library_image": "0050"
+  "description": "In piedi con gli elastici ancorati in alto, braccia aperte. Chiudi le mani davanti al petto con i gomiti appena flessi e riapri lentamente."
  },
  {
   "name": "Croci declinate con manubri",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato su panca declinata, manubri sopra il petto a palmi in dentro. Apri le braccia con i gomiti appena flessi e richiudi contraendo il petto.",
-  "library_image": "0053"
+  "description": "Sdraiato su panca declinata, manubri sopra il petto a palmi in dentro. Apri le braccia con i gomiti appena flessi e richiudi contraendo il petto."
  },
  {
   "name": "Croci ai cavi su panca piana",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Sdraiato sulla panca tra due cavi bassi, braccia aperte. Chiudi le mani sopra il petto con i gomiti appena flessi e torna lentamente.",
-  "library_image": "0057"
+  "description": "Sdraiato sulla panca tra due cavi bassi, braccia aperte. Chiudi le mani sopra il petto con i gomiti appena flessi e torna lentamente."
  },
  {
   "name": "Pullover e alzata con bilanciere",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato, bilanciere in presa prona. Porta il bilanciere dietro la testa a braccia quasi distese e riportalo sopra il petto con un movimento fluido.",
-  "library_image": "0058"
+  "description": "Sdraiato, bilanciere in presa prona. Porta il bilanciere dietro la testa a braccia quasi distese e riportalo sopra il petto con un movimento fluido."
  },
  {
   "name": "Panca inclinata con manubri a presa neutra",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Su panca inclinata, manubri con i palmi uno di fronte all'altro. Spingi verso l'alto avvicinando i manubri, poi scendi ai lati del petto.",
-  "library_image": "0059"
+  "description": "Su panca inclinata, manubri con i palmi uno di fronte all'altro. Spingi verso l'alto avvicinando i manubri, poi scendi ai lati del petto."
  },
  {
   "name": "Croci ai cavi su panca inclinata",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Sdraiato su panca inclinata tra due cavi bassi. Porta le mani sopra il petto con i gomiti appena flessi e riapri con controllo.",
-  "library_image": "0060"
+  "description": "Sdraiato su panca inclinata tra due cavi bassi. Porta le mani sopra il petto con i gomiti appena flessi e riapri con controllo."
  },
  {
   "name": "Croci inclinate con rotazione dei polsi",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Su panca inclinata, manubri aperti ai lati. Mentre chiudi le braccia sopra il petto ruota i polsi in modo da avvicinare i manubri a palmi in dentro, poi riapri.",
-  "library_image": "0063"
+  "description": "Su panca inclinata, manubri aperti ai lati. Mentre chiudi le braccia sopra il petto ruota i polsi in modo da avvicinare i manubri a palmi in dentro, poi riapri."
  },
  {
   "name": "Pullover declinato con bilanciere a presa larga",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato su panca declinata, bilanciere con presa larga sopra il petto. Scendi dietro la testa a braccia quasi distese e riporta il bilanciere sul petto.",
-  "library_image": "0064"
+  "description": "Sdraiato su panca declinata, bilanciere con presa larga sopra il petto. Scendi dietro la testa a braccia quasi distese e riporta il bilanciere sul petto."
  },
  {
   "name": "Panca con manubrio a un braccio",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato sulla panca, un manubrio in una mano e l'altra sul petto. Spingi in alto con il busto fermo e scendi lentamente, poi cambia braccio.",
-  "library_image": "0068"
+  "description": "Sdraiato sulla panca, un manubrio in una mano e l'altra sul petto. Spingi in alto con il busto fermo e scendi lentamente, poi cambia braccio."
  },
  {
   "name": "Piegamenti su Bosu",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "Bosu",
-  "description": "Mani sul Bosu capovolto o sulla cupola, corpo in linea. Scendi con il petto verso il Bosu e spingi tenendo il core attivo per restare stabile.",
-  "library_image": "0069"
+  "description": "Mani sul Bosu capovolto o sulla cupola, corpo in linea. Scendi con il petto verso il Bosu e spingi tenendo il core attivo per restare stabile."
  },
  {
   "name": "Croci a un braccio su panca",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato sulla panca con un manubrio in una mano. Apri il braccio con il gomito appena flesso e richiudi sopra il petto, poi cambia lato.",
-  "library_image": "0071"
+  "description": "Sdraiato sulla panca con un manubrio in una mano. Apri il braccio con il gomito appena flesso e richiudi sopra il petto, poi cambia lato."
  },
  {
   "name": "Piegamenti con piedi su fitball",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "fitball",
-  "description": "Mani a terra e punta dei piedi sulla fitball. Scendi con il petto verso terra mantenendo il corpo in linea e spingi fino a braccia distese.",
-  "library_image": "0076"
+  "description": "Mani a terra e punta dei piedi sulla fitball. Scendi con il petto verso terra mantenendo il corpo in linea e spingi fino a braccia distese."
  },
  {
   "name": "Panca piana al multipower",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "multipower",
-  "description": "Sdraiato sotto la barra guidata, piedi a terra. Sgancia, scendi fino al petto e spingi in alto: il percorso è guidato, ma tieni le scapole addotte.",
-  "library_image": "0078"
+  "description": "Sdraiato sotto la barra guidata, piedi a terra. Sgancia, scendi fino al petto e spingi in alto: il percorso è guidato, ma tieni le scapole addotte."
  },
  {
   "name": "Panca inclinata al multipower",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "multipower",
-  "description": "Su panca inclinata sotto la barra guidata. Scendi verso la parte alta del petto e spingi in alto senza inarcare la schiena.",
-  "library_image": "0081"
+  "description": "Su panca inclinata sotto la barra guidata. Scendi verso la parte alta del petto e spingi in alto senza inarcare la schiena."
  },
  {
   "name": "Panca piana con presa larga",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato sulla panca, presa più larga delle spalle. Scendi fino al petto con i gomiti in fuori e spingi in alto fino a braccia distese.",
-  "library_image": "0082"
+  "description": "Sdraiato sulla panca, presa più larga delle spalle. Scendi fino al petto con i gomiti in fuori e spingi in alto fino a braccia distese."
  },
  {
   "name": "Panca declinata con presa larga",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Su panca declinata, presa larga. Scendi verso la parte bassa del petto con controllo e spingi in alto; usa sempre i fermi di sicurezza o un compagno.",
-  "library_image": "0083"
+  "description": "Su panca declinata, presa larga. Scendi verso la parte bassa del petto con controllo e spingi in alto; usa sempre i fermi di sicurezza o un compagno."
  },
  {
   "name": "Chest press declinata alla macchina",
   "muscle_group": "petto",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Seduto alla macchina con schienale inclinato, impugnature alla linea del petto. Spingi in avanti fino a braccia quasi distese e torna lentamente.",
-  "library_image": "0085"
+  "description": "Seduto alla macchina con schienale inclinato, impugnature alla linea del petto. Spingi in avanti fino a braccia quasi distese e torna lentamente."
  },
  {
   "name": "Rematore inverso alla sbarra",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "sbarra",
-  "description": "Sdraiato sotto una sbarra bassa, corpo in linea. Tira il petto verso la barra stringendo le scapole e scendi lentamente a braccia distese.",
-  "library_image": "0086"
+  "description": "Sdraiato sotto una sbarra bassa, corpo in linea. Tira il petto verso la barra stringendo le scapole e scendi lentamente a braccia distese."
  },
  {
   "name": "Trazioni con petto alla sbarra",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "sbarra",
-  "description": "Presa prona, sbarra alta. Tira portando lo sterno verso la sbarra con il busto leggermente inclinato indietro, poi scendi in modo controllato.",
-  "library_image": "0088"
+  "description": "Presa prona, sbarra alta. Tira portando lo sterno verso la sbarra con il busto leggermente inclinato indietro, poi scendi in modo controllato."
  },
  {
   "name": "Trazioni presa larga",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "sbarra",
-  "description": "Presa prona molto più larga delle spalle. Tira il mento sopra la sbarra con i gomiti in basso e scendi fino a braccia quasi distese.",
-  "library_image": "0091"
+  "description": "Presa prona molto più larga delle spalle. Tira il mento sopra la sbarra con i gomiti in basso e scendi fino a braccia quasi distese."
  },
  {
   "name": "Lat machine dietro la nuca",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Seduto con cosce bloccate, barra larga. Porta la barra dietro la testa all'altezza della nuca, spingendo la testa in avanti; usa solo se hai buona mobilità di spalla.",
-  "library_image": "0097"
+  "description": "Seduto con cosce bloccate, barra larga. Porta la barra dietro la testa all'altezza della nuca, spingendo la testa in avanti; usa solo se hai buona mobilità di spalla."
  },
  {
   "name": "Stacco al multipower",
   "muscle_group": "schiena",
   "category": "forza",
   "equipment": "multipower",
-  "description": "Piedi sotto la barra guidata, schiena neutra. Spingi sulle gambe e porta il busto in estensione, poi riporta la barra a terra con controllo.",
-  "library_image": "0100"
+  "description": "Piedi sotto la barra guidata, schiena neutra. Spingi sulle gambe e porta il busto in estensione, poi riporta la barra a terra con controllo."
  },
  {
   "name": "Good morning al multipower",
   "muscle_group": "lombari",
   "category": "forza",
   "equipment": "multipower",
-  "description": "Barra guidata sulle spalle, ginocchia appena flesse. Porta il bacino indietro inclinando il busto in avanti a schiena piatta e risali contraendo i glutei.",
-  "library_image": "0102"
+  "description": "Barra guidata sulle spalle, ginocchia appena flesse. Porta il bacino indietro inclinando il busto in avanti a schiena piatta e risali contraendo i glutei."
  },
  {
   "name": "Estensioni lombari su fitball",
   "muscle_group": "lombari",
   "category": "forza",
   "equipment": "fitball",
-  "description": "Addome sulla fitball, piedi a terra e mani dietro la nuca. Solleva il busto fino all'allineamento con le gambe e scendi piano.",
-  "library_image": "0104"
+  "description": "Addome sulla fitball, piedi a terra e mani dietro la nuca. Solleva il busto fino all'allineamento con le gambe e scendi piano."
  },
  {
   "name": "Calcio all'indietro in piedi con appoggio",
   "muscle_group": "glutei",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "In piedi di fronte a un muro, mano appoggiata per equilibrio. Porta una gamba indietro a ginocchio flesso e poi stesa, contraendo il gluteo, senza inarcare la schiena.",
-  "library_image": "0111"
+  "description": "In piedi di fronte a un muro, mano appoggiata per equilibrio. Porta una gamba indietro a ginocchio flesso e poi stesa, contraendo il gluteo, senza inarcare la schiena."
  },
  {
   "name": "Affondi con bilanciere",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere sulle spalle, busto eretto. Fai un passo avanti e scendi finché il ginocchio posteriore sfiora il pavimento, poi spingi per tornare in piedi.",
-  "library_image": "0114"
+  "description": "Bilanciere sulle spalle, busto eretto. Fai un passo avanti e scendi finché il ginocchio posteriore sfiora il pavimento, poi spingi per tornare in piedi."
  },
  {
   "name": "Flutter kick a pancia in giù",
   "muscle_group": "glutei",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Sdraiato prono, braccia lungo il corpo o sotto la fronte. Solleva le gambe e alternale con piccoli colpi veloci, mantenendo la zona lombare stabile.",
-  "library_image": "0116"
+  "description": "Sdraiato prono, braccia lungo il corpo o sotto la fronte. Solleva le gambe e alternale con piccoli colpi veloci, mantenendo la zona lombare stabile."
  },
  {
   "name": "Hack squat con bilanciere",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere tenuto dietro le gambe a braccia distese. Scendi piegando le ginocchia con il busto eretto e risali spingendo sui talloni.",
-  "library_image": "0125"
+  "description": "Bilanciere tenuto dietro le gambe a braccia distese. Scendi piegando le ginocchia con il busto eretto e risali spingendo sui talloni."
  },
  {
   "name": "Hack squat al multipower",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "multipower",
-  "description": "Barra guidata dietro le gambe, piedi leggermente avanti. Scendi con il busto verticale e risali spingendo sui talloni.",
-  "library_image": "0126"
+  "description": "Barra guidata dietro le gambe, piedi leggermente avanti. Scendi con il busto verticale e risali spingendo sui talloni."
  },
  {
   "name": "Affondi indietro con bilanciere",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere sulle spalle. Porta una gamba indietro e scendi con il ginocchio verso terra, poi torna in piedi spingendo sul piede anteriore.",
-  "library_image": "0128"
+  "description": "Bilanciere sulle spalle. Porta una gamba indietro e scendi con il ginocchio verso terra, poi torna in piedi spingendo sul piede anteriore."
  },
  {
   "name": "Squat con manubri",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Un manubrio per mano ai lati del corpo. Scendi come in uno squat con il busto eretto e risali spingendo con tutto il piede.",
-  "library_image": "0130"
+  "description": "Un manubrio per mano ai lati del corpo. Scendi come in uno squat con il busto eretto e risali spingendo con tutto il piede."
  },
  {
   "name": "Affondi laterali con bilanciere",
   "muscle_group": "adduttori",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere sulle spalle. Fai un passo laterale ampio e siediti su quella gamba, tenendo l'altra distesa; spingi per tornare al centro.",
-  "library_image": "0131"
+  "description": "Bilanciere sulle spalle. Fai un passo laterale ampio e siediti su quella gamba, tenendo l'altra distesa; spingi per tornare al centro."
  },
  {
   "name": "Squat monopodalico con bilanciere",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere sulle spalle, un piede appoggiato dietro o sollevato. Scendi su una gamba controllando il ginocchio e risali; usa un carico leggero.",
-  "library_image": "0132"
+  "description": "Bilanciere sulle spalle, un piede appoggiato dietro o sollevato. Scendi su una gamba controllando il ginocchio e risali; usa un carico leggero."
  },
  {
   "name": "Step-up con bilanciere",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere sulle spalle davanti a una panca. Sali con una gamba spingendo sul tallone, porta su l'altra e scendi con controllo.",
-  "library_image": "0134"
+  "description": "Bilanciere sulle spalle davanti a una panca. Sali con una gamba spingendo sul tallone, porta su l'altra e scendi con controllo."
  },
  {
   "name": "Squat con manubri alla panca",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Siediti sulla panca dietro di te con i manubri ai fianchi. Sfiora la panca senza abbandonarti e risali spingendo sui talloni.",
-  "library_image": "0136"
+  "description": "Siediti sulla panca dietro di te con i manubri ai fianchi. Sfiora la panca senza abbandonarti e risali spingendo sui talloni."
  },
  {
   "name": "Front squat alla panca",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere appoggiato sulle clavicole con i gomiti alti. Scendi fino a sfiorare la panca con il busto eretto e risali con forza.",
-  "library_image": "0139"
+  "description": "Bilanciere appoggiato sulle clavicole con i gomiti alti. Scendi fino a sfiorare la panca con il busto eretto e risali con forza."
  },
  {
   "name": "Squat con manubri alle spalle",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Manubri appoggiati alle spalle con i gomiti in avanti. Scendi in squat con il busto verticale e risali senza far cadere i gomiti.",
-  "library_image": "0140"
+  "description": "Manubri appoggiati alle spalle con i gomiti in avanti. Scendi in squat con il busto verticale e risali senza far cadere i gomiti."
  },
  {
   "name": "Squat Jefferson",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Cavalca il bilanciere con un piede davanti e uno dietro, impugnatura mista. Scendi piegando le ginocchia e risali, poi ripeti con l'altro piede avanti.",
-  "library_image": "0141"
+  "description": "Cavalca il bilanciere con un piede davanti e uno dietro, impugnatura mista. Scendi piegando le ginocchia e risali, poi ripeti con l'altro piede avanti."
  },
  {
   "name": "Leg press a piedi stretti",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Seduto alla pressa, piedi vicini al centro della pedana. Scendi con i ginocchi vicini al petto senza staccare il bacino e spingi fino a quasi distendere le gambe.",
-  "library_image": "0143"
+  "description": "Seduto alla pressa, piedi vicini al centro della pedana. Scendi con i ginocchi vicini al petto senza staccare il bacino e spingi fino a quasi distendere le gambe."
  },
  {
   "name": "Squat sdraiato alla macchina",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Sdraiato sul carrello inclinato, piedi sulla pedana. Fletti le ginocchia fino a 90° o poco più e spingi per tornare alla posizione di partenza.",
-  "library_image": "0144"
+  "description": "Sdraiato sul carrello inclinato, piedi sulla pedana. Fletti le ginocchia fino a 90° o poco più e spingi per tornare alla posizione di partenza."
  },
  {
   "name": "Hack squat a piedi stretti",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Spalle contro i cuscini, piedi vicini sulla pedana. Scendi con controllo e spingi sui talloni mantenendo la schiena aderente.",
-  "library_image": "0145"
+  "description": "Spalle contro i cuscini, piedi vicini sulla pedana. Scendi con controllo e spingi sui talloni mantenendo la schiena aderente."
  },
  {
   "name": "Squat con bilanciere a piedi stretti",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere sulle spalle, piedi uniti alla larghezza del bacino. Scendi con il busto eretto e le ginocchia in avanti, poi risali.",
-  "library_image": "0146"
+  "description": "Bilanciere sulle spalle, piedi uniti alla larghezza del bacino. Scendi con il busto eretto e le ginocchia in avanti, poi risali."
  },
  {
   "name": "Strappo a un braccio con bilanciere",
   "muscle_group": "total_body",
   "category": "funzionale",
   "equipment": "bilanciere",
-  "description": "Impugni il bilanciere con una mano da terra, anche in basso. Tira con le gambe e le anche portandolo sopra la testa in un unico movimento, braccio disteso.",
-  "library_image": "0148"
+  "description": "Impugni il bilanciere con una mano da terra, anche in basso. Tira con le gambe e le anche portandolo sopra la testa in un unico movimento, braccio disteso."
  },
  {
   "name": "Overhead squat",
   "muscle_group": "total_body",
   "category": "funzionale",
   "equipment": "bilanciere",
-  "description": "Bilanciere sopra la testa a presa larga, braccia bloccate. Scendi in squat profondo mantenendo il busto verticale e risali senza perdere il bilanciere.",
-  "library_image": "0151"
+  "description": "Bilanciere sopra la testa a presa larga, braccia bloccate. Scendi in squat profondo mantenendo il busto verticale e risali senza perdere il bilanciere."
  },
  {
   "name": "Squat veloce con bilanciere",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere con carico moderato sulle spalle. Scendi con controllo e risali il più velocemente possibile mantenendo la tecnica.",
-  "library_image": "0154"
+  "description": "Bilanciere con carico moderato sulle spalle. Scendi con controllo e risali il più velocemente possibile mantenendo la tecnica."
  },
  {
   "name": "Sissy squat con disco",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "disco",
-  "description": "Disco stretto al petto e talloni sollevati, mano appoggiata a un supporto. Piega le ginocchia in avanti inclinando il busto indietro e risali.",
-  "library_image": "0158"
+  "description": "Disco stretto al petto e talloni sollevati, mano appoggiata a un supporto. Piega le ginocchia in avanti inclinando il busto indietro e risali."
  },
  {
   "name": "Squat a piedi larghi con bilanciere",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere sulle spalle, piedi molto più larghi delle spalle e punte in fuori. Scendi tra le gambe e risali spingendo.",
-  "library_image": "0160"
+  "description": "Bilanciere sulle spalle, piedi molto più larghi delle spalle e punte in fuori. Scendi tra le gambe e risali spingendo."
  },
  {
   "name": "Squat Zercher",
   "muscle_group": "quadricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere nell'incavo dei gomiti, vicino all'addome. Scendi in squat con il busto eretto e risali tenendo i gomiti vicini al corpo.",
-  "library_image": "0161"
+  "description": "Bilanciere nell'incavo dei gomiti, vicino all'addome. Scendi in squat con il busto eretto e risali tenendo i gomiti vicini al corpo."
  },
  {
   "name": "Cerchi con le caviglie",
   "muscle_group": "polpacci",
   "category": "mobilita",
   "equipment": "corpo libero",
-  "description": "In piedi o seduto, solleva un piede e disegna cerchi ampi con la caviglia in entrambe le direzioni. Poi cambia lato.",
-  "library_image": "0270"
+  "description": "In piedi o seduto, solleva un piede e disegna cerchi ampi con la caviglia in entrambe le direzioni. Poi cambia lato."
  },
  {
   "name": "Tavoletta propriocettiva",
   "muscle_group": "polpacci",
   "category": "funzionale",
   "equipment": "corpo libero",
-  "description": "In piedi sulla tavoletta instabile, ginocchia appena flesse. Cerca di mantenere l'equilibrio e il bacino fermo per 30-60 secondi.",
-  "library_image": "0271"
+  "description": "In piedi sulla tavoletta instabile, ginocchia appena flesse. Cerca di mantenere l'equilibrio e il bacino fermo per 30-60 secondi."
  },
  {
   "name": "Calf seduto con bilanciere",
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Seduto con il bilanciere sulle ginocchia e punte su un rialzo. Solleva i talloni al massimo e scendi piano allungando bene il polpaccio.",
-  "library_image": "0272"
+  "description": "Seduto con il bilanciere sulle ginocchia e punte su un rialzo. Solleva i talloni al massimo e scendi piano allungando bene il polpaccio."
  },
  {
   "name": "Calf in piedi con elastico",
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "elastico",
-  "description": "In piedi, elastico sotto i piedi e tenuto sulle spalle. Solleva i talloni al massimo e scendi lentamente.",
-  "library_image": "0274"
+  "description": "In piedi, elastico sotto i piedi e tenuto sulle spalle. Solleva i talloni al massimo e scendi lentamente."
  },
  {
   "name": "Donkey calf raise",
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Busto flesso in avanti, mani su un supporto e punte su un rialzo. Solleva i talloni al massimo e scendi allungando il polpaccio.",
-  "library_image": "0275"
+  "description": "Busto flesso in avanti, mani su un supporto e punte su un rialzo. Solleva i talloni al massimo e scendi allungando il polpaccio."
  },
  {
   "name": "Calf seduto a una gamba con manubrio",
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto con un manubrio sul ginocchio e la punta del piede sul rialzo. Solleva il tallone e scendi lentamente, poi cambia gamba.",
-  "library_image": "0276"
+  "description": "Seduto con un manubrio sul ginocchio e la punta del piede sul rialzo. Solleva il tallone e scendi lentamente, poi cambia gamba."
  },
  {
   "name": "Cerchi con le ginocchia",
   "muscle_group": "mobilita",
   "category": "mobilita",
   "equipment": "corpo libero",
-  "description": "In piedi, ginocchia unite e mani sopra di esse. Traccia piccoli cerchi con le ginocchia in entrambe le direzioni, lentamente.",
-  "library_image": "0277"
+  "description": "In piedi, ginocchia unite e mani sopra di esse. Traccia piccoli cerchi con le ginocchia in entrambe le direzioni, lentamente."
  },
  {
   "name": "Calf in piedi con bilanciere a rimbalzo",
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere sulle spalle, piedi paralleli. Esegui rimbalzi brevi sulle punte con ginocchia quasi distese, mantenendo il busto fermo.",
-  "library_image": "0278"
+  "description": "Bilanciere sulle spalle, piedi paralleli. Esegui rimbalzi brevi sulle punte con ginocchia quasi distese, mantenendo il busto fermo."
  },
  {
   "name": "Calf in piedi con bilanciere",
   "muscle_group": "polpacci",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Bilanciere sulle spalle, punte su un rialzo. Sali sulle punte al massimo e scendi piano allungando il polpaccio.",
-  "library_image": "0281"
+  "description": "Bilanciere sulle spalle, punte su un rialzo. Sali sulle punte al massimo e scendi piano allungando il polpaccio."
  },
  {
   "name": "Rollout con bilanciere in piedi",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In piedi, piegato in avanti con il bilanciere carico a terra. Fai rotolare il bilanciere in avanti a braccia distese e torna senza inarcare la schiena: esercizio avanzato.",
-  "library_image": "0285"
+  "description": "In piedi, piegato in avanti con il bilanciere carico a terra. Fai rotolare il bilanciere in avanti a braccia distese e torna senza inarcare la schiena: esercizio avanzato."
  },
  {
   "name": "Rollout con bilanciere in ginocchio",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In ginocchio con il bilanciere carico davanti a te. Spingi avanti il bilanciere a braccia distese tenendo il bacino in retroversione e torna.",
-  "library_image": "0286"
+  "description": "In ginocchio con il bilanciere carico davanti a te. Spingi avanti il bilanciere a braccia distese tenendo il bacino in retroversione e torna."
  },
  {
   "name": "Crunch incrociato",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Sdraiato, mani dietro la nuca. Porta un gomito verso il ginocchio opposto ruotando il busto e alterna i lati.",
-  "library_image": "0289"
+  "description": "Sdraiato, mani dietro la nuca. Porta un gomito verso il ginocchio opposto ruotando il busto e alterna i lati."
  },
  {
   "name": "Crunch con gambe su fitball",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "fitball",
-  "description": "Sdraiato con i polpacci appoggiati alla fitball. Solleva le scapole da terra contraendo l'addome e scendi lentamente.",
-  "library_image": "0290"
+  "description": "Sdraiato con i polpacci appoggiati alla fitball. Solleva le scapole da terra contraendo l'addome e scendi lentamente."
  },
  {
   "name": "Crunch su panca declinata",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "panca",
-  "description": "Sdraiato su panca declinata con i piedi bloccati. Solleva il busto flettendo la colonna e scendi senza abbandonarti.",
-  "library_image": "0292"
+  "description": "Sdraiato su panca declinata con i piedi bloccati. Solleva il busto flettendo la colonna e scendi senza abbandonarti."
  },
  {
   "name": "Crunch obliquo su panca declinata",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "panca",
-  "description": "Sdraiato su panca declinata, ruota il busto verso un ginocchio salendo e torna con controllo; alterna i lati.",
-  "library_image": "0293"
+  "description": "Sdraiato su panca declinata, ruota il busto verso un ginocchio salendo e torna con controllo; alterna i lati."
  },
  {
   "name": "Pull-in con fitball",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "fitball",
-  "description": "In posizione di plank con le tibie sulla fitball. Porta le ginocchia verso il petto facendo rotolare la palla e torna lentamente.",
-  "library_image": "0296"
+  "description": "In posizione di plank con le tibie sulla fitball. Porta le ginocchia verso il petto facendo rotolare la palla e torna lentamente."
  },
  {
   "name": "Flessioni laterali su fitball con peso",
   "muscle_group": "addome",
   "category": "forza",
   "equipment": "fitball",
-  "description": "Sdraiato di fianco sopra la fitball con un peso al petto. Inclina il busto lateralmente verso il basso e risali contraendo il fianco.",
-  "library_image": "0208"
+  "description": "Sdraiato di fianco sopra la fitball con un peso al petto. Inclina il busto lateralmente verso il basso e risali contraendo il fianco."
  },
  {
   "name": "Push down su panca inclinata ai cavi",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Sdraiato su panca inclinata davanti al cavo alto. Parti con le mani sopra il viso e distendi le braccia verso il basso, gomiti fermi.",
-  "library_image": "0163"
+  "description": "Sdraiato su panca inclinata davanti al cavo alto. Parti con le mani sopra il viso e distendi le braccia verso il basso, gomiti fermi."
  },
  {
   "name": "Estensioni ai cavi su panca inclinata",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Sdraiato su panca inclinata, cavo alto dietro la testa. Porta le mani sopra il petto distendendo i gomiti e torna con controllo.",
-  "library_image": "0164"
+  "description": "Sdraiato su panca inclinata, cavo alto dietro la testa. Porta le mani sopra il petto distendendo i gomiti e torna con controllo."
  },
  {
   "name": "Estensioni sdraiato ai cavi",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Sdraiato sulla panca con la barra del cavo basso. Distendi le braccia sopra il viso tenendo i gomiti fermi e riporta la barra alla fronte.",
-  "library_image": "0165"
+  "description": "Sdraiato sulla panca con la barra del cavo basso. Distendi le braccia sopra il viso tenendo i gomiti fermi e riporta la barra alla fronte."
  },
  {
   "name": "Push down a un braccio ai cavi",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "In piedi di fronte al cavo alto, impugnatura in una mano. Distendi il braccio verso il basso con il gomito aderente al fianco e risali piano.",
-  "library_image": "0166"
+  "description": "In piedi di fronte al cavo alto, impugnatura in una mano. Distendi il braccio verso il basso con il gomito aderente al fianco e risali piano."
  },
  {
   "name": "Skull crusher su panca declinata",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato su panca declinata, presa stretta. Scendi con il bilanciere verso la fronte piegando solo i gomiti e spingi in alto.",
-  "library_image": "0168"
+  "description": "Sdraiato su panca declinata, presa stretta. Scendi con il bilanciere verso la fronte piegando solo i gomiti e spingi in alto."
  },
  {
   "name": "Estensioni con manubrio su panca declinata",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato su panca declinata con un manubrio a due mani sopra il petto. Scendi dietro la testa flettendo i gomiti e risali.",
-  "library_image": "0169"
+  "description": "Sdraiato su panca declinata con un manubrio a due mani sopra il petto. Scendi dietro la testa flettendo i gomiti e risali."
  },
  {
   "name": "Skull crusher con bilanciere EZ su panca declinata",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Su panca declinata con il bilanciere EZ sopra il petto. Piega i gomiti portando la barra verso la fronte e distendi.",
-  "library_image": "0170"
+  "description": "Su panca declinata con il bilanciere EZ sopra il petto. Piega i gomiti portando la barra verso la fronte e distendi."
  },
  {
   "name": "Dip per tricipiti ai paralleli",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "corpo libero",
-  "description": "Alle parallele con il busto verticale e i gomiti vicini. Scendi fino a 90° e spingi in alto fino a braccia distese.",
-  "library_image": "0172"
+  "description": "Alle parallele con il busto verticale e i gomiti vicini. Scendi fino a 90° e spingi in alto fino a braccia distese."
  },
  {
   "name": "Estensioni con manubrio a un braccio da seduto",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto, un manubrio sopra la testa con una mano. Piega il gomito portando il manubrio dietro la testa e distendi.",
-  "library_image": "0173"
+  "description": "Seduto, un manubrio sopra la testa con una mano. Piega il gomito portando il manubrio dietro la testa e distendi."
  },
  {
   "name": "Estensioni con bilanciere su panca inclinata",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato su panca inclinata con il bilanciere sopra il petto. Scendi dietro la testa flettendo i gomiti e risali.",
-  "library_image": "0174"
+  "description": "Sdraiato su panca inclinata con il bilanciere sopra il petto. Scendi dietro la testa flettendo i gomiti e risali."
  },
  {
   "name": "Estensione concentrata ai cavi in ginocchio",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "In ginocchio di lato al cavo alto, una mano all'impugnatura. Distendi il gomito portando la mano verso il basso e torna lentamente.",
-  "library_image": "0176"
+  "description": "In ginocchio di lato al cavo alto, una mano all'impugnatura. Distendi il gomito portando la mano verso il basso e torna lentamente."
  },
  {
   "name": "Estensioni ai cavi in ginocchio",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "In ginocchio davanti a una panca con il cavo dietro la testa. Distendi le braccia in avanti e riporta piano la corda dietro la nuca.",
-  "library_image": "0177"
+  "description": "In ginocchio davanti a una panca con il cavo dietro la testa. Distendi le braccia in avanti e riporta piano la corda dietro la nuca."
  },
  {
   "name": "Estensioni al cavo basso da sdraiato",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Sdraiato sulla schiena con il cavo basso. Piega e distendi il gomito portando l'impugnatura verso il viso.",
-  "library_image": "0178"
+  "description": "Sdraiato sulla schiena con il cavo basso. Piega e distendi il gomito portando l'impugnatura verso il viso."
  },
  {
   "name": "French press con bilanciere dietro la testa",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato con presa stretta, bilanciere sopra il petto. Scendi dietro la testa piegando i gomiti e distendi con controllo.",
-  "library_image": "0179"
+  "description": "Sdraiato con presa stretta, bilanciere sopra il petto. Scendi dietro la testa piegando i gomiti e distendi con controllo."
  },
  {
   "name": "Panca stretta fino al mento",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato su panca piana con presa stretta. Scendi portando il bilanciere verso il mento e spingi con i gomiti vicini.",
-  "library_image": "0180"
+  "description": "Sdraiato su panca piana con presa stretta. Scendi portando il bilanciere verso il mento e spingi con i gomiti vicini."
  },
  {
   "name": "Estensioni sdraiato con manubrio",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato sulla panca con un manubrio per mano. Piega i gomiti portando i manubri ai lati della testa e distendi.",
-  "library_image": "0181"
+  "description": "Sdraiato sulla panca con un manubrio per mano. Piega i gomiti portando i manubri ai lati della testa e distendi."
  },
  {
   "name": "Estensioni sdraiato con manubrio sul viso",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato, manubrio sopra la spalla opposta. Scendi verso la spalla controlaterale flettendo il gomito e risali.",
-  "library_image": "0182"
+  "description": "Sdraiato, manubrio sopra la spalla opposta. Scendi verso la spalla controlaterale flettendo il gomito e risali."
  },
  {
   "name": "Estensioni sdraiato in stile old school",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato, bilanciere in presa prona sopra il petto. Scendi dietro la testa flettendo i gomiti con movimento controllato.",
-  "library_image": "0185"
+  "description": "Sdraiato, bilanciere in presa prona sopra il petto. Scendi dietro la testa flettendo i gomiti con movimento controllato."
  },
  {
   "name": "Estensioni con manubrio a un braccio in pronazione",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato o in piedi, manubrio con il palmo in basso. Piega il gomito portando il manubrio dietro la testa e distendi.",
-  "library_image": "0186"
+  "description": "Sdraiato o in piedi, manubrio con il palmo in basso. Piega il gomito portando il manubrio dietro la testa e distendi."
  },
  {
   "name": "Estensioni con manubrio a un braccio in supinazione",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato o in piedi, manubrio con il palmo in alto. Piega il gomito portando il manubrio dietro la testa e distendi.",
-  "library_image": "0187"
+  "description": "Sdraiato o in piedi, manubrio con il palmo in alto. Piega il gomito portando il manubrio dietro la testa e distendi."
  },
  {
   "name": "Panca con presa inversa",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato sulla panca con presa supina. Scendi lentamente al petto con i gomiti vicini e spingi in alto; usa un carico leggero.",
-  "library_image": "0190"
+  "description": "Sdraiato sulla panca con presa supina. Scendi lentamente al petto con i gomiti vicini e spingi in alto; usa un carico leggero."
  },
  {
   "name": "Estensioni con bilanciere sopra la testa da seduto",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Seduto con il bilanciere sopra la testa. Scendi dietro la nuca flettendo i gomiti e distendi con il busto fermo.",
-  "library_image": "0193"
+  "description": "Seduto con il bilanciere sopra la testa. Scendi dietro la nuca flettendo i gomiti e distendi con il busto fermo."
  },
  {
   "name": "Panca presa stretta al multipower",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "multipower",
-  "description": "Sdraiato sotto la barra guidata con presa stretta. Scendi verso il petto con i gomiti vicini e spingi in alto.",
-  "library_image": "0195"
+  "description": "Sdraiato sotto la barra guidata con presa stretta. Scendi verso il petto con i gomiti vicini e spingi in alto."
  },
  {
   "name": "Estensioni con manubrio piegato in avanti",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Busto inclinato in avanti, un manubrio per mano. Piega i gomiti e distendili portando il manubrio all'indietro.",
-  "library_image": "0196"
+  "description": "Busto inclinato in avanti, un manubrio per mano. Piega i gomiti e distendili portando il manubrio all'indietro."
  },
  {
   "name": "Estensioni a due braccia piegato in avanti",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Busto inclinato, manubri vicini al busto. Distendi i gomiti portando i manubri verso l'indietro e torna con controllo.",
-  "library_image": "0197"
+  "description": "Busto inclinato, manubri vicini al busto. Distendi i gomiti portando i manubri verso l'indietro e torna con controllo."
  },
  {
   "name": "Estensioni con manubrio sopra la testa in piedi",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con un manubrio tenuto a due mani sopra la testa. Scendi dietro la nuca piegando i gomiti e risali.",
-  "library_image": "0198"
+  "description": "In piedi con un manubrio tenuto a due mani sopra la testa. Scendi dietro la nuca piegando i gomiti e risali."
  },
  {
   "name": "Estensioni sopra la testa ai cavi a un braccio",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "In piedi di spalle al cavo basso, impugnatura in una mano. Distendi il braccio sopra la testa e riporta la mano dietro la nuca.",
-  "library_image": "0199"
+  "description": "In piedi di spalle al cavo basso, impugnatura in una mano. Distendi il braccio sopra la testa e riporta la mano dietro la nuca."
  },
  {
   "name": "Estensioni con manubrio a un braccio in piedi",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi, un manubrio sopra la testa. Scendi dietro la nuca piegando il gomito e distendi.",
-  "library_image": "0200"
+  "description": "In piedi, un manubrio sopra la testa. Scendi dietro la nuca piegando il gomito e distendi."
  },
  {
   "name": "Estensioni con bilanciere sopra la testa in piedi",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In piedi con il bilanciere sopra la testa. Scendi dietro la nuca flettendo i gomiti e distendi con addome attivo.",
-  "library_image": "0201"
+  "description": "In piedi con il bilanciere sopra la testa. Scendi dietro la nuca flettendo i gomiti e distendi con addome attivo."
  },
  {
   "name": "Tate press",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato con i manubri sopra il petto. Piega i gomiti portando i manubri verso le spalle e distendi con il polso rigido.",
-  "library_image": "0203"
+  "description": "Sdraiato con i manubri sopra il petto. Piega i gomiti portando i manubri verso le spalle e distendi con il polso rigido."
  },
  {
   "name": "Push down con barra a V",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "In piedi di fronte al cavo alto con la barra a V. Distendi i gomiti verso il basso e risali piano.",
-  "library_image": "0207"
+  "description": "In piedi di fronte al cavo alto con la barra a V. Distendi i gomiti verso il basso e risali piano."
  },
  {
   "name": "Estensioni con manubrio su panca inclinata",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Su panca inclinata con un manubrio sopra la testa. Piega i gomiti dietro la testa e distendi.",
-  "library_image": "0209"
+  "description": "Su panca inclinata con un manubrio sopra la testa. Piega i gomiti dietro la testa e distendi."
  },
  {
   "name": "Estensioni alla macchina per tricipiti",
   "muscle_group": "tricipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Seduto alla macchina con i gomiti appoggiati. Distendi le braccia contro la resistenza e torna lentamente.",
-  "library_image": "0210"
+  "description": "Seduto alla macchina con i gomiti appoggiati. Distendi le braccia contro la resistenza e torna lentamente."
  },
  {
   "name": "Curl a martello alternato",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con i palmi in dentro. Fletti un gomito alla volta portando il manubrio verso la spalla e scendi piano.",
-  "library_image": "0213"
+  "description": "In piedi con i palmi in dentro. Fletti un gomito alla volta portando il manubrio verso la spalla e scendi piano."
  },
  {
   "name": "Curl con bilanciere prono su panca inclinata",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Sdraiato prono sulla panca inclinata con le braccia pendenti. Fletti i gomiti portando il bilanciere verso il petto e scendi.",
-  "library_image": "0215"
+  "description": "Sdraiato prono sulla panca inclinata con le braccia pendenti. Fletti i gomiti portando il bilanciere verso il petto e scendi."
  },
  {
   "name": "Curl alla panca Scott ai cavi",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Seduto alla panca Scott con la barra del cavo. Fletti i gomiti portando la barra verso le spalle e scendi lentamente.",
-  "library_image": "0217"
+  "description": "Seduto alla panca Scott con la barra del cavo. Fletti i gomiti portando la barra verso le spalle e scendi lentamente."
  },
  {
   "name": "Curl a presa stretta con bilanciere EZ",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In piedi con la barra EZ a presa stretta. Fletti i gomiti portando la barra verso il petto e scendi.",
-  "library_image": "0218"
+  "description": "In piedi con la barra EZ a presa stretta. Fletti i gomiti portando la barra verso il petto e scendi."
  },
  {
   "name": "Curl a presa stretta con bilanciere",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In piedi con il bilanciere a presa stretta. Fletti i gomiti verso le spalle senza dondolare e scendi con controllo.",
-  "library_image": "0219"
+  "description": "In piedi con il bilanciere a presa stretta. Fletti i gomiti verso le spalle senza dondolare e scendi con controllo."
  },
  {
   "name": "Curl a martello incrociato",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con un manubrio per mano. Porta il manubrio verso la spalla opposta attraversando il petto e scendi.",
-  "library_image": "0221"
+  "description": "In piedi con un manubrio per mano. Porta il manubrio verso la spalla opposta attraversando il petto e scendi."
  },
  {
   "name": "Drag curl",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In piedi con il bilanciere. Sali facendo scorrere la barra lungo il busto, portando i gomiti indietro, e scendi.",
-  "library_image": "0222"
+  "description": "In piedi con il bilanciere. Sali facendo scorrere la barra lungo il busto, portando i gomiti indietro, e scendi."
  },
  {
   "name": "Curl con manubri",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con i manubri lungo i fianchi. Fletti i gomiti portando entrambi i manubri verso le spalle e scendi.",
-  "library_image": "0224"
+  "description": "In piedi con i manubri lungo i fianchi. Fletti i gomiti portando entrambi i manubri verso le spalle e scendi."
  },
  {
   "name": "Curl prono su panca inclinata con manubri",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato prono su panca inclinata con le braccia pendenti. Fletti i gomiti portando i manubri verso le spalle.",
-  "library_image": "0225"
+  "description": "Sdraiato prono su panca inclinata con le braccia pendenti. Fletti i gomiti portando i manubri verso le spalle."
  },
  {
   "name": "Curl con bilanciere EZ",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In piedi con la barra EZ. Fletti i gomiti portando la barra verso il petto senza far oscillare il busto.",
-  "library_image": "0226"
+  "description": "In piedi con la barra EZ. Fletti i gomiti portando la barra verso il petto senza far oscillare il busto."
  },
  {
   "name": "Curl su panca inclinata con rotazione",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto su panca inclinata con i manubri pendenti. Fletti i gomiti ruotando i polsi verso l'esterno e scendi.",
-  "library_image": "0228"
+  "description": "Seduto su panca inclinata con i manubri pendenti. Fletti i gomiti ruotando i polsi verso l'esterno e scendi."
  },
  {
   "name": "Curl al cavo alto da sdraiato",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Sdraiato sulla panca con le impugnature dei cavi alti. Fletti i gomiti portando le mani verso la testa e torna.",
-  "library_image": "0229"
+  "description": "Sdraiato sulla panca con le impugnature dei cavi alti. Fletti i gomiti portando le mani verso la testa e torna."
  },
  {
   "name": "Curl interno su panca inclinata con manubri",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto su panca inclinata, polsi in dentro. Fletti i gomiti portando i manubri verso le spalle e scendi lentamente.",
-  "library_image": "0231"
+  "description": "Seduto su panca inclinata, polsi in dentro. Fletti i gomiti portando i manubri verso le spalle e scendi lentamente."
  },
  {
   "name": "Curl al cavo da sdraiato",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Sdraiato davanti al cavo basso. Fletti i gomiti portando la barra verso il viso e torna.",
-  "library_image": "0232"
+  "description": "Sdraiato davanti al cavo basso. Fletti i gomiti portando la barra verso il viso e torna."
  },
  {
   "name": "Curl a presa stretta al cavo da sdraiato",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "Sdraiato davanti al cavo basso con presa stretta. Fletti i gomiti verso la fronte e torna lentamente.",
-  "library_image": "0233"
+  "description": "Sdraiato davanti al cavo basso con presa stretta. Fletti i gomiti verso la fronte e torna lentamente."
  },
  {
   "name": "Curl con bilanciere su panca alta",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Prono su una panca alta con il bilanciere in mano. Fletti i gomiti portando il bilanciere verso il petto e scendi.",
-  "library_image": "0234"
+  "description": "Prono su una panca alta con il bilanciere in mano. Fletti i gomiti portando il bilanciere verso il petto e scendi."
  },
  {
   "name": "Curl supino con manubri",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Sdraiato supino su una panca, manubri in mano. Fletti i gomiti portando i manubri verso le spalle e scendi.",
-  "library_image": "0235"
+  "description": "Sdraiato supino su una panca, manubri in mano. Fletti i gomiti portando i manubri verso le spalle e scendi."
  },
  {
   "name": "Curl alla panca Scott alla macchina",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "macchina",
-  "description": "Seduto alla macchina Scott con i gomiti appoggiati. Fletti le braccia contro la resistenza e torna lentamente.",
-  "library_image": "0236"
+  "description": "Seduto alla macchina Scott con i gomiti appoggiati. Fletti le braccia contro la resistenza e torna lentamente."
  },
  {
   "name": "Curl alla panca Scott con manubrio a un braccio",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto alla panca Scott con un braccio sul cuscino. Fletti il gomito portando il manubrio verso la spalla e scendi.",
-  "library_image": "0237"
+  "description": "Seduto alla panca Scott con un braccio sul cuscino. Fletti il gomito portando il manubrio verso la spalla e scendi."
  },
  {
   "name": "Curl ai cavi alti in piedi",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "cavi",
-  "description": "In piedi tra due cavi alti con le braccia aperte. Fletti i gomiti portando le mani verso la testa e torna.",
-  "library_image": "0238"
+  "description": "In piedi tra due cavi alti con le braccia aperte. Fletti i gomiti portando le mani verso la testa e torna."
  },
  {
   "name": "Curl a martello alla panca Scott",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto alla panca Scott con i palmi in dentro. Fletti i gomiti portando i manubri verso le spalle e scendi.",
-  "library_image": "0240"
+  "description": "Seduto alla panca Scott con i palmi in dentro. Fletti i gomiti portando i manubri verso le spalle e scendi."
  },
  {
   "name": "Curl inverso con disco",
   "muscle_group": "avambracci",
   "category": "forza",
   "equipment": "disco",
-  "description": "In piedi, disco tenuto in presa prona sul bordo. Fletti i gomiti e scendi lentamente mantenendo il polso rigido.",
-  "library_image": "0241"
+  "description": "In piedi, disco tenuto in presa prona sul bordo. Fletti i gomiti e scendi lentamente mantenendo il polso rigido."
  },
  {
   "name": "Curl concentrato con bilanciere da seduto",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Seduto, gomiti appoggiati alle cosce, presa stretta sul bilanciere. Fletti i gomiti verso le spalle e scendi lentamente.",
-  "library_image": "0242"
+  "description": "Seduto, gomiti appoggiati alle cosce, presa stretta sul bilanciere. Fletti i gomiti verso le spalle e scendi lentamente."
  },
  {
   "name": "Curl da seduto con manubri",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto su una panca, manubri ai lati. Fletti i gomiti portando i manubri verso le spalle e scendi.",
-  "library_image": "0243"
+  "description": "Seduto su una panca, manubri ai lati. Fletti i gomiti portando i manubri verso le spalle e scendi."
  },
  {
   "name": "Curl interno da seduto con manubri",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto su una panca con i polsi in dentro. Fletti i gomiti portando i manubri verso le spalle e scendi.",
-  "library_image": "0244"
+  "description": "Seduto su una panca con i polsi in dentro. Fletti i gomiti portando i manubri verso le spalle e scendi."
  },
  {
   "name": "Curl spider con bilanciere",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "Prono sul lato inclinato di una panca con le braccia pendenti. Fletti i gomiti portando il bilanciere verso il petto e scendi.",
-  "library_image": "0245"
+  "description": "Prono sul lato inclinato di una panca con le braccia pendenti. Fletti i gomiti portando il bilanciere verso il petto e scendi."
  },
  {
   "name": "Curl interno in piedi con manubri",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con i polsi in dentro. Fletti i gomiti portando i manubri verso le spalle e scendi.",
-  "library_image": "0246"
+  "description": "In piedi con i polsi in dentro. Fletti i gomiti portando i manubri verso le spalle e scendi."
  },
  {
   "name": "Curl a un braccio su panca inclinata",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Un braccio sulla panca inclinata, l'altro con il manubrio. Fletti il gomito portando il manubrio verso la spalla e scendi.",
-  "library_image": "0248"
+  "description": "Un braccio sulla panca inclinata, l'altro con il manubrio. Fletti il gomito portando il manubrio verso la spalla e scendi."
  },
  {
   "name": "Curl alla panca Scott con manubri",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto alla panca Scott con un manubrio per mano. Fletti i gomiti portando i manubri verso le spalle e scendi.",
-  "library_image": "0249"
+  "description": "Seduto alla panca Scott con un manubrio per mano. Fletti i gomiti portando i manubri verso le spalle e scendi."
  },
  {
   "name": "Curl a presa larga con bilanciere",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "bilanciere",
-  "description": "In piedi con presa più larga delle spalle. Fletti i gomiti portando il bilanciere verso il petto e scendi.",
-  "library_image": "0250"
+  "description": "In piedi con presa più larga delle spalle. Fletti i gomiti portando il bilanciere verso il petto e scendi."
  },
  {
   "name": "Curl Zottman",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con un manubrio per mano. Sali in curl con i palmi in alto, ruotali in basso in cima e scendi lentamente.",
-  "library_image": "0251"
+  "description": "In piedi con un manubrio per mano. Sali in curl con i palmi in alto, ruotali in basso in cima e scendi lentamente."
  },
  {
   "name": "Curl Zottman alla panca Scott",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto alla panca Scott con i manubri. Sali con i palmi in alto, ruotali in cima e scendi con presa prona.",
-  "library_image": "0252"
+  "description": "Seduto alla panca Scott con i manubri. Sali con i palmi in alto, ruotali in cima e scendi con presa prona."
  },
  {
   "name": "Curl da seduto su fitball",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto sulla fitball con i manubri in mano. Fletti i gomiti portando i manubri verso le spalle senza spostare il busto.",
-  "library_image": "0255"
+  "description": "Seduto sulla fitball con i manubri in mano. Fletti i gomiti portando i manubri verso le spalle senza spostare il busto."
  },
  {
   "name": "Curl con squat",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con i manubri. Scendi in squat e, risalendo, fletti i gomiti portando i manubri verso le spalle.",
-  "library_image": "0256"
+  "description": "In piedi con i manubri. Scendi in squat e, risalendo, fletti i gomiti portando i manubri verso le spalle."
  },
  {
   "name": "Curl inverso con manubri",
   "muscle_group": "avambracci",
   "category": "forza",
   "equipment": "manubri",
-  "description": "In piedi con i manubri in presa prona. Fletti i gomiti portando i manubri verso le spalle e scendi lentamente.",
-  "library_image": "0257"
+  "description": "In piedi con i manubri in presa prona. Fletti i gomiti portando i manubri verso le spalle e scendi lentamente."
  },
  {
   "name": "Curl concentrato su fitball",
   "muscle_group": "bicipiti",
   "category": "forza",
   "equipment": "manubri",
-  "description": "Seduto sulla fitball con il gomito appoggiato alla coscia. Fletti il braccio portando il manubrio verso la spalla e scendi.",
-  "library_image": "0258"
+  "description": "Seduto sulla fitball con il gomito appoggiato alla coscia. Fletti il braccio portando il manubrio verso la spalla e scendi."
  },
  {
   "name": "Stacco con curl",
   "muscle_group": "total_body",
   "category": "funzionale",
   "equipment": "bilanciere",
-  "description": "Esegui uno stacco con il bilanciere; in piedi fletti i gomiti portando la barra verso il petto e riporta a terra.",
-  "library_image": "0259"
+  "description": "Esegui uno stacco con il bilanciere; in piedi fletti i gomiti portando la barra verso il petto e riporta a terra."
  },
  {
   "name": "Affondo laterale con curl",
   "muscle_group": "total_body",
   "category": "funzionale",
   "equipment": "manubri",
-  "description": "Manubri in mano. Fai un passo laterale in affondo e, risalendo, fletti i gomiti portando i manubri verso le spalle.",
-  "library_image": "0264"
+  "description": "Manubri in mano. Fai un passo laterale in affondo e, risalendo, fletti i gomiti portando i manubri verso le spalle."
  },
  {
   "name": "Affondo frontale con curl",
   "muscle_group": "total_body",
   "category": "funzionale",
   "equipment": "manubri",
-  "description": "Manubri in mano. Fai un passo avanti in affondo e, risalendo, fletti i gomiti portando i manubri verso le spalle.",
-  "library_image": "0265"
+  "description": "Manubri in mano. Fai un passo avanti in affondo e, risalendo, fletti i gomiti portando i manubri verso le spalle."
  },
  {
   "name": "Step-up con curl",
   "muscle_group": "total_body",
   "category": "funzionale",
   "equipment": "manubri",
-  "description": "Manubri in mano davanti a un gradino. Sali con una gamba e, in alto, fletti i gomiti portando i manubri alle spalle.",
-  "library_image": "0266"
+  "description": "Manubri in mano davanti a un gradino. Sali con una gamba e, in alto, fletti i gomiti portando i manubri alle spalle."
  },
  {
   "name": "Stretching dorsali con braccio sopra la testa",

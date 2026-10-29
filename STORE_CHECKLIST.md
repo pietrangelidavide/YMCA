@@ -11,7 +11,7 @@
 - Il marchio YMCA Prime Sport Club e il nome dell'app vanno usati con l'autorizzazione del club: gli account Apple e Google devono essere intestati a loro (o a chi ha il loro consenso scritto).
 - Screenshot degli store: dalla demo (`demo/`, vista telefono) o dall'app con i dati di prova.
 
-- **Illustrazioni degli esercizi (CC BY-SA, Everkinetic):** l'attribuzione deve restare visibile (dettaglio esercizio e *Profilo > Crediti delle illustrazioni*); controlla che sia presente nella build. Testo e condizioni in `assets/exercises/LICENSE.md`. Se vuoi evitare l'obbligo di «condividi allo stesso modo» sulle immagini, sostituiscile con foto proprie del club.
+- Gli esercizi non hanno foto: i video li registra il personal trainer dal proprio dispositivo. Non c'è nessuna attribuzione di licenza da mostrare.
 
 ## Account
 - Apple Developer Program (quota annuale; per l'account a nome della palestra servono i dati dell'impresa).
@@ -19,7 +19,7 @@
 - Notifiche push: Apple (chiavi APNs, le gestisce EAS con l'account Apple) e Firebase per Android (`google-services.json`, caricato su EAS).
 
 ## Schede degli store
-- Privacy policy online con indirizzo pubblico. Dati raccolti: nome, email, telefono, data di nascita e sesso (facoltativi), obiettivo, misure del corpo, plicometria e BIA (facoltative), anamnesi e preferenze di allenamento, documenti PDF assegnati dallo staff, allenamenti e carichi, messaggi con il PT, token per le notifiche e, solo per chi aderisce, la partecipazione alla classifica (nome, iniziale del cognome e totale dei chili sollevati, visibili agli altri soci). Dati su Supabase, regione UE. L'account si elimina dall'app (richiesto da Apple).
+- Privacy policy online con indirizzo pubblico. Dati raccolti: nome, email, telefono, data di nascita e sesso (facoltativi), obiettivo, misure del corpo, plicometria e BIA (facoltative), anamnesi e preferenze di allenamento, documenti PDF assegnati dallo staff, allenamenti e carichi, messaggi con il PT, i video degli esercizi registrati dai personal trainer (fotocamera e microfono servono solo per quello; i video sono pubblici per chi ha l'indirizzo, quindi nelle riprese non devono comparire soci riconoscibili senza il loro consenso), token per le notifiche e, solo per chi aderisce, la partecipazione alla classifica (nome, iniziale del cognome e totale dei chili sollevati, visibili agli altri soci). Dati su Supabase, regione UE. L'account si elimina dall'app (richiesto da Apple).
 - **Anamnesi, plicometria e BIA sono dati sulla salute** (GDPR, art. 9): dichiarali nella privacy policy e in «App Privacy» / «Sicurezza dei dati» (categoria *Salute e fitness*), tieni la data del consenso (l'app non salva l'anamnesi senza) e decidi con la palestra chi dello staff può leggerli e per quanto tempo si conservano. Apple chiede di spiegare nelle note per il revisore a cosa servono.
 - Note riservate dei PT: se contengono informazioni sulla salute sono dati particolari (GDPR, art. 9). Decidi con la palestra se tenerle, con quale consenso e quali istruzioni dare ai PT (l'app invita a non scrivere diagnosi).
 - Nome nello store: «YMCA Prime Training» (da `app.json`; i nomi con marchi altrui possono essere contestati da Apple/Google senza l'autorizzazione del titolare).
@@ -37,7 +37,9 @@
 ## Collaudo su dispositivo
 - Allenamento con rete assente: avvia, segna qualche serie, termina, riconnetti e verifica che arrivi una sola volta.
 - Notifica di nuova scheda, di messaggio e avviso scritto dallo staff (iPhone e Android reali; sui simulatori le push non funzionano).
-- Caricamento di un PDF (*Altro > Documenti*) e di un'immagine di esercizio dal telefono, poi apertura del PDF dall'app del socio; il file oltre 2 MB (PDF) o 5 MB (immagine) deve essere rifiutato con un messaggio chiaro.
+- Caricamento di un PDF (*Altro > Documenti*) dal telefono e apertura dall'app del socio; il file oltre 2 MB deve essere rifiutato con un messaggio chiaro.
+- Video degli esercizi, con un account PT su iPhone e su Android reali: *Registra un video* (compare la richiesta di permesso per fotocamera e microfono; se si nega, l'app lo spiega), stop automatico a 30 secondi, caricamento, riproduzione dall'account di un socio, sostituzione (il vecchio file sparisce da Storage) e *Togli*; *Scegli dalla galleria*; un video oltre 50 MB viene rifiutato con un messaggio chiaro; prova anche con rete debole.
 - Finestre sovrapposte su iPhone: avviso con scelta dei soci, documento con scelta dei soci, nuova attività con scelta del socio.
-- Classifica delle tonnellate: con due account socio di prova, entra con uno, registra un allenamento con i carichi e controlla che l'altro lo veda come «Nome C.» e che chi non partecipa non compaia; esci dalla classifica e verifica che sparisca. Controlla anche le foto degli esercizi (dettaglio con «Partenza» e «Arrivo», credito in *Profilo*).
+- Classifica delle tonnellate: con due account socio di prova, entra con uno, registra un allenamento con i carichi e controlla che l'altro lo veda come «Nome C.» e che chi non partecipa non compaia; esci dalla classifica e verifica che sparisca. 
+- iPad e schermi grandi: barra laterale (icone in verticale, nomi da 1024 px), Oggi su due colonne, finestre al centro, rotazione dello schermo durante un allenamento (non deve perdere le serie inserite).
 - Tema chiaro e scuro, testo grande di sistema, tastiera aperta nei campi del costruttore schede.

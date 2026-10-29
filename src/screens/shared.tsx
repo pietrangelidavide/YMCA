@@ -1,18 +1,14 @@
 // Pezzi usati sia dal socio sia dallo staff: archivio esercizi, scheda dell'esercizio, scelta esercizi, messaggi.
 import React, { useMemo, useState } from 'react';
 import { Image, Linking, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
-import { EXERCISE_IMAGES } from '../exerciseImages';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import { api, Comment, Exercise, ExerciseLite, errText, useAsync, useExercises } from '../data';
-import { Picked, pickImage, publicUrl, removeFile, uploadFile } from '../files';
+import { captureVideo, isHostedVideo, MAX_VIDEO, Picked, pickVideo, removeHostedVideo, storeVideo, VIDEO_SECONDS } from '../files';
 import { useNav, useVersion } from '../nav';
 import { useSession } from '../session';
 import { Theme, TYPE, useTheme } from '../theme';
 import { Button, Chip, Empty, ErrorState, Field, Group, Icon, Page, Pill, Row, SectionTitle, Segmented, Sheet, Spinner, Txt, BarChart, IconButton, useUi } from '../ui';
 import { ago, CATEGORY, CATEGORY_KEYS, fmtDate, fmtNum, MUSCLE, MUSCLE_KEYS, muscleLabel, noEquipment, norm, uuid, youtubeId } from '../util';
-
-// Crediti delle illustrazioni di libreria (obbligo di attribuzione della licenza CC BY-SA)
-export const ILLUSTRATIONS_URL = 'https://everkinetic.com';
-export const ILLUSTRATIONS_CREDIT = 'Illustrazioni © Everkinetic (everkinetic.com), licenza CC BY-SA; ridimensionate e ricentrate.';
 
 export const MUSCLE_ICON: Record<string, string> = {
   petto: 'body', schiena: 'accessibility', spalle: 'barbell', trapezi: 'triangle', bicipiti: 'fitness', tricipiti: 'flash', avambracci: 'hand-left',
@@ -24,24 +20,28 @@ const UPPER = ['petto', 'schiena', 'spalle', 'trapezi', 'bicipiti', 'tricipiti',
 const LOWER = ['quadricipiti', 'femorali', 'glutei', 'adduttori', 'abduttori', 'polpacci'];
 export const groupColor = (g: string, t: Theme) => (UPPER.includes(g) ? t.accentInk : LOWER.includes(g) ? '#7F8693' : t.text);
 
-// Riquadro con l'immagine dell'esercizio (propria della palestra, altrimenti l'illustrazione di libreria) o con l'icona del gruppo muscolare;
-// se c'è un video mostra il tasto play
-export function ExerciseTile({ e, size = 48, play }: { e: Pick<ExerciseLite, 'muscle_group' | 'video_url'> & { image_url?: string | null; library_image?: string | null }; size?: number; play?: boolean }) {
+// Riquadro con l'icona del gruppo muscolare; se l'esercizio ha un video mostra il tasto play
+export function ExerciseTile({ e, size = 48, play }: { e: Pick<ExerciseLite, 'muscle_group' | 'video_url'>; size?: number; play?: boolean }) {
   const { t } = useTheme();
   const c = groupColor(e.muscle_group, t);
-  const lib = !e.image_url && e.library_image ? EXERCISE_IMAGES[e.library_image] : undefined;
   return (
-    <View style={{ width: size, height: size, borderRadius: size * 0.27, backgroundColor: lib ? '#FFFFFF' : c + '29', alignItems: 'center', justifyContent: 'center' }}>
-      {e.image_url ? (
-        <Image source={{ uri: e.image_url }} resizeMode="cover" style={{ width: size, height: size, borderRadius: size * 0.27 }} accessibilityLabel="Immagine dell'esercizio" />
-      ) : lib ? (
-        <Image source={lib.thumb === 2 ? lib.end : lib.start} resizeMode="contain" style={{ width: size, height: size, borderRadius: size * 0.27 }} accessibilityLabel="Illustrazione dell'esercizio" />
-      ) : <Icon name={MUSCLE_ICON[e.muscle_group] || 'barbell'} size={size * 0.5} color={c} />}
+    <View style={{ width: size, height: size, borderRadius: size * 0.27, backgroundColor: c + '29', alignItems: 'center', justifyContent: 'center' }}>
+      <Icon name={MUSCLE_ICON[e.muscle_group] || 'barbell'} size={size * 0.5} color={c} />
       {(play ?? !!e.video_url) && e.video_url ? (
         <View style={{ position: 'absolute', right: -3, bottom: -3, width: size * 0.38, height: size * 0.38, borderRadius: size * 0.19, backgroundColor: '#111114', alignItems: 'center', justifyContent: 'center' }}>
           <Icon name="play" size={size * 0.2} color="#fff" style={{ marginLeft: 1 }} />
         </View>
       ) : null}
+    </View>
+  );
+}
+
+// Video registrato dal PT e salvato nell'app: si guarda qui, senza uscire
+function HostedVideo({ url }: { url: string }) {
+  const player = useVideoPlayer(url, (p: any) => { p.loop = false; });
+  return (
+    <View style={{ borderRadius: 22, overflow: 'hidden', backgroundColor: '#000' }}>
+      <VideoView player={player} nativeControls contentFit="contain" allowsFullscreen style={{ width: '100%', height: 420 }} accessibilityLabel="Video dell'esercizio" />
     </View>
   );
 }
@@ -106,7 +106,7 @@ export function Library() {
   const reset = <T,>(set: (v: T) => void) => (v: T) => { set(v); setShown(PAGE); };
   const filtered = !!(q || g || c || eq);
   return (
-    <Page title="Esercizi" subtitle={ex.data ? (filtered ? `${list.length} di ${ex.data.length} esercizi` : `${ex.data.length} esercizi`) : undefined}
+    <Page title="Esercizi" maxWidth="wide" subtitle={ex.data ? (filtered ? `${list.length} di ${ex.data.length} esercizi` : `${ex.data.length} esercizi`) : undefined}
       right={isStaff ? <IconButton name="add-circle" size={30} color="accentInk" label="Nuovo esercizio" onPress={() => setEdit({ muscle_group: g || 'petto', category: c || 'forza' })} /> : undefined}>
       <View style={{ gap: 10, paddingTop: 4 }}>
         <View style={{ paddingHorizontal: 16 }}><SearchBox value={q} onChange={reset(setQ)} placeholder="Cerca un esercizio" /></View>
@@ -136,13 +136,13 @@ export function Library() {
   );
 }
 
-// Scheda dell'esercizio nell'elenco: immagine, categoria muscolare, descrizione breve, modifica e dettaglio
+// Scheda dell'esercizio nell'elenco: icona del gruppo muscolare, categoria muscolare, descrizione breve, modifica e dettaglio
 function ExerciseCard({ e, onOpen, onEdit }: { e: Exercise; onOpen: () => void; onEdit?: () => void }) {
   const { t } = useTheme();
   return (
-    <View style={{ flexGrow: 1, flexBasis: 340, minWidth: 0, backgroundColor: t.card, borderRadius: 18, padding: 12, gap: 10 }}>
+    <View style={{ flexGrow: 1, flexBasis: 340, minWidth: 0, maxWidth: '100%', backgroundColor: t.card, borderRadius: 18, padding: 12, gap: 10 }}>
       <Pressable accessibilityLabel={`Apri ${e.name}`} onPress={onOpen} style={{ flexDirection: 'row', gap: 12 }}>
-        <ExerciseTile e={e} size={84} />
+        <ExerciseTile e={e} size={56} />
         <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
           <Text numberOfLines={2} style={{ color: t.text, fontSize: 16.5, fontWeight: '700' }}>{e.name}</Text>
           <Text numberOfLines={1} style={{ color: t.accentInk, fontSize: 12.5, fontWeight: '600' }}>Categoria muscolare › {muscleLabel(e.muscle_group)}</Text>
@@ -173,33 +173,36 @@ export function ExerciseDetail({ id }: { id: string }) {
   const yt = youtubeId(e?.video_url);
   const { t } = useTheme();
   const gc = e ? groupColor(e.muscle_group, t) : t.text;
-  const lib = e && !e.image_url && e.library_image ? EXERCISE_IMAGES[e.library_image] : undefined;
+  const { bump } = useVersion();
+  const { toast } = useUi();
+  const [vbusy, setVbusy] = useState(false);
+  // Registra (o sceglie) un video, lo carica e lo collega all'esercizio; quello sostituito si cancella
+  const addVideo = async (how: 'camera' | 'library') => {
+    if (!e) return;
+    let url: string | null = null;
+    try {
+      const p = how === 'camera' ? await captureVideo() : await pickVideo();
+      if (!p) return;
+      setVbusy(true);
+      url = await storeVideo(p);
+      await api.saveExercise({ ...e, video_url: url });
+      await removeHostedVideo(e.video_url);
+      bump(); toast('Video salvato: ora lo vedono tutti i soci.');
+    } catch (er) {
+      if (url) await removeHostedVideo(url);
+      toast(errText(er), 'error');
+    } finally { setVbusy(false); }
+  };
   return (
     <Page onBack={nav.pop} navTitle={e?.name || 'Esercizio'}
       right={isStaff && e ? <IconButton name="create-outline" label="Modifica" color="accentInk" onPress={() => setEdit(e)} /> : undefined}>
       {!e ? <Spinner /> : (
         <View style={{ gap: 16, paddingHorizontal: 16, paddingTop: 4 }}>
-          {lib ? (
-            <View style={{ gap: 8 }}>
-              <View style={{ flexDirection: 'row', borderRadius: 22, overflow: 'hidden', backgroundColor: '#FFFFFF' }}>
-                {([['Partenza', lib.start], ['Arrivo', lib.end]] as const).map(([label, src]) => (
-                  <View key={label} style={{ flex: 1, minWidth: 0 }}>
-                    <Image source={src} resizeMode="contain" style={{ width: '100%', aspectRatio: 1 }} accessibilityLabel={`${e.name}: posizione di ${label.toLowerCase()}`} />
-                    <Text style={{ position: 'absolute', left: 12, top: 10, color: '#6B7280', fontSize: 11.5, fontWeight: '700' }}>{label}</Text>
-                  </View>
-                ))}
-              </View>
-              {e.video_url ? <Button small kind="secondary" label="Guarda il video" icon="play" onPress={() => Linking.openURL(e.video_url!)} /> : null}
-              <Pressable accessibilityLabel="Crediti delle illustrazioni" onPress={() => Linking.openURL(ILLUSTRATIONS_URL)}>
-                <Txt v="cap" c="faint">{ILLUSTRATIONS_CREDIT}</Txt>
-              </Pressable>
-            </View>
-          ) : (
-          <Pressable accessibilityLabel={e.video_url ? 'Guarda il video' : 'Immagine dell\'esercizio'} disabled={!e.video_url} onPress={() => e.video_url && Linking.openURL(e.video_url)}
+          {isHostedVideo(e.video_url) ? <HostedVideo url={e.video_url!} /> : (
+          <Pressable accessibilityLabel={e.video_url ? 'Guarda il video' : 'Nessun video'} disabled={!e.video_url} onPress={() => e.video_url && Linking.openURL(e.video_url)}
             style={{ height: 220, borderRadius: 22, overflow: 'hidden', backgroundColor: gc + '29', alignItems: 'center', justifyContent: 'center' }}>
             <Icon name={MUSCLE_ICON[e.muscle_group] || 'barbell'} size={84} color={gc} />
-            {e.image_url ? <Image source={{ uri: e.image_url }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} resizeMode="cover" /> : null}
-            {!e.image_url && yt ? <Image source={{ uri: `https://img.youtube.com/vi/${yt}/hqdefault.jpg` }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} resizeMode="cover" /> : null}
+            {yt ? <Image source={{ uri: `https://img.youtube.com/vi/${yt}/hqdefault.jpg` }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} resizeMode="cover" /> : null}
             {e.video_url ? (
               <View style={{ position: 'absolute', flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: 24, paddingHorizontal: 18, height: 46 }}>
                 <Icon name="play" size={20} color="#fff" />
@@ -208,6 +211,13 @@ export function ExerciseDetail({ id }: { id: string }) {
             ) : null}
           </Pressable>
           )}
+          {isStaff ? (
+            <View style={{ gap: 8 }}>
+              <Button kind="secondary" icon="videocam" label={e.video_url ? 'Registra di nuovo il video' : 'Registra un video'} onPress={() => addVideo('camera')} loading={vbusy} />
+              <Button small kind="ghost" icon="film-outline" label="Scegli un video dalla galleria" onPress={() => addVideo('library')} disabled={vbusy} />
+              <Txt v="cap" c="faint" style={{ textAlign: 'center' }}>{vbusy ? 'Carico il video: non chiudere l\'app…' : `Fino a ${VIDEO_SECONDS} secondi. Lo vedono subito tutti i soci.`}</Txt>
+            </View>
+          ) : null}
           <View>
             <Text style={[{ color: t.text }, TYPE.title]}>{e.name}</Text>
             <Text style={{ color: t.accentInk, fontSize: 14, fontWeight: '600', marginTop: 4 }}>Categoria muscolare › {muscleLabel(e.muscle_group)}</Text>
@@ -222,7 +232,6 @@ export function ExerciseDetail({ id }: { id: string }) {
               <Txt c="sub" style={{ lineHeight: 23 }}>{e.description}</Txt>
             </View>
           ) : null}
-          {isStaff && (!e.video_url || (!e.image_url && !lib)) ? <Txt v="sub" c="faint">{[!e.image_url && !lib ? 'Nessuna immagine' : '', !e.video_url ? 'nessun video' : ''].filter(Boolean).join(', ')}: aggiungili da «Modifica» per farli vedere ai soci.</Txt> : null}
           {mine ? (
             <View style={{ gap: 10 }}>
               <Txt v="head">Il tuo andamento</Txt>
@@ -246,34 +255,31 @@ export function ExerciseEditor({ value, onClose }: { value: Partial<Exercise> | 
   const { bump } = useVersion();
   const { toast } = useUi();
   const [f, setF] = useState<Partial<Exercise>>({});
-  const [picked, setPicked] = useState<Picked | null>(null);   // immagine scelta, caricata al salvataggio
+  const [picked, setPicked] = useState<Picked | null>(null);   // video registrato o scelto, caricato al salvataggio
   const [busy, setBusy] = useState(false);
   React.useEffect(() => { if (value) { setF(value); setPicked(null); } }, [value]);
-  const preview = picked ? picked.uri : f.image_url;
-  const pick = async () => {
-    try { const p = await pickImage(); if (p) setPicked(p); } catch (e) { toast(errText(e), 'error'); }
+  const hosted = isHostedVideo(f.video_url);
+  const take = async (how: 'camera' | 'library') => {
+    try { const p = how === 'camera' ? await captureVideo() : await pickVideo(); if (p) setPicked(p); } catch (e) { toast(errText(e), 'error'); }
   };
   const save = async () => {
     if (!f.name?.trim()) return toast('Scrivi il nome dell\'esercizio.', 'error');
     setBusy(true);
-    let path: string | null = null;
+    let uploaded: string | null = null;
     try {
-      let image_url = f.image_url ?? null;
-      if (picked) {
-        path = `${uuid()}.${/png/i.test(picked.type) ? 'png' : /webp/i.test(picked.type) ? 'webp' : 'jpg'}`;
-        await uploadFile('exercise-media', path, picked);
-        image_url = publicUrl('exercise-media', path);
-      }
-      await api.saveExercise({ ...f, name: f.name!, muscle_group: f.muscle_group || 'petto', image_url });
+      let video_url = f.video_url?.trim() || null;
+      if (picked) { uploaded = await storeVideo(picked); video_url = uploaded; }
+      await api.saveExercise({ ...f, name: f.name!, muscle_group: f.muscle_group || 'petto', video_url });
+      if (value?.video_url && value.video_url !== video_url) await removeHostedVideo(value.video_url);   // video sostituito o tolto
       bump(); toast(f.id ? 'Esercizio aggiornato.' : 'Esercizio creato.'); onClose();
     } catch (e) {
-      if (path) await removeFile('exercise-media', path);
+      if (uploaded) await removeHostedVideo(uploaded);
       toast(errText(e), 'error');
     } finally { setBusy(false); }
   };
   return (
     <Sheet visible={!!value} onClose={onClose} title={f.id ? 'Modifica esercizio' : 'Nuovo esercizio'}
-      footer={<Button label="Salva" onPress={save} loading={busy} />}>
+      footer={<Button label={picked ? 'Salva e carica il video' : 'Salva'} onPress={save} loading={busy} />}>
       <Field label="Nome" value={f.name} onChangeText={(name) => setF({ ...f, name })} autoCapitalize="sentences" />
       <View style={{ gap: 6 }}>
         <Txt v="cap" c="sub" style={{ marginLeft: 4, fontSize: 13 }}>Categoria muscolare</Txt>
@@ -289,20 +295,27 @@ export function ExerciseEditor({ value, onClose }: { value: Partial<Exercise> | 
       </View>
       <Field label="Attrezzo" value={f.equipment ?? ''} onChangeText={(equipment) => setF({ ...f, equipment })} placeholder="manubri, cavi, TRX, corpo libero…" />
       <Field label="Come si esegue" value={f.description ?? ''} onChangeText={(description) => setF({ ...f, description })} multiline />
-      <View style={{ gap: 6 }}>
-        <Txt v="cap" c="sub" style={{ marginLeft: 4, fontSize: 13 }}>Immagine</Txt>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          <View style={{ width: 84, height: 84, borderRadius: 18, backgroundColor: t.card2, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
-            {preview ? <Image source={{ uri: preview }} resizeMode="cover" style={{ width: 84, height: 84 }} accessibilityLabel="Anteprima dell'immagine" /> : <Icon name="image-outline" size={30} color="faint" />}
+      <View style={{ gap: 8 }}>
+        <Txt v="cap" c="sub" style={{ marginLeft: 4, fontSize: 13 }}>Video</Txt>
+        {picked || hosted ? (
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: t.card2, borderRadius: 16, padding: 12 }}>
+            <Icon name="videocam" size={24} color="accentInk" />
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={{ color: t.text, fontSize: 15.5, fontWeight: '600' }}>{picked ? 'Nuovo video pronto' : 'Video registrato'}</Text>
+              <Text numberOfLines={1} style={{ color: t.sub, fontSize: 13.5 }}>{picked ? `${picked.size ? `${fmtNum(picked.size / 1048576, 1)} MB · ` : ''}si carica quando salvi` : 'è già visibile ai soci'}</Text>
+            </View>
+            <Button small kind="ghost" label="Togli" full={false} onPress={() => { if (picked) setPicked(null); else setF({ ...f, video_url: null }); }} />
           </View>
-          <View style={{ flex: 1, gap: 8 }}>
-            <Button small kind="secondary" icon="image-outline" label={preview ? 'Cambia immagine' : 'Scegli un\'immagine'} full={false} onPress={pick} />
-            {preview ? <Button small kind="ghost" label="Togli l'immagine" full={false} onPress={() => { setPicked(null); setF({ ...f, image_url: null }); }} /> : null}
-          </View>
+        ) : null}
+        <View style={{ flexDirection: 'row', gap: 8 }}>
+          <View style={{ flex: 1 }}><Button small kind="secondary" icon="videocam" label={picked || hosted ? 'Registra di nuovo' : 'Registra un video'} onPress={() => take('camera')} /></View>
+          <View style={{ flex: 1 }}><Button small kind="secondary" icon="film-outline" label="Dalla galleria" onPress={() => take('library')} /></View>
         </View>
-        <Txt v="cap" c="faint" style={{ marginLeft: 4 }}>JPG, PNG o WebP fino a 5 MB. Usa foto o disegni tuoi: le immagini di altri programmi hanno diritti d'autore.</Txt>
+        <Txt v="cap" c="faint" style={{ marginLeft: 4 }}>Fino a {VIDEO_SECONDS} secondi e {MAX_VIDEO / 1048576} MB, registrati con la fotocamera di questo dispositivo. Lo vedono tutti i soci.</Txt>
+        {!picked && !hosted ? (
+          <Field label="Oppure un link a un video" value={f.video_url ?? ''} onChangeText={(video_url) => setF({ ...f, video_url })} keyboardType="url" autoCapitalize="none" placeholder="https://youtu.be/…" hint="Un video YouTube «non in elenco» va benissimo: i soci lo aprono con un tocco." />
+        ) : null}
       </View>
-      <Field label="Link al video" value={f.video_url ?? ''} onChangeText={(video_url) => setF({ ...f, video_url })} keyboardType="url" autoCapitalize="none" placeholder="https://youtu.be/…" hint="Un video YouTube «non in elenco» va benissimo: i soci lo aprono con un tocco." />
       {f.id ? (
         <Row title={f.active === false ? 'Nascosto ai soci' : 'Visibile ai soci'} sub="Un esercizio già usato non si cancella: si nasconde." onPress={() => setF({ ...f, active: f.active === false })}
           right={<Icon name={f.active === false ? 'eye-off-outline' : 'eye-outline'} size={22} color="sub" />} />

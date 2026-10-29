@@ -34,3 +34,4 @@ declare module 'expo-document-picker';
 declare module 'expo-image-picker';
 
 declare function require(path: string): any;
+declare module 'expo-video';

@@ -17,7 +17,7 @@ const VIDEO = new Set(['Panca piana con bilanciere', 'Squat con bilanciere', 'St
 const slug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const exercises: Row[] = (SEED as Row[]).map((e, i) => ({
   id: `ex${i + 1}`, name: e.name, muscle_group: e.muscle_group, category: e.category, equipment: e.equipment, description: e.description,
-  video_url: VIDEO.has(e.name) ? `https://example.com/video/${slug(e.name)}` : null, image_url: null, library_image: e.library_image ?? null, active: true, created_at: at(-200, 9),
+  video_url: VIDEO.has(e.name) ? `https://example.com/video/${slug(e.name)}` : null, active: true, created_at: at(-200, 9),
 }));
 const EX = (name: string): Row => { const e = exercises.find((x) => x.name === name); if (!e) throw new Error('Esercizio mancante: ' + name); return e; };
 

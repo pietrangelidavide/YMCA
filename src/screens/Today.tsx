@@ -6,7 +6,7 @@ import { useNav, useTabs, useVersion } from '../nav';
 import { useSession } from '../session';
 import { plate, useTheme } from '../theme';
 import { LeaderboardCard } from './leaderboard';
-import { Button, Empty, ErrorState, Group, Icon, Page, Row, SectionTitle, Spinner, Txt, useUi } from '../ui';
+import { Button, Columns, Empty, ErrorState, Group, Icon, Page, Row, SectionTitle, Spinner, Txt, useUi } from '../ui';
 import { addDays, ago, fmtDateLong, greeting, isoDay, parseDay, sameDay, startOfWeek, WEEKDAYS_MON } from '../util';
 
 // durata stimata dell'allenamento in minuti (40 s a serie + recuperi), arrotondata a 5
@@ -68,7 +68,7 @@ export default function Today() {
   };
 
   return (
-    <Page title={profile?.first_name ? `${greeting(now)}, ${profile.first_name}` : greeting(now)} subtitle={fmtDateLong(now)}>
+    <Page title={profile?.first_name ? `${greeting(now)}, ${profile.first_name}` : greeting(now)} subtitle={fmtDateLong(now)} maxWidth="wide">
       <View style={{ paddingHorizontal: 16, gap: 14, paddingTop: 6 }}>
         {d.loading && !d.data ? <Spinner /> : d.error && !d.data ? <ErrorState error={d.error} onRetry={d.reload} /> : null}
 
@@ -92,51 +92,60 @@ export default function Today() {
         {d.data && !program ? <LeaderboardCard /> : null}
 
         {program ? (
-          <>
-            <NextCard program={program} idx={nextIdx} onStart={() => start(nextIdx)} />
-
-            <View style={{ backgroundColor: t.card, borderRadius: 20, padding: 16, gap: 12 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <Txt v="head">Questa settimana</Txt>
-                <Txt v="sub" c="sub" num>{Math.min(doneDays.length, 99)} su {target}</Txt>
+          <Columns
+            left={<>
+              <NextCard program={program} idx={nextIdx} onStart={() => start(nextIdx)} />
+              <WeekCard doneDays={doneDays} target={target} week={week} now={now} />
+            </>}
+            right={<>
+              <LeaderboardCard />
+              <View>
+                <SectionTitle>I giorni della scheda</SectionTitle>
+                <Group>
+                  {program.days.map((day, i) => {
+                    const last = works.find((w) => dayIndexOf(program, w) === i);
+                    const p = plate(i);
+                    return (
+                      <Row key={day.id || i} title={day.name} sub={[day.focus, last ? `fatto ${ago(last.started_at)}` : 'da fare'].filter(Boolean).join(' · ')}
+                        left={<View style={{ width: 40, height: 40, borderRadius: 12, backgroundColor: p.c, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: p.on, fontSize: 18, fontWeight: '800' }}>{String.fromCharCode(65 + i)}</Text></View>}
+                        right={<Icon name="play-circle" size={28} color="accentInk" />} onPress={() => start(i)} accessibilityLabel={`Inizia ${day.name}`} />
+                    );
+                  })}
+                </Group>
               </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                {WEEKDAYS_MON.map((l, i) => {
-                  const day = addDays(week, i);
-                  const done = doneDays.some((x) => sameDay(x, day));
-                  const today = sameDay(day, now);
-                  return (
-                    <View key={i} style={{ alignItems: 'center', gap: 6 }}>
-                      <Text style={{ color: t.faint, fontSize: 12, fontWeight: '600' }}>{l}</Text>
-                      <View style={{ width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: done ? t.accent : 'transparent', borderWidth: done ? 0 : today ? 2 : 1, borderColor: today ? t.accentInk : t.line }}>
-                        {done ? <Icon name="checkmark" size={20} color={t.onAccent} /> : <Text style={{ color: today ? t.accentInk : t.faint, fontSize: 13.5, fontWeight: '600' }}>{day.getDate()}</Text>}
-                      </View>
-                    </View>
-                  );
-                })}
-              </View>
-            </View>
-
-            <LeaderboardCard />
-
-            <SectionTitle>I giorni della scheda</SectionTitle>
-            <Group>
-              {program.days.map((day, i) => {
-                const last = works.find((w) => dayIndexOf(program, w) === i);
-                const p = plate(i);
-                return (
-                  <Row key={day.id || i} title={day.name} sub={[day.focus, last ? `fatto ${ago(last.started_at)}` : 'da fare'].filter(Boolean).join(' · ')}
-                    left={<View style={{ width: 40, height: 40, borderRadius: 12, backgroundColor: p.c, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: p.on, fontSize: 18, fontWeight: '800' }}>{String.fromCharCode(65 + i)}</Text></View>}
-                    right={<Icon name="play-circle" size={28} color="accentInk" />} onPress={() => start(i)} accessibilityLabel={`Inizia ${day.name}`} />
-                );
-              })}
-            </Group>
-
-            <WeekInfo program={program} trainer={trainer} onOpen={() => tabs.setTab('scheda')} />
-          </>
+              <WeekInfo program={program} trainer={trainer} onOpen={() => tabs.setTab('scheda')} />
+            </>}
+          />
         ) : null}
       </View>
     </Page>
+  );
+}
+
+function WeekCard({ doneDays, target, week, now }: { doneDays: Date[]; target: number; week: Date; now: Date }) {
+  const { t } = useTheme();
+  return (
+    <View style={{ backgroundColor: t.card, borderRadius: 20, padding: 16, gap: 12 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
+        <Txt v="head">Questa settimana</Txt>
+        <Txt v="sub" c="sub" num>{Math.min(doneDays.length, 99)} su {target}</Txt>
+      </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        {WEEKDAYS_MON.map((l, i) => {
+          const day = addDays(week, i);
+          const done = doneDays.some((x) => sameDay(x, day));
+          const today = sameDay(day, now);
+          return (
+            <View key={i} style={{ alignItems: 'center', gap: 6 }}>
+              <Text style={{ color: t.faint, fontSize: 12, fontWeight: '600' }}>{l}</Text>
+              <View style={{ width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: done ? t.accent : 'transparent', borderWidth: done ? 0 : today ? 2 : 1, borderColor: today ? t.accentInk : t.line }}>
+                {done ? <Icon name="checkmark" size={20} color={t.onAccent} /> : <Text style={{ color: today ? t.accentInk : t.faint, fontSize: 13.5, fontWeight: '600' }}>{day.getDate()}</Text>}
+              </View>
+            </View>
+          );
+        })}
+      </View>
+    </View>
   );
 }
 
@@ -178,13 +187,13 @@ function WeekInfo({ program, trainer, onOpen }: { program: Program; trainer?: st
   const { t } = useTheme();
   const w = programWeek(program);
   return (
-    <>
+    <View>
       <SectionTitle>La scheda</SectionTitle>
       <Group>
         <Row title={program.name} sub={w ? (w.over ? 'Scheda terminata: chiedi la prossima al tuo PT' : `Settimana ${w.n} di ${w.total}`) : `${program.weeks} settimane`}
           left={<Icon name="clipboard-outline" size={24} color="accentInk" />} chevron onPress={onOpen} />
         {trainer ? <Row title={trainer} sub="Il tuo personal trainer · scrivigli dalla scheda" left={<Icon name="chatbubble-ellipses-outline" size={24} color="accentInk" />} chevron onPress={onOpen} /> : null}
       </Group>
-    </>
+    </View>
   );
 }

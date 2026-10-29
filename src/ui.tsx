@@ -5,8 +5,10 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import logoImg from '../assets/logo.png';
+import markImg from '../assets/icon.png';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NUM, PLATES, TYPE, useTheme } from './theme';
+import { READING_MAX, SIDE_FULL, SIDE_RAIL, useLayout, WIDE_MAX } from './layout';
 import { initials } from './util';
 
 // ───────── Testo e icone ─────────
@@ -243,12 +245,14 @@ export function ErrorState({ error, onRetry }: { error: any; onRetry?: () => voi
 export function Sheet({ visible, onClose, title, children, footer, right }: { visible: boolean; onClose: () => void; title?: string; children?: any; footer?: React.ReactNode; right?: React.ReactNode }) {
   const { t } = useTheme();
   const insets = useSafeAreaInsets();
+  const L = useLayout();
+  const dialog = L.hasSide;   // su tablet e computer è una finestra al centro, non un foglio dal basso
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
-        <Pressable accessibilityLabel="Chiudi" onPress={onClose} style={{ flex: 1, backgroundColor: t.overlay, justifyContent: 'flex-end' }}>
-          <Pressable onPress={() => {}} style={{ backgroundColor: t.card, borderTopLeftRadius: 26, borderTopRightRadius: 26, maxHeight: '90%', width: '100%', maxWidth: 560, alignSelf: 'center', paddingBottom: Math.max(insets.bottom, 12) }}>
-            <View style={{ alignItems: 'center', paddingTop: 8 }}><View style={{ width: 38, height: 5, borderRadius: 3, backgroundColor: t.card2 }} /></View>
+        <Pressable accessibilityLabel="Chiudi" onPress={onClose} style={{ flex: 1, backgroundColor: t.overlay, justifyContent: dialog ? 'center' : 'flex-end', padding: dialog ? 24 : 0 }}>
+          <Pressable onPress={() => {}} style={{ backgroundColor: t.card, ...(dialog ? { borderRadius: 26, maxHeight: '92%' } : { borderTopLeftRadius: 26, borderTopRightRadius: 26, maxHeight: '90%' }), width: '100%', maxWidth: dialog ? 600 : 560, alignSelf: 'center', paddingBottom: dialog ? 16 : Math.max(insets.bottom, 12) }}>
+            {dialog ? <View style={{ height: 12 }} /> : <View style={{ alignItems: 'center', paddingTop: 8 }}><View style={{ width: 38, height: 5, borderRadius: 3, backgroundColor: t.card2 }} /></View>}
             {title ? (
               <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingTop: 10, paddingBottom: 6, gap: 8 }}>
                 <Text style={{ flex: 1, color: t.text, fontSize: 20, fontWeight: '700', letterSpacing: -0.3 }} numberOfLines={1}>{title}</Text>
@@ -327,12 +331,16 @@ export function NavBar({ title, onBack, right, backLabel }: { title?: string; on
   );
 }
 
-// Pagina: titolo grande (schede principali) o barra con freccia indietro (schermate aperte da un'altra)
-export function Page({ title, onBack, right, children, footer, scroll = true, pad = false, subtitle, navTitle, backLabel, bottomSpace = 24 }: {
-  title?: string; onBack?: () => void; right?: React.ReactNode; children?: any; footer?: React.ReactNode; scroll?: boolean; pad?: boolean; subtitle?: string; navTitle?: string; backLabel?: string; bottomSpace?: number;
+// Pagina: titolo grande (schede principali) o barra con freccia indietro (schermate aperte da un'altra).
+// Su tablet e computer il contenuto sta in una colonna centrata (maxWidth: larghezza massima, 'full' per non limitarla)
+export function Page({ title, onBack, right, children, footer, scroll = true, pad = false, subtitle, navTitle, backLabel, bottomSpace = 24, maxWidth }: {
+  title?: string; onBack?: () => void; right?: React.ReactNode; children?: any; footer?: React.ReactNode; scroll?: boolean; pad?: boolean; subtitle?: string; navTitle?: string; backLabel?: string; bottomSpace?: number; maxWidth?: number | 'full' | 'wide';
 }) {
   const { t } = useTheme();
   const insets = useSafeAreaInsets();
+  const L = useLayout();
+  const max = maxWidth === 'full' ? undefined : maxWidth === 'wide' ? (L.hasSide ? WIDE_MAX : undefined) : maxWidth ?? (L.hasSide ? READING_MAX : undefined);
+  const col: any = max ? { width: '100%', maxWidth: max, alignSelf: 'center' } : { width: '100%' };
   const head = onBack ? (
     <NavBar title={navTitle ?? title} onBack={onBack} right={right} backLabel={backLabel} />
   ) : null;
@@ -358,14 +366,28 @@ export function Page({ title, onBack, right, children, footer, scroll = true, pa
   );
   return (
     <View style={{ flex: 1, backgroundColor: t.bg, paddingTop: insets.top }}>
-      {head}
-      {large}
+      {head || large ? <View style={col}>{head}{large}</View> : null}
       {scroll ? (
-        <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingHorizontal: pad ? 16 : 0, paddingBottom: bottomSpace }}>{inner}</ScrollView>
+        <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingHorizontal: pad ? 16 : 0, paddingBottom: bottomSpace }}>
+          <View style={col}>{inner}</View>
+        </ScrollView>
       ) : (
-        <View style={{ flex: 1 }}>{inner}</View>
+        <View style={[{ flex: 1 }, col]}>{inner}</View>
       )}
-      {footer ? <View style={{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: Math.max(insets.bottom, 12), backgroundColor: t.bg, borderTopWidth: 1, borderTopColor: t.line, gap: 8 }}>{footer}</View> : null}
+      {footer ? <View style={{ backgroundColor: t.bg, borderTopWidth: 1, borderTopColor: t.line }}><View style={[{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: Math.max(insets.bottom, 12), gap: 8 }, col]}>{footer}</View></View> : null}
+    </View>
+  );
+}
+
+// Due colonne affiancate quando c'è spazio (computer, tablet in orizzontale); su telefono e tablet stretto restano una sotto l'altra, nello stesso ordine.
+export function Columns({ left, right, min = 880, gap = 14, ratio = 1 }: { left: React.ReactNode; right: React.ReactNode; min?: number; gap?: number; ratio?: number }) {
+  const L = useLayout();
+  const wide = L.hasSide && L.content >= min;
+  if (!wide) return <View style={{ gap }}>{left}{right}</View>;
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap }}>
+      <View style={{ flex: ratio, minWidth: 0, gap }}>{left}</View>
+      <View style={{ flex: 1, minWidth: 0, gap }}>{right}</View>
     </View>
   );
 }
@@ -390,6 +412,44 @@ export function TabBar({ tabs, active, onPick }: { tabs: TabDef[]; active: strin
           </Pressable>
         );
       })}
+    </View>
+  );
+}
+
+// Barra laterale di tablet e computer (sempre scura, come il marchio): a icone (tablet) o con i nomi, il logo e la persona collegata (computer)
+export function SideNav({ tabs, active, onPick, name, role, onProfile }: { tabs: TabDef[]; active: string; onPick: (k: string) => void; name?: string | null; role?: string; onProfile?: () => void }) {
+  const insets = useSafeAreaInsets();
+  const L = useLayout();
+  const full = L.kind === 'desktop';
+  return (
+    <View style={{ width: full ? SIDE_FULL : SIDE_RAIL, backgroundColor: '#0C0C0E', borderRightWidth: 1, borderRightColor: '#1E1E22', paddingTop: Math.max(insets.top, 0) + 20, paddingBottom: Math.max(insets.bottom, 16), paddingHorizontal: full ? 14 : 10 }}>
+      <View style={{ paddingHorizontal: full ? 8 : 0, paddingBottom: 26, alignItems: full ? 'flex-start' : 'center' }}>
+        {full ? <Logo width={176} /> : <Image accessibilityLabel="YMCA Prime" source={markImg} resizeMode="cover" style={{ width: 46, height: 46, borderRadius: 12 }} />}
+      </View>
+      <View style={{ flex: 1, gap: 4 }}>
+        {tabs.map((tb) => {
+          const on = tb.key === active;
+          return (
+            <Pressable key={tb.key} accessibilityLabel={tb.label} onPress={() => onPick(tb.key)}
+              style={({ pressed }: any) => ({ flexDirection: full ? 'row' : 'column', alignItems: 'center', gap: full ? 12 : 3, paddingVertical: full ? 11 : 9, paddingHorizontal: full ? 12 : 4, borderRadius: 14, backgroundColor: on ? 'rgba(226,29,35,0.2)' : pressed ? '#1A1A1D' : 'transparent' })}>
+              <Icon name={on ? tb.iconOn : tb.icon} size={full ? 23 : 25} color={on ? '#FF6B70' : '#8E8E96'} />
+              <Text numberOfLines={1} style={{ color: on ? '#FFFFFF' : '#C9C9D0', fontSize: full ? 16 : 11, fontWeight: on ? '700' : '500' }}>{tb.label}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
+      {name ? (
+        <Pressable accessibilityLabel="Il tuo profilo" onPress={onProfile} disabled={!onProfile}
+          style={({ pressed }: any) => ({ flexDirection: 'row', alignItems: 'center', justifyContent: full ? 'flex-start' : 'center', gap: 10, padding: full ? 10 : 6, borderRadius: 14, backgroundColor: pressed ? '#222226' : full ? '#17171A' : 'transparent' })}>
+          <Avatar name={name} size={full ? 36 : 40} />
+          {full ? (
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text numberOfLines={1} style={{ color: '#F2F2F4', fontSize: 14.5, fontWeight: '600' }}>{name}</Text>
+              {role ? <Text numberOfLines={1} style={{ color: '#9A9AA3', fontSize: 12.5 }}>{role}</Text> : null}
+            </View>
+          ) : null}
+        </Pressable>
+      ) : null}
     </View>
   );
 }
